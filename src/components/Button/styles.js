@@ -12,10 +12,6 @@ export const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-
-    // --- Sombra adicionada ---
-
-    // Sombra para iOS
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -23,8 +19,6 @@ export const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-
-    // Sombra para Android
     elevation: 5,
   },
   buttonText: {

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { styles } from "./App.styles";
+import { styles } from "./../../../App.styles";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -10,11 +10,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Button } from "./src/components/Button";
+import { Button } from "./../../components/Button";
 import { LinearGradient } from "expo-linear-gradient";
-import { gradientProps } from "./src/styles/colors";
+import { gradientProps } from "./../../styles/colors";
 
-export default function App() {
+export default function LoginScreen({ navigation }) {
+    
+const handleLoginPress = () => {
+    navigation.navigate('Welcome');
+}
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -24,7 +28,7 @@ export default function App() {
         <LinearGradient style={styles.content} {...gradientProps}>
           <StatusBar style="auto" />
           <Text style={styles.subTitle}>Bem vindo, faça seu login</Text>
-          <Button variant="primary"></Button>
+          <Button variant="primary" onPress={handleLoginPress} title="Começar"></Button>
         </LinearGradient>
       </ScrollView>
     </KeyboardAvoidingView>

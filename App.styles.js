@@ -30,4 +30,8 @@ export const styles = StyleSheet.create({
   text: {
     color: "#ffffff",
   },
+  image: {
+    width: 83,
+    height: 74,
+  },
 });
