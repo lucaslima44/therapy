@@ -1,3 +1,9 @@
+export const gradientProps = {
+  colors: ["#36B6BF", "#5EA294"],
+  start: { x: 0.5, y: 0 },
+  end: { x: 0.5, y: 1 },
+};
+
 export const colors = {
   primary: "##36B6BF",
   secondary: "#5EA294",

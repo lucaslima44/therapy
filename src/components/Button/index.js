@@ -10,7 +10,8 @@ export function Button({ variant = "primary", onPress }) {
         variant === "primary" ? styles.buttonPrimary : styles.buttonSecondary,
       ]}
     >
-      <Text style={styles.buttonText}>Entrou</Text>
+      <Text style={styles.buttonText}>Começar</Text>
     </TouchableOpacity>
+    
   );
 }

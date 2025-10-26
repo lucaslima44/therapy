@@ -7,10 +7,30 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 4,
     margin: 4,
+    width: 290,
+    height: 50,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+
+    // --- Sombra adicionada ---
+
+    // Sombra para iOS
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+
+    // Sombra para Android
+    elevation: 5,
   },
   buttonText: {
     color: colors.textLight,
     fontWeight: "bold",
+    fontSize: 18,
   },
   buttonProfissional: {
     padding: 10,

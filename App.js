@@ -1,14 +1,17 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "./src/components/Button";
+import { LinearGradient } from "expo-linear-gradient";
+import { colors } from "./src/styles/colors";
+import { gradientProps } from "./src/styles/colors";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <LinearGradient style={styles.container} {...gradientProps}>
       <StatusBar style="auto" />
       <Text style={styles.text}>Bem vindo, faça seu login</Text>
       <Button variant="primary"></Button>
-    </View>
+    </LinearGradient>
   );
 }
 
