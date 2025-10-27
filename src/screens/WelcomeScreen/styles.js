@@ -1,5 +1,4 @@
-// src/screens/WelcomeScreen/styles.js
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { colors } from "../../styles/colors";
 
 export const styles = StyleSheet.create({
@@ -52,11 +51,23 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // Sombra botao
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    ...Platform.select({
+      ios: {
+        // Sombra para iOS
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        // Sombra para Android
+        elevation: 5,
+      },
+      web: {
+        // Sombra para Web
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+      },
+    }),
   },
   buttonPrimaryText: {
     color: colors.textLight,

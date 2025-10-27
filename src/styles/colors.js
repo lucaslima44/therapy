@@ -7,6 +7,8 @@ export const gradientProps = {
 export const colors = {
   primary: "##36B6BF",
   secondary: "#5EA294",
+  tiffanyBlue: "#64DFDF",
+  cardLogin: "#1B7278",
   ACCENT: "#FFC107",
   DANGER: "#C8A2C8",
   SUCCESS: "#9DC183",
