@@ -13,6 +13,10 @@ export default function OnboardingTerceiro({ navigation }) {
   const handleOnboardingTerceiroPress = () => {
     navigation.navigate("OnboardingTerceiro");
   };
+  
+  const handleExplorarPress = () => {
+    navigation.navigate("TelaExplorar");
+  };
 
   const handleContinuePress = () => {
     navigation.navigate("Welcome");
@@ -67,7 +71,7 @@ export default function OnboardingTerceiro({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.botao} onPress={handleContinuePress}>
+        <TouchableOpacity style={styles.botao} onPress={handleExplorarPress}>
           <Text style={styles.textobotao}>Continuar</Text>
         </TouchableOpacity>
       </View>
