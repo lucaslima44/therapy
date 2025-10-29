@@ -15,16 +15,13 @@ import { gradientProps } from "./../../styles/colors";
 import styles from "./styles";
 
 // --- CORREÇÃO AQUI: Importe o Ionicons que estava faltando ---
-import { Feather, MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { Feather, MaterialIcons, Ionicons } from "@expo/vector-icons"; 
 // import { ArrowLeft } from "../../components/ArrowLeft"; // Você importou mas não usou, pode apagar ou usar
 
 // --- ADICIONADO DE VOLTA: O componente Header estava faltando ---
 const Header = ({ navigation }) => (
   <View style={styles.headerContainer}>
-    <TouchableOpacity
-      onPress={() => navigation.goBack()}
-      style={styles.backButton}
-    >
+    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
       <Feather name="arrow-left" size={28} color="white" />
     </TouchableOpacity>
 
@@ -51,11 +48,6 @@ const FormBody = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Login");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleEntrarPress = () => {
-    // simulação simples de login bem-sucedido
-    navigation.replace("MainApp");
-  };
-
   return (
     <View style={styles.formContainer}>
       {/* 1. Toggle Login/Cadastrar (Sem mudanças) */}
@@ -67,32 +59,18 @@ const FormBody = ({ navigation }) => {
           ]}
           onPress={() => setActiveTab("Login")}
         >
-          <Text
-            style={
-              activeTab === "Login"
-                ? styles.toggleTextActive
-                : styles.toggleTextInactive
-            }
-          >
+          <Text style={activeTab === "Login" ? styles.toggleTextActive : styles.toggleTextInactive}>
             Login
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.toggleButton,
-            activeTab === "Cadastrar"
-              ? styles.toggleActive
-              : styles.toggleInactive,
+            activeTab === "Cadastrar" ? styles.toggleActive : styles.toggleInactive,
           ]}
           onPress={() => setActiveTab("Cadastrar")}
         >
-          <Text
-            style={
-              activeTab === "Cadastrar"
-                ? styles.toggleTextActive
-                : styles.toggleTextInactive
-            }
-          >
+          <Text style={activeTab === "Cadastrar" ? styles.toggleTextActive : styles.toggleTextInactive}>
             Cadastrar
           </Text>
         </TouchableOpacity>
@@ -100,15 +78,11 @@ const FormBody = ({ navigation }) => {
 
       {/* 2. Inputs */}
       <View style={styles.inputContainer}>
+        
         {/* // NOVO: Campo "Nome" (só aparece se activeTab for 'Cadastrar') */}
         {activeTab === "Cadastrar" && (
           <View style={styles.inputWrapper}>
-            <Ionicons
-              name="person-outline"
-              size={20}
-              color="#666"
-              style={styles.inputIcon}
-            />
+            <Ionicons name="person-outline" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               placeholder="Ex: Leivson Alves Monteiro..."
               style={styles.input}
@@ -119,12 +93,7 @@ const FormBody = ({ navigation }) => {
 
         {/* Campo "Email" (aparece em ambos) */}
         <View style={styles.inputWrapper}>
-          <MaterialIcons
-            name="alternate-email"
-            size={20}
-            color="#666"
-            style={styles.inputIcon}
-          />
+          <MaterialIcons name="alternate-email" size={20} color="#666" style={styles.inputIcon} />
           <TextInput
             placeholder="leivson@therapyroom.br"
             style={styles.input}
@@ -135,37 +104,21 @@ const FormBody = ({ navigation }) => {
 
         {/* Campo "Senha" (aparece em ambos) */}
         <View style={styles.inputWrapper}>
-          <Feather
-            name="lock"
-            size={20}
-            color="#666"
-            style={styles.inputIcon}
-          />
+          <Feather name="lock" size={20} color="#666" style={styles.inputIcon} />
           <TextInput
             placeholder="Senha"
             style={styles.input}
             secureTextEntry={!isPasswordVisible}
           />
-          <TouchableOpacity
-            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-          >
-            <Feather
-              name={isPasswordVisible ? "eye-off" : "eye"}
-              size={20}
-              color="#666"
-            />
+          <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+            <Feather name={isPasswordVisible ? "eye-off" : "eye"} size={20} color="#666" />
           </TouchableOpacity>
         </View>
 
         {/* // NOVO: Campo "Confirmar Senha" (só aparece se activeTab for 'Cadastrar') */}
         {activeTab === "Cadastrar" && (
           <View style={styles.inputWrapper}>
-            <Feather
-              name="lock"
-              size={20}
-              color="#666"
-              style={styles.inputIcon}
-            />
+            <Feather name="lock" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               placeholder="Confirmar senha"
               style={styles.input}
@@ -189,10 +142,10 @@ const FormBody = ({ navigation }) => {
       )}
 
       {/* 4. Botão Entrar / Criar conta */}
-      <TouchableOpacity style={styles.loginButton} onPress={handleEntrarPress}>
+      <TouchableOpacity style={styles.loginButton}>
         {/* // MODIFICADO: O texto do botão agora é dinâmico */}
         <Text style={styles.loginButtonText}>
-          {activeTab === "Login" ? "Entrar" : "Criar conta"}
+          {activeTab === 'Login' ? 'Entrar' : 'Criar conta'}
         </Text>
       </TouchableOpacity>
     </View>
@@ -212,9 +165,10 @@ export default function LoginScreen({ navigation }) {
           showsVerticalScrollIndicator={false}
         >
           <StatusBar style="light" />
-
+          
           <Header navigation={navigation} />
           <FormBody navigation={navigation} />
+
         </ScrollView>
       </KeyboardAvoidingView>
     </LinearGradient>

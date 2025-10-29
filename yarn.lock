@@ -1398,15 +1398,6 @@
     invariant "^2.2.4"
     nullthrows "^1.1.1"
 
-"@react-navigation/bottom-tabs@^7.7.2":
-  version "7.7.2"
-  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-7.7.2.tgz#796894a4d73ead2c787bc5ba583500fbe7e84c6e"
-  integrity sha512-IA1+N9VrZPQiUmNI/T4co/zXyxSZ1m07pbRUBtnZAwqrybNLZh3qsfPIvy+jL89owyGgZEw1UUscHT0EyEhkbQ==
-  dependencies:
-    "@react-navigation/elements" "^2.8.0"
-    color "^4.2.3"
-    sf-symbols-typescript "^2.1.0"
-
 "@react-navigation/core@^7.12.4":
   version "7.12.4"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-7.12.4.tgz#73cc4c0989455c93bf21d7aeecc89d3a7006ccde"
@@ -1424,15 +1415,6 @@
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.7.0.tgz#1d340b8815f9cea48cd48a9a0f079662fb0db943"
   integrity sha512-lqlUUTqzKJrm3WYmiy901DSpa5wW8DWSmqNqWlRFWDVjx6SSjOUThQpdMnVXhydPtrTo74yVUPB27oe/jrvo4Q==
-  dependencies:
-    color "^4.2.3"
-    use-latest-callback "^0.2.4"
-    use-sync-external-store "^1.5.0"
-
-"@react-navigation/elements@^2.8.0":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.8.0.tgz#da804a5aed08ba1bcc3c311b70aec99edfaef8ca"
-  integrity sha512-uvSOkYOF7wfgkt57cl+6fZ2vQgTiYYyJleZzuWthPKHK4nDq2M4sc9SSzgK9GS9UCJFRBErNtl3S+/ErtrwREw==
   dependencies:
     color "^4.2.3"
     use-latest-callback "^0.2.4"
@@ -2366,11 +2348,6 @@ expo-asset@~12.0.9:
   dependencies:
     "@expo/image-utils" "^0.8.7"
     expo-constants "~18.0.9"
-
-expo-blur@~15.0.7:
-  version "15.0.7"
-  resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-15.0.7.tgz#a11466e697fbf2b272444a38722065e60d0ecbe5"
-  integrity sha512-SugQQbQd+zRPy8z2G5qDD4NqhcD7srBF7fN7O7yq6q7ZFK59VWvpDxtMoUkmSfdxgqONsrBN/rLdk00USADrMg==
 
 expo-constants@~18.0.10, expo-constants@~18.0.9:
   version "18.0.10"
