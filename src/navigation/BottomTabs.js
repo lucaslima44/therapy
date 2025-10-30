@@ -53,7 +53,7 @@ export default function BottomTabs() {
         component={ConsultasScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="book-outline" size={size} color={color} />
+            <Ionicons name="calendar-outline" size={size} color={color} />
           ),
         }}
       />
@@ -73,11 +73,11 @@ export default function BottomTabs() {
 const styles = StyleSheet.create({
   tabBarStyle: {
     position: "absolute",
-    bottom: 15,
+    bottom: 0,
     left: 20,
     right: 20,
     borderRadius: 16,
-    height: 70,
+    height: 52,
     backgroundColor: "rgba(255, 255, 255, 0.08)",
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.18)",
