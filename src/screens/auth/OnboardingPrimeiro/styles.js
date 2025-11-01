@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
-import { colors } from "../../styles/colors";
+import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
   // O Container Principal ---
@@ -27,17 +27,12 @@ export default StyleSheet.create({
   },
   pularButton: {
     // Área de clique do botão "Pular"
-    padding: 10, // Área de clique
+    marginRight: 28,
   },
   pularText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontFamily: "Inter",
-  },
-  // Truque: Um espaçador vazio para alinhar o "Pular" à direita
-  headerSpacer: {
-    width: 40, // Mesmo tamanho do backButton
-    height: 40,
   },
 
   // --- 3. O Corpo (Imagem, Título, Texto) ---
@@ -46,6 +41,9 @@ export default StyleSheet.create({
     justifyContent: "center", // Centraliza o conteúdo verticalmente
     alignItems: "center", // Centraliza o conteúdo horizontalmente
     gap: 20, // Espaço entre a imagem, título e texto
+    padding: 20,
+    justifyContent: "flex-start",
+    marginTop: 12,
   },
   image: {
     width: "100%",
@@ -56,14 +54,14 @@ export default StyleSheet.create({
     fontSize: 40,
     color: "#B8D8BA",
     fontFamily: "Inter",
-    fontWeight: "semibold",
+    fontWeight: "bold",
     textAlign: "center",
   },
   text: {
     color: "#DADADA",
     fontFamily: "Inter",
     fontSize: 16,
-    padding: 10,
+    textAlign: "justify",
   },
 
   footer: {
@@ -71,7 +69,7 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    height: 50, 
+    height: 50,
   },
   paginationDots: {
     flexDirection: "row",
@@ -91,13 +89,13 @@ export default StyleSheet.create({
   botao: {
     backgroundColor: colors.tiffanyBlue,
     borderRadius: 24,
-    width: 148,
-    height: 46,
+    width: 128,
+    height: 42,
     justifyContent: "center",
     alignItems: "center",
   },
   textobotao: {
-    fontSize: 18,
+    fontSize: 16,
     color: colors.textDark,
   },
 });

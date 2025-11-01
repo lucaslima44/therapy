@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
-import { colors } from "./../../styles/colors";
+import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
   // --- Containers Principais ---
@@ -33,10 +33,9 @@ export default StyleSheet.create({
     resizeMode: "contain",
   },
   logoText: {
-    fontFamily: "MarcellusSCRegular",
+    fontFamily: "Marcellus-Regular",
     fontSize: 30,
     color: colors.textDark,
-    fontVariant: ["small-caps"],
   },
   titleContainer: {
     alignItems: "center",

@@ -30,7 +30,7 @@ export default function BottomTabs() {
       }}
     >
       <Tab.Screen
-        name="Inicio"
+        name="Home"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (

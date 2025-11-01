@@ -1,21 +1,19 @@
-// Local: src/screens/OnboardingSegundo/index.js
+// Local: src/screens/OnboardingPrimeiro/index.js
 
 import { StatusBar } from "expo-status-bar";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-// Importa o MESMO estilo da pasta OnboardingPrimeiro
-import styles from "../OnboardingPrimeiro/styles"; 
-import { Feather } from "@expo/vector-icons"; // Importa o ícone de seta
+import styles from "./styles"; // Importa o NOVO styles.js
 
-export default function OnboardingSegundo({ navigation }) {
-  // --- Funções de navegação ---
+export default function OnboardingPrimeiro({ navigation }) {
+  // --- Suas funções de navegação (Estão corretas) ---
   const handleOnboardingPrimeiroPress = () => {
     navigation.navigate("OnboardingPrimeiro");
   };
   const handleOnboardingSegundoPress = () => {
-    navigation.navigate("OnboardingSegundo");
+    navigation.navigate("OnboardingSegundo"); // Navega para a próxima
   };
   const handleOnboardingTerceiroPress = () => {
-    navigation.navigate("OnboardingTerceiro"); // Navega para a próxima
+    navigation.navigate("OnboardingTerceiro");
   };
 
   const handlePularPress = () => {
@@ -24,15 +22,14 @@ export default function OnboardingSegundo({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {/* Mudei o style da StatusBar para "light" 
+        para o texto ficar branco no fundo escuro 
+      */}
       <StatusBar style="light" />
 
       {/* --- 1. CABEÇALHO --- */}
       <View style={styles.header}>
-        {/* Botão de voltar */}
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Feather name="arrow-left" size={28} color="white" />
-        </TouchableOpacity>
-
+        <View style={styles.headerSpacer} />
         <TouchableOpacity style={styles.pularButton} onPress={handlePularPress}>
           <Text style={styles.pularText}>Pular</Text>
         </TouchableOpacity>
@@ -41,30 +38,34 @@ export default function OnboardingSegundo({ navigation }) {
       {/* --- 2. CORPO --- */}
       <View style={styles.body}>
         <Image
-          source={require("./../../../assets/onboarding2.png")} // Imagem correta
+          source={require("./../../../assets/onboarding1.webp")}
           style={styles.image}
         />
-        <Text style={styles.titulo}>Meditação & Yoga</Text>
+        <Text style={styles.titulo}>Terapia</Text>
         <Text style={styles.text}>
-          Aprenda a focar no presente. Deixe a ansiedade de lado e encontre a paz
-          interior com sessões guiadas de meditação e yoga. Respire fundo e se
-          reconecte consigo mesmo.
+          Não precisa carregar tudo sozinho. Aqui, você encontra o apoio de
+          terapeutas especializados para cada momento da sua vida. Comece sua
+          jornada de transformação pessoal.
         </Text>
       </View>
 
       {/* --- 3. RODAPÉ (COM A CORREÇÃO) --- */}
       <View style={styles.footer}>
-        {/* Pontos de Paginação (Ponto 2 está ativo) */}
         <View style={styles.paginationDots}>
           
-          {/* Ponto 1 (Inativo) */}
+          {/* CORREÇÃO: 
+            Cada ponto <View> agora é envolvido por um <TouchableOpacity> 
+            com o 'onPress' correto.
+          */}
+
+          {/* Ponto 1 (Ativo) */}
           <TouchableOpacity onPress={handleOnboardingPrimeiroPress}>
-            <View style={[styles.dot, styles.dotInactive]} />
+            <View style={[styles.dot, styles.dotActive]} />
           </TouchableOpacity>
 
-          {/* Ponto 2 (Ativo) */}
+          {/* Ponto 2 (Inativo) */}
           <TouchableOpacity onPress={handleOnboardingSegundoPress}>
-            <View style={[styles.dot, styles.dotActive]} />
+            <View style={[styles.dot, styles.dotInactive]} />
           </TouchableOpacity>
 
           {/* Ponto 3 (Inativo) */}
@@ -72,10 +73,15 @@ export default function OnboardingSegundo({ navigation }) {
             <View style={[styles.dot, styles.dotInactive]} />
           </TouchableOpacity>
 
+          {/* A linha <Stack.Screen ... /> que estava aqui foi REMOVIDA.
+          */}
         </View>
 
         {/* Botão Continuar */}
-        <TouchableOpacity style={styles.botao} onPress={handleOnboardingTerceiroPress}>
+        <TouchableOpacity
+          style={styles.botao}
+          onPress={handleOnboardingSegundoPress} // "Continuar" vai para a próxima tela
+        >
           <Text style={styles.textobotao}>Continuar</Text>
         </TouchableOpacity>
       </View>

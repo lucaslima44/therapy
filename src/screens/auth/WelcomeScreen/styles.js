@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
-import { colors } from "../../styles/colors";
+import { colors } from "../../../styles/colors";
 
 export const styles = StyleSheet.create({
   gradientContainer: {
@@ -26,21 +26,19 @@ export const styles = StyleSheet.create({
     gap: 16,
   },
   logoImage: {
-    width: 280,
-    height: 250,
+    width: 330,
+    height: 295,
     resizeMode: "contain",
   },
   logoNome: {
-    fontFamily: "MarcellusSCRegular",
+    fontFamily: "Marcellus-Regular",
     color: colors.textDark,
     fontSize: 36,
-    fontVariant: ["small-caps"],
   },
   logoSlogan: {
-    fontFamily: "MarcellusSCRegular",
+    fontFamily: "Marcellus-Regular",
     color: colors.textLight,
-    fontSize: 20,
-    fontVariant: ["small-caps"],
+    fontSize: 24,
     textAlign: "center",
   },
   buttonPrimary: {
@@ -72,7 +70,8 @@ export const styles = StyleSheet.create({
   buttonPrimaryText: {
     color: colors.textLight,
     fontSize: 18,
-    fontFamily: "MarcellusSCRegular",
+    fontFamily: "Inter",
+    fontWeight: "bold",
   },
   buttonSecondary: {
     width: 290,
@@ -87,6 +86,7 @@ export const styles = StyleSheet.create({
   buttonSecondaryText: {
     color: colors.textLight,
     fontSize: 16,
-    fontFamily: "MarcellusSCRegular",
+    fontFamily: "Inter",
+    fontWeight: "600",
   },
 });

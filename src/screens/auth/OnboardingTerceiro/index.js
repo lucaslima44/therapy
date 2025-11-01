@@ -41,14 +41,14 @@ export default function OnboardingTerceiro({ navigation }) {
 
       <View style={styles.body}>
         <Image
-          source={require("./../../../assets/onboarding3.png")}
+          source={require("./../../../assets/onboarding3.webp")}
           style={styles.image}
         />
         <Text style={styles.titulo}>Relaxamento</Text>
         <Text style={styles.text}>
           Recupere suas energias. Uma seleção de sons suaves e calmantes para te
-          ajudar a reduzir o estresse e dormir melhor. Um pequeno oásis de
-          tranquilidade no seu dia.
+          ajudar a reduzir o estresse e dormir melhor. Ajudando a ter
+          tranquilidade no seu dia a dia.
         </Text>
       </View>
 

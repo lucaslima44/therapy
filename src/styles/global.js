@@ -3,12 +3,12 @@ import { colors } from "./colors";
 
 export const globalStyles = StyleSheet.create({
   logoNome: {
-    fontFamily: "MarcellusSCRegular",
+    fontFamily: "Marcellus-Regular",
     color: "#000000",
     fontSize: 36,
   },
   logoSlogan: {
-    fontFamily: "MarcellusSCRegular",
+    fontFamily: "Marcellus-Regular",
     color: colors.ACCENT,
     fontSize: 24,
     textAlign: "center",

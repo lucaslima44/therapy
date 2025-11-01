@@ -1,12 +1,13 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import OnboardingPrimeiro from '../screens/OnboardingPrimeiro';
-import OnboardingSegundo from '../screens/OnboardingSegundo';
-import OnboardingTerceiro from '../screens/OnboardingTerceiro';
-import WelcomeScreen from '../screens/WelcomeScreen';
-import LoginScreen from '../screens/LoginScreen';
-import BottomTabs from './BottomTabs'; // Aqui entra as tabs
+import OnboardingPrimeiro from "../screens/OnboardingPrimeiro";
+import OnboardingSegundo from "../screens/OnboardingSegundo";
+import OnboardingTerceiro from "../screens/OnboardingTerceiro";
+import WelcomeScreen from "../screens/WelcomeScreen";
+import LoginScreen from "../screens/LoginScreen";
+import BottomTabs from "./BottomTabs"; // Aqui entra as tabs
+import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,7 @@ export default function AppNavigator() {
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
 
-      <Stack.Screen name="MainApp" component={BottomTabs} />
+      <Stack.Screen name="MainApp" component={DrawerNavigator} />
     </Stack.Navigator>
   );
 }

@@ -8,8 +8,8 @@ export default function ExploreScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image 
-          source={require("./../../../assets/logoP.png")}
+        <Image
+          source={require("./../../../assets/logoP.webp")}
           style={styles.imagem}
         />
         <Text style={styles.titulo}>Therapy Room</Text>

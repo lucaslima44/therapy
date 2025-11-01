@@ -18,14 +18,15 @@ export default StyleSheet.create({
     width: 56,
     height: 50,
     marginRight: 20,
-    alignItems: 'center',
+    alignItems: "center",
+    resizeMode: "contain",
   },
 
   titulo: {
     fontFamily: "Marcellus SC",
     fontSize: 20,
     color: "#000",
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   row: {

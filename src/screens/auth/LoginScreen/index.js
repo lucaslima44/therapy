@@ -30,10 +30,10 @@ const Header = ({ navigation }) => (
 
     <View style={styles.logoContainer}>
       <Image
-        source={require("./../../../assets/logoT.png")} // Use sua logo
+        source={require("./../../../assets/logoB.webp")}
         style={styles.logo}
       />
-      <Text style={styles.logoText}>THERAPY ROOM</Text>
+      <Text style={styles.logoText}>Therapy room</Text>
     </View>
 
     <View style={styles.titleContainer}>
@@ -110,7 +110,7 @@ const FormBody = ({ navigation }) => {
               style={styles.inputIcon}
             />
             <TextInput
-              placeholder="Ex: Leivson Alves Monteiro..."
+              placeholder="Nome Completo"
               style={styles.input}
               autoCapitalize="words"
             />
@@ -126,7 +126,7 @@ const FormBody = ({ navigation }) => {
             style={styles.inputIcon}
           />
           <TextInput
-            placeholder="leivson@therapyroom.br"
+            placeholder="therapyroom@app.br"
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
