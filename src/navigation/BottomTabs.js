@@ -5,10 +5,10 @@ import { BlurView } from "expo-blur";
 import { StyleSheet } from "react-native";
 
 // Import das telas
-import HomeScreen from "../screens/HomeScreen";
-import ExploreScreen from "../screens/ExploreScreen";
-import ConsultasScreen from "../screens/ConsultasScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import HomeScreen from "../screens/app/HomeScreen";
+import ExploreScreen from "../screens/app/ExploreScreen";
+import ConsultasScreen from "../screens/app/ConsultasScreen";
+import ProfileScreen from "../screens/app/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 

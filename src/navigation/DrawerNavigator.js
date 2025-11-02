@@ -11,7 +11,7 @@ import {
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import BottomTabs from "./BottomTabs";
-import SobreNosScreen from "../screens/SobreNosScreen";
+import SobreNosScreen from "../screens/app/SobreNosScreen";
 
 const Drawer = createDrawerNavigator();
 

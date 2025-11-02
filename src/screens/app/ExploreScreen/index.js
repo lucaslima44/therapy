@@ -9,7 +9,7 @@ export default function ExploreScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require("./../../../assets/logoP.webp")}
+          source={require("../../../../assets/logoB.webp")}
           style={styles.imagem}
         />
         <Text style={styles.titulo}>Therapy Room</Text>

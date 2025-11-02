@@ -1,11 +1,11 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import OnboardingPrimeiro from "../screens/OnboardingPrimeiro";
-import OnboardingSegundo from "../screens/OnboardingSegundo";
-import OnboardingTerceiro from "../screens/OnboardingTerceiro";
-import WelcomeScreen from "../screens/WelcomeScreen";
-import LoginScreen from "../screens/LoginScreen";
+import OnboardingPrimeiro from "../screens/auth/OnboardingPrimeiro";
+import OnboardingSegundo from "../screens/auth/OnboardingSegundo";
+import OnboardingTerceiro from "../screens/auth/OnboardingTerceiro";
+import WelcomeScreen from "../screens/auth/WelcomeScreen";
+import LoginScreen from "../screens//auth/LoginScreen";
 import BottomTabs from "./BottomTabs"; // Aqui entra as tabs
 import DrawerNavigator from "./DrawerNavigator";
 

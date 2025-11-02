@@ -3,7 +3,7 @@
 import { StatusBar } from "expo-status-bar";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 // Importa o MESMO estilo da pasta OnboardingPrimeiro
-import styles from "../OnboardingPrimeiro/styles"; 
+import styles from "../OnboardingPrimeiro/styles";
 import { Feather } from "@expo/vector-icons"; // Importa o ícone de seta
 
 export default function OnboardingSegundo({ navigation }) {
@@ -29,7 +29,10 @@ export default function OnboardingSegundo({ navigation }) {
       {/* --- 1. CABEÇALHO --- */}
       <View style={styles.header}>
         {/* Botão de voltar */}
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
           <Feather name="arrow-left" size={28} color="white" />
         </TouchableOpacity>
 
@@ -41,14 +44,14 @@ export default function OnboardingSegundo({ navigation }) {
       {/* --- 2. CORPO --- */}
       <View style={styles.body}>
         <Image
-          source={require("./../../../assets/onboarding2.webp")} // Imagem correta
+          source={require("./../../../../assets/onboarding2.webp")} // Imagem correta
           style={styles.image}
         />
         <Text style={styles.titulo}>Meditação & Yoga</Text>
         <Text style={styles.text}>
-          Aprenda a focar no presente. Descanse e deixe a ansiedade de lado e encontre a paz
-          interior com sessões guiadas de meditação e yoga. Respire fundo e se
-          reconecte consigo mesmo e com o mundo.
+          Aprenda a focar no presente. Descanse e deixe a ansiedade de lado e
+          encontre a paz interior com sessões guiadas de meditação e yoga.
+          Respire fundo e se reconecte consigo mesmo e com o mundo.
         </Text>
       </View>
 
@@ -56,7 +59,6 @@ export default function OnboardingSegundo({ navigation }) {
       <View style={styles.footer}>
         {/* Pontos de Paginação (Ponto 2 está ativo) */}
         <View style={styles.paginationDots}>
-          
           {/* Ponto 1 (Inativo) */}
           <TouchableOpacity onPress={handleOnboardingPrimeiroPress}>
             <View style={[styles.dot, styles.dotInactive]} />
@@ -71,11 +73,13 @@ export default function OnboardingSegundo({ navigation }) {
           <TouchableOpacity onPress={handleOnboardingTerceiroPress}>
             <View style={[styles.dot, styles.dotInactive]} />
           </TouchableOpacity>
-
         </View>
 
         {/* Botão Continuar */}
-        <TouchableOpacity style={styles.botao} onPress={handleOnboardingTerceiroPress}>
+        <TouchableOpacity
+          style={styles.botao}
+          onPress={handleOnboardingTerceiroPress}
+        >
           <Text style={styles.textobotao}>Continuar</Text>
         </TouchableOpacity>
       </View>

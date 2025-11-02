@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import styles from "../OnboardingPrimeiro/styles";
+import styles from "../../auth/OnboardingPrimeiro/styles";
 import { Feather } from "@expo/vector-icons";
 
 export default function SobreNosScreen({ navigation }) {

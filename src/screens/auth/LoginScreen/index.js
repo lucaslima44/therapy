@@ -11,7 +11,7 @@ import {
   TextInput,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { gradientProps } from "./../../styles/colors";
+import { gradientProps } from "./../../../styles/colors";
 import styles from "./styles";
 
 // --- CORREÇÃO AQUI: Importe o Ionicons que estava faltando ---
@@ -30,7 +30,7 @@ const Header = ({ navigation }) => (
 
     <View style={styles.logoContainer}>
       <Image
-        source={require("./../../../assets/logoB.webp")}
+        source={require("./../../../../assets/logoB.webp")}
         style={styles.logo}
       />
       <Text style={styles.logoText}>Therapy room</Text>

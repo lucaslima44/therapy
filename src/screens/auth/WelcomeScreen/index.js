@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Text, View, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { gradientProps } from "./../../styles/colors";
+import { gradientProps } from "../../../styles/colors";
 import { styles } from "./styles";
 
 const MyButton = ({ title, onPress, style, textStyle }) => (
@@ -19,7 +19,7 @@ export default function WelcomeScreen({ navigation }) {
       <View style={styles.content}>
         <View style={styles.boxTop}>
           <Image
-            source={require("./../../../assets/logoB.webp")}
+            source={require("./../../../../assets/logoB.webp")}
             style={styles.logoImage}
           />
         </View>

@@ -41,7 +41,7 @@ export default function OnboardingTerceiro({ navigation }) {
 
       <View style={styles.body}>
         <Image
-          source={require("./../../../assets/onboarding3.webp")}
+          source={require("./../../../../assets/onboarding3.webp")}
           style={styles.image}
         />
         <Text style={styles.titulo}>Relaxamento</Text>

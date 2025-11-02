@@ -38,7 +38,7 @@ export default function OnboardingPrimeiro({ navigation }) {
       {/* --- 2. CORPO --- */}
       <View style={styles.body}>
         <Image
-          source={require("./../../../assets/onboarding1.webp")}
+          source={require("./../../../../assets/onboarding1.webp")}
           style={styles.image}
         />
         <Text style={styles.titulo}>Terapia</Text>
