@@ -5,13 +5,14 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Modal, // NOVO: Importar Modal
-  StyleSheet, // NOVO: Importar StyleSheet
+  Modal,
+  StyleSheet,
 } from "react-native";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import BottomTabs from "./BottomTabs";
 import SobreNosScreen from "../screens/app/SobreNosScreen";
+import HomeScreen from "../screens/app/HomeScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -35,7 +36,6 @@ function CustomDrawerContent({ navigation }) {
         paddingTop: 50,
       }}
     >
-      {/* NOVO: Botão de fechar o Drawer (X) */}
       <TouchableOpacity
         onPress={() => navigation.closeDrawer()}
         style={styles.closeDrawerButton}
@@ -231,6 +231,7 @@ export default function DrawerNavigator() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       <Drawer.Screen name="MainTabs" component={BottomTabs} />
+      <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="SobreNos" component={SobreNosScreen} />
     </Drawer.Navigator>
   );

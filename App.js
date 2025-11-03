@@ -3,14 +3,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import AppNavigator from "./src/navigation/AppNavigator";
-import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "Marcellus-Regular": require("./assets/fonts/MarcellusSC-Regular.ttf"),
-    "Inter": require("./assets/fonts/Inter-Variable.ttf"),
+    Inter: require("./assets/fonts/Inter-Variable.ttf"),
     "Karma-Regular": require("./assets/fonts/Karma-Regular.ttf"),
     "Karma-Bold": require("./assets/fonts/Karma-Bold.ttf"),
     "Karma-Light": require("./assets/fonts/Karma-Light.ttf"),
@@ -25,8 +25,10 @@ export default function App() {
   if (!fontsLoaded && !fontError) return null;
 
   return (
-    <NavigationContainer onReady={onLayoutRootView}>
-      <AppNavigator />
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer onReady={onLayoutRootView}>
+        <AppNavigator />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
