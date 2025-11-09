@@ -12,8 +12,13 @@ const MyButton = ({ title, onPress, style, textStyle }) => (
 
 export default function WelcomeScreen({ navigation }) {
   const handleLoginPress = () => {
-    navigation.navigate("Login");
+    navigation.navigate("Login"); 
+  }
+    const handleProLoginPress = () => {
+    navigation.navigate("ProRegister");
   };
+  
+  
   return (
     <LinearGradient style={styles.gradientContainer} {...gradientProps}>
       <View style={styles.content}>
@@ -40,9 +45,9 @@ export default function WelcomeScreen({ navigation }) {
           />
           <MyButton
             title="Sou profissional"
-            onPress={() => console.log("Profissional pressionado")}
-            style={styles.buttonSecondary}
-            textStyle={styles.buttonSecondaryText}
+             onPress={handleProLoginPress}
+             style={styles.buttonSecondary}
+             textStyle={styles.buttonSecondaryText}
           />
         </View>
       </View>
