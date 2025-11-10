@@ -1,71 +1,123 @@
-import React, { useRef } from "react"; // <-- ADICIONADO 'useRef'
+import React, { useRef } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
   Image,
-  Dimensions, // <-- ADICIONADO
+  Dimensions,
 } from "react-native";
 import styles from "./styles";
-import { Feather, Ionicons } from "@expo/vector-icons";
-import Carousel from "react-native-reanimated-carousel"; // <-- ADICIONADO
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import Carousel from "react-native-reanimated-carousel";
+import { FlatList } from "react-native-gesture-handler";
 
-// Pega a largura da tela para o carrossel
 const { width: screenWidth } = Dimensions.get("window");
-
-// --- ADICIONADO: Seus dados para o carrossel ---
 const carouselData = [
   { id: "1", source: require("./../../../../assets/wellhub.webp") },
-  { id: "2", source: require("./../../../../assets/italo.webp") }, // Exemplo
-  { id: "3", source: require("./../../../../assets/hospitalSaoPaulo.webp") }, // Exemplo
+  { id: "2", source: require("./../../../../assets/italo.webp") },
+  { id: "3", source: require("./../../../../assets/hospitalSaoPaulo.webp") },
 ];
 // --------------------------------------------------
 
-export default function HomeScreen({ navigation }) {
-  const carouselRef = useRef(null); // <-- ADICIONADO: Referência para controlar o carrossel
+const profissionaisPopularesData = [
+  {
+    id: 1,
+    nome: "Mister",
+    source: require("./../../../../assets/doutorH.webp"),
+    area: "Psicologia",
+    descricao: "Ajudo a cuidar da saúde mental e estabelecer o bem-estar.",
+  },
+  {
+    id: 2,
+    nome: "Joe",
+    source: require("./../../../../assets/doutoraM.webp"),
+    area: "Psicoterapia",
+    descricao: "Ajudo a lidar com problemas emocionais e emocionalidade.",
+  },
+  {
+    id: 3,
+    nome: "Kamisa",
+    source: require("./../../../../assets/doutoraM.webp"),
+    area: "Psicoterapia",
+    descricao: "Ajudo a lidar com problemas emocionais e emocionalidade.",
+  },
+  {
+    id: 4,
+    nome: "Hitstar",
+    source: require("./../../../../assets/doutoraM.webp"),
+    area: "Psicoterapia",
+    descricao: "Ajudo a lidar com problemas emocionais e emocionalidade.",
+  },
+  // outros profissionais...
+];
 
-  // --- ADICIONADO: Função que renderiza cada item do carrossel ---
+export default function HomeScreen({ navigation }) {
+  const carouselRef = useRef(null); //para controlar o carrossel
+
+  // cada item do carrossel
   const renderCarouselItem = ({ item }) => (
     <View style={styles.carouselItemContainer}>
       <Image
-        style={styles.parceirosImage} // Usando seu estilo original
+        style={styles.parceirosImage}
         source={item.source}
-        resizeMode="contain" // 'contain' é melhor para logos
+        resizeMode="contain"
       />
     </View>
   );
   // ------------------------------------------------------------
 
+  const renderProfissionalPopularesItem = ({ item }) => (
+    <View style={styles.profissionalPopularesItemContainer}>
+      <Image
+        style={styles.profissionalPopularesImage}
+        source={item.source}
+        resizeMode="contain"
+      />
+      <Text style={styles.profissionalPopularesTitle}>{item.nome}</Text>
+      <Text style={styles.profissionalPopularesArea}>{item.area}</Text>
+      <Text
+        style={styles.profissionalPopularesDescricao}
+        numberOfLines={1}
+        ellipsizeMode="tail"
+      >
+        {item.descricao.substring(0, 30)}...
+      </Text>
+      <TouchableOpacity onPress={() => handleOpenProfissionalPerfil(item)}>
+        <Text style={styles.profissionalPopularesVerMais}>Ver mais</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <Feather name="menu" size={28} color="#000" />
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Feather name="menu" size={28} color="#000" />
+        </TouchableOpacity>
 
-      <Image
-        source={require("./../../../../assets/logoP.webp")}
-        style={styles.logo}
-      />
-
+        <View style={styles.logoContainer}>
+          <Image
+            source={require("./../../../../assets/logoP.webp")}
+            style={styles.logo}
+          />
+          <Text style={styles.logoText}>Therapy Room</Text>
+        </View>
+      </View>
       <Text style={styles.title}>Olá,</Text>
-      <Text style={styles.subtitle}>Therapy Room</Text>
+      <Text style={styles.subtitle}>Cliente</Text>
 
       {/* --- CÓDIGO DO CARROSSEL COMEÇA AQUI --- */}
-      {/* O seu TouchableOpacity original foi substituído por este Bloco.
-        Este View 'carouselContainer' é essencial para posicionar as setas.
-      */}
       <View style={styles.carouselContainer}>
         <Carousel
           ref={carouselRef}
-          loop // Faz o carrossel ser infinito
-          width={screenWidth * 0.9} // O carrossel ocupa 90% da tela
-          height={150} // Defina uma altura (ex: 150)
+          loop
+          width={screenWidth * 0.9}
+          height={150}
           autoPlay={true}
-          autoPlayInterval={5000} // 5 segundos
+          autoPlayInterval={5000}
           data={carouselData}
-          renderItem={renderCarouselItem} // Função que criamos acima
+          renderItem={renderCarouselItem}
           style={styles.carousel}
         />
 
@@ -86,6 +138,73 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
       {/* --- CÓDIGO DO CARROSSEL TERMINA AQUI --- */}
+
+      <View style={styles.profissionaisPopularesContainer}>
+        <View style={styles.profissionaisPopularesHeader}>
+          <Text style={styles.profissionaisPopularesTitle}>
+            Profissionais Populares
+          </Text>
+          <TouchableOpacity>
+            <Text style={styles.profissionaisPopularesSeeAll}>Ver tudo</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.profissionaisPopularesList}>
+          <TouchableOpacity style={styles.buttonFilterProfissionais}>
+            <Text style={styles.buttonFilterProfissionaisText}>Todos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonFilterProfissionais}>
+            <Text style={styles.buttonFilterProfissionaisText}>Terapeuta</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonFilterProfissionais}>
+            <Text style={styles.buttonFilterProfissionaisText}>Psicólogo</Text>
+          </TouchableOpacity>
+        </View>
+
+        <FlatList
+          data={profissionaisPopularesData}
+          renderItem={renderProfissionalPopularesItem}
+          keyExtractor={(item) => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.profissionaisPopularesList}
+        />
+      </View>
+
+      <TouchableOpacity style={styles.agendamentoPendente}>
+        {/* IMAGEM (Esquerda) */}
+        <Image
+          source={require("./../../../../assets/doutorH.webp")}
+          style={styles.agendamentoPendenteImage}
+        />
+
+        {/* CONTAINER DE INFO (Meio) */}
+        <View style={styles.infoContainer}>
+          <Text style={styles.nomeProfissional}>
+            {profissionaisPopularesData[0].nome}
+          </Text>
+          <Text style={styles.dataAgendamento}>
+            Agendado para 29/12/25 às 14:00
+          </Text>
+        </View>
+
+        {/* CONTAINER DE AÇÕES (Direita) */}
+        <View style={styles.actionsContainer}>
+          {/* Badge "Confirmado" */}
+          <View style={styles.statusBadge}>
+            <Text style={styles.statusText}>Confirmado</Text>
+          </View>
+
+          {/* Botão de Editar */}
+          <TouchableOpacity style={styles.editButton}>
+            <MaterialCommunityIcons
+              name="pencil-outline"
+              size={24}
+              color="#333"
+            />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
