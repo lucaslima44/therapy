@@ -141,7 +141,7 @@ export default function ProRegisterScreen({ navigation }) {
   // -----------------------------------------------------------------
   // Função de Envio
   // -----------------------------------------------------------------
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // 1. Validar campos
     validateBirthDate(birthDate);
     if (birthDateError) {
@@ -155,28 +155,63 @@ export default function ProRegisterScreen({ navigation }) {
       !crp ||
       !genero ||
       !areaAtuacao ||
-      !documento
+      !documento // para deixar o documento obrigatorio
     ) {
       Alert.alert("Campos incompletos", "Por favor, preencha todos os campos.");
       return;
     }
 
     // 2. Montar dados
-    const formData = {
+    const dadosParaApi = {
       nome: nomeCompleto,
       cpf: cpfSemMascara,
       email: email,
-      dataNascimento: birthDate,
+      datadenascimento: birthDate,
       genero: genero,
-      areaAtuacao: areaAtuacao,
-      crp: crp,
-      // Você também precisará enviar 'profileImage' e 'documento'
+      area: areaAtuacao,
+      numerocrp: crp,
     };
-    console.log("Enviando dados:", formData);
 
-    // 3. --- MUDANÇA PRINCIPAL ---
-    // Em vez de Alert, mostramos o Modal!
-    setSuccessModalVisible(true);
+    const urlDaApi = "http://192.168.3.157:3000/profissionais";
+    console.log("--- ENVIANDO PARA A API ---");
+    console.log("URL:", urlDaApi);
+    console.log("DADOS (JSON):", JSON.stringify(dadosParaApi, null, 2));
+
+    // 3. Enviar para a API usando fetch
+    try {
+      const response = await fetch(urlDaApi, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dadosParaApi),
+      });
+
+      // 4. Lidar com a resposta da API
+      if (response.ok) {
+        // Se deu certo (status 201), mostre o modal de sucesso
+        console.log("SUCESSO! Resposta da API:", await response.json());
+        setSuccessModalVisible(true);
+      } else {
+        // Se a API deu erro (ex: CPF duplicado, status 400)
+        const erroData = await response.json();
+        console.error("--- ERRO DA API (bloco ELSE) ---");
+        console.error("Status da Resposta:", response.status);
+        console.error("Mensagem da API:", erroData);
+        Alert.alert(
+          "Erro ao cadastrar",
+          `Erro: ${erroData.erro || "Verifique os dados e tente novamente."}`
+        );
+      }
+    } catch (err) {
+      // Erro de rede (API desligada, IP errado, sem internet)
+      console.error("--- ERRO DE REDE (bloco CATCH) ---");
+      console.error(err);
+      Alert.alert(
+        "Erro de conexão",
+        "Não foi possível conectar ao servidor. Verifique sua rede e se a API está ligada."
+      );
+    }
   };
 
   // -----------------------------------------------------------------
