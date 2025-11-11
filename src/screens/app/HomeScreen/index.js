@@ -144,7 +144,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.profissionaisPopularesTitle}>
             Profissionais Populares
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("ListedProfessionals")}>
             <Text style={styles.profissionaisPopularesSeeAll}>Ver tudo</Text>
           </TouchableOpacity>
         </View>

@@ -1,14 +1,11 @@
-import React, { useState } from "react"; // NOVO: Importar useState
+// DrawerNavigator.js (ou como se chamar seu arquivo)
+import React, { useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Modal,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, Modal } from "react-native";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+
+// 1. Importar os estilos do arquivo separado
+import styles from "./DrawerNavigator.styles";
 
 import BottomTabs from "./BottomTabs";
 import SobreNosScreen from "../screens/app/SobreNosScreen";
@@ -18,24 +15,16 @@ const Drawer = createDrawerNavigator();
 
 // --- Componente de Drawer Customizado ---
 function CustomDrawerContent({ navigation }) {
-  // NOVO: Estado para controlar a visibilidade do modal
   const [modalVisible, setModalVisible] = useState(false);
 
-  // NOVO: Função para lidar com o logout
   const handleLogout = () => {
-    setModalVisible(false); // Fecha o modal
-    navigation.navigate("Login"); // Navega para o Login
+    setModalVisible(false);
+    navigation.navigate("Login");
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#fff",
-        paddingHorizontal: 20,
-        paddingTop: 50,
-      }}
-    >
+    // 2. Usar os estilos importados
+    <View style={styles.drawerContainer}>
       <TouchableOpacity
         onPress={() => navigation.closeDrawer()}
         style={styles.closeDrawerButton}
@@ -44,24 +33,17 @@ function CustomDrawerContent({ navigation }) {
       </TouchableOpacity>
 
       {/* Perfil */}
-      <View style={{ alignItems: "center", marginBottom: 20 }}>
+      <View style={styles.profileContainer}>
         <Image
-          source={require("../../assets/logoP.webp")} // avatar do perfil
-          style={{
-            width: 80,
-            height: 80,
-            marginBottom: 10,
-            resizeMode: "contain",
-          }}
+          source={require("../../assets/logoP.webp")}
+          style={styles.profileImage}
         />
-        <Text style={{ fontSize: 18, fontWeight: "600" }}>Therapy Room</Text>
+        <Text style={styles.profileName}>Therapy Room</Text>
       </View>
 
-      {/* Seções... (todo o seu conteúdo de links) */}
-      <View style={{ marginVertical: 10 }}>
-        <Text style={{ color: "#888", marginBottom: 5, fontWeight: "600" }}>
-          Empresa
-        </Text>
+      {/* Seções... */}
+      <View style={styles.menuSection}>
+        <Text style={styles.sectionTitle}>Empresa</Text>
         <TouchableOpacity
           style={styles.drawerItem}
           onPress={() => navigation.navigate("Home")}
@@ -100,10 +82,8 @@ function CustomDrawerContent({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style={{ marginVertical: 10 }}>
-        <Text style={{ color: "#888", marginBottom: 5, fontWeight: "600" }}>
-          Consultas
-        </Text>
+      <View style={styles.menuSection}>
+        <Text style={styles.sectionTitle}>Consultas</Text>
         <TouchableOpacity style={styles.drawerItem}>
           <Ionicons
             name="people-outline"
@@ -124,10 +104,8 @@ function CustomDrawerContent({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style={{ marginVertical: 10 }}>
-        <Text style={{ color: "#888", marginBottom: 5, fontWeight: "600" }}>
-          Aplicativo
-        </Text>
+      <View style={styles.menuSection}>
+        <Text style={styles.sectionTitle}>Aplicativo</Text>
         <TouchableOpacity style={styles.drawerItem}>
           <Ionicons
             name="happy-outline"
@@ -159,31 +137,24 @@ function CustomDrawerContent({ navigation }) {
 
       {/* Logout */}
       <TouchableOpacity
-        // MUDANÇA: Abre o modal em vez de navegar direto
         onPress={() => setModalVisible(true)}
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginTop: "auto",
-          paddingVertical: 10,
-        }}
+        style={styles.logoutButton}
       >
-        <Feather name="log-out" size={20} color="red" style={{ width: 28 }} />
-        <Text style={{ fontSize: 16, color: "red" }}>Logout</Text>
+        <Feather name="log-out" size={20} style={styles.logoutIcon} />
+        <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
 
-      {/* NOVO: Modal de Confirmação */}
+      {/* Modal de Confirmação */}
       <Modal
-        animationType="fade" // Animação de fade
-        transparent={true} // Fundo transparente
+        animationType="fade"
+        transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(false); // Permite fechar com o botão "voltar" do Android
+          setModalVisible(false);
         }}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            {/* Botão de Fechar o Modal */}
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
               style={styles.closeModalButton}
@@ -195,14 +166,14 @@ function CustomDrawerContent({ navigation }) {
 
             <TouchableOpacity
               style={[styles.button, styles.buttonSim]}
-              onPress={handleLogout} // Chama a função de logout
+              onPress={handleLogout}
             >
               <Text style={styles.buttonText}>Sim, fazer logout</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.button, styles.buttonNao]}
-              onPress={() => setModalVisible(false)} // Apenas fecha o modal
+              onPress={() => setModalVisible(false)}
             >
               <Text style={styles.buttonText}>Não</Text>
             </TouchableOpacity>
@@ -217,16 +188,13 @@ function CustomDrawerContent({ navigation }) {
 export default function DrawerNavigator() {
   return (
     <Drawer.Navigator
+      // 3. Usar os estilos importados aqui também
       screenOptions={{
         headerShown: false,
         drawerType: "front",
-        overlayColor: "rgba(0,0,0,0.3)", // Overlay escuro
-        sceneContainerStyle: { backgroundColor: "#fdfbea" },
-        drawerStyle: {
-          width: 280,
-          borderTopRightRadius: 20,
-          borderBottomRightRadius: 20,
-        },
+        overlayColor: "rgba(0,0,0,0.3)",
+        sceneContainerStyle: styles.sceneContainer, // <-- AQUI
+        drawerStyle: styles.drawerStyle, // <-- E AQUI
       }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
@@ -236,78 +204,3 @@ export default function DrawerNavigator() {
     </Drawer.Navigator>
   );
 }
-
-// NOVO: Estilos para o menu e o modal
-const styles = StyleSheet.create({
-  // Estilos dos itens do menu (para simplificar o JSX)
-  drawerItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 8,
-  },
-  drawerIcon: {
-    width: 28,
-  },
-  drawerText: {
-    fontSize: 16,
-  },
-  // Botão de fechar o Drawer
-  closeDrawerButton: {
-    position: "absolute",
-    top: 50,
-    right: 20,
-    zIndex: 1, // Garante que fique por cima
-  },
-  // Estilos do Modal
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Fundo escuro semi-transparente
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    borderRadius: 20, // Borda arredondada
-    padding: 50,
-    paddingTop: 100, // Mais espaço para o botão X
-    width: "85%", // Largura do modal
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  closeModalButton: {
-    position: "absolute",
-    top: 10,
-    right: 15,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 25,
-    textAlign: "center",
-  },
-  button: {
-    width: "100%",
-    paddingVertical: 12,
-    borderRadius: 10,
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  buttonSim: {
-    backgroundColor: "#2a9d8f", // Um tom de verde/azul (pode mudar)
-  },
-  buttonNao: {
-    backgroundColor: "#e76f51", // Um tom de vermelho/laranja (pode mudar)
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});

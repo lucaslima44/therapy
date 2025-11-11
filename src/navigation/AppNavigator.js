@@ -9,6 +9,7 @@ import WelcomeScreen from "../screens/auth/WelcomeScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import ProRegister from "../screens/auth/ProRegisterScreen";
 // telas que eu tenho que criar (auth)
+import ListedProfessionals from "../screens/app/ListedProfessionalsScreen";
 
 import DrawerNavigator from "./DrawerNavigator";
 
@@ -26,6 +27,11 @@ export default function AppNavigator() {
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="ProRegister" component={ProRegister} />
+      <Stack.Screen
+        name="ListedProfessionals"
+        component={ListedProfessionals}
+      />
+
       <Stack.Screen name="MainApp" component={DrawerNavigator} />
     </Stack.Navigator>
   );
