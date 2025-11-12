@@ -32,6 +32,7 @@ const Header = ({ navigation }) => (
       <Image
         source={require("./../../../../assets/logoB.webp")}
         style={styles.logo}
+        resizeMode="contain"
       />
       <Text style={styles.logoText}>Therapy room</Text>
     </View>

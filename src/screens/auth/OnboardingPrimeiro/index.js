@@ -40,6 +40,7 @@ export default function OnboardingPrimeiro({ navigation }) {
         <Image
           source={require("./../../../../assets/onboarding1.webp")}
           style={styles.image}
+          resizeMode="contain"
         />
         <Text style={styles.titulo}>Terapia</Text>
         <Text style={styles.text}>

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 export default StyleSheet.create({
   input: {
@@ -119,17 +119,28 @@ export default StyleSheet.create({
   modalContainer: {
     width: "85%",
     padding: 25,
-    backgroundColor: "#006A6A", // A cor verde da sua imagem
+    backgroundColor: "#006A6A",
     borderRadius: 15,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    alignItems: "center", // --- INÍCIO DA CORREÇÃO --- // O '...' (spread operator) aplica o objeto de
+
+    // estilo correto para a plataforma
+    ...Platform.select({
+      ios: {
+        // Estilos para iPhone
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        // Estilo para Android
+        elevation: 5,
+      },
+      web: {
+        // Estilo para Web (corrigindo o erro)
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+      },
+    }), // --- FIM DA CORREÇÃO ---
   },
   modalTitle: {
     fontSize: 22,

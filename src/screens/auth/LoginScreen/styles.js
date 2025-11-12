@@ -30,7 +30,6 @@ export default StyleSheet.create({
   logo: {
     width: 83,
     height: 74,
-    resizeMode: "contain",
   },
   logoText: {
     fontFamily: "Marcellus-Regular",

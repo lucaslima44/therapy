@@ -234,7 +234,7 @@ export default function ProRegisterScreen({ navigation }) {
           source={
             profileImage
               ? { uri: profileImage }
-              : require("../../../../assets/profile.jpg") // Ajuste o caminho se necessário
+              : require("../../../../assets/profile.webp") // Ajuste o caminho se necessário
           }
           style={styles.profileImage}
         />

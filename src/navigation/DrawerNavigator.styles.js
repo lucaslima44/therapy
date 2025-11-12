@@ -1,5 +1,5 @@
 // DrawerNavigator.styles.js
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 export default StyleSheet.create({
   // --- Estilos do Navigator (screenOptions) ---
@@ -35,7 +35,6 @@ export default StyleSheet.create({
     width: 80,
     height: 80,
     marginBottom: 10,
-    resizeMode: "contain",
   },
   profileName: {
     fontSize: 18,
@@ -95,14 +94,26 @@ export default StyleSheet.create({
     paddingTop: 100, // Mais espaço no topo
     width: "85%",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+
+    ...Platform.select({
+      // Estilos para iOS (iPhone)
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      }, // Estilo para Android
+      android: {
+        elevation: 5,
+      }, // Estilo para Web (corrigindo o erro)
+      web: {
+        // "0px 2px" (offset) "4px" (radius) "rgba(0,0,0,0.25)" (color+opacity)
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+      },
+    }),
   },
   closeModalButton: {
     position: "absolute",

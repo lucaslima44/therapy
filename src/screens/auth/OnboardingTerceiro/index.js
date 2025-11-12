@@ -43,6 +43,7 @@ export default function OnboardingTerceiro({ navigation }) {
         <Image
           source={require("./../../../../assets/onboarding3.webp")}
           style={styles.image}
+          resizeMode="contain"
         />
         <Text style={styles.titulo}>Relaxamento</Text>
         <Text style={styles.text}>

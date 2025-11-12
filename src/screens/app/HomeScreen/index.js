@@ -100,6 +100,7 @@ export default function HomeScreen({ navigation }) {
           <Image
             source={require("./../../../../assets/logoP.webp")}
             style={styles.logo}
+            resizeMode="contain"
           />
           <Text style={styles.logoText}>Therapy Room</Text>
         </View>
@@ -144,7 +145,9 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.profissionaisPopularesTitle}>
             Profissionais Populares
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("ListedProfessionals")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ListedProfessionals")}
+          >
             <Text style={styles.profissionaisPopularesSeeAll}>Ver tudo</Text>
           </TouchableOpacity>
         </View>
@@ -153,11 +156,19 @@ export default function HomeScreen({ navigation }) {
           <TouchableOpacity style={styles.buttonFilterProfissionais}>
             <Text style={styles.buttonFilterProfissionaisText}>Todos</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonFilterProfissionais}>
-            <Text style={styles.buttonFilterProfissionaisText}>Terapeuta</Text>
+          <TouchableOpacity
+            style={styles.buttonFilterProfissionais}
+            onPress={() => navigation.navigate("PrimeiraArea")}
+          >
+            <Text style={styles.buttonFilterProfissionaisText}>Psicologia</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonFilterProfissionais}>
-            <Text style={styles.buttonFilterProfissionaisText}>Psicólogo</Text>
+          <TouchableOpacity
+            style={styles.buttonFilterProfissionais}
+            onPress={() => navigation.navigate("SegundaArea")}
+          >
+            <Text style={styles.buttonFilterProfissionaisText}>
+              Psicoterapia
+            </Text>
           </TouchableOpacity>
         </View>
 

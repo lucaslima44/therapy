@@ -10,6 +10,7 @@ import styles from "./DrawerNavigator.styles";
 import BottomTabs from "./BottomTabs";
 import SobreNosScreen from "../screens/app/SobreNosScreen";
 import HomeScreen from "../screens/app/HomeScreen";
+import ParceirosScreen from "../screens/app/ParceirosScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -37,6 +38,7 @@ function CustomDrawerContent({ navigation }) {
         <Image
           source={require("../../assets/logoP.webp")}
           style={styles.profileImage}
+          resizeMode="contain"
         />
         <Text style={styles.profileName}>Therapy Room</Text>
       </View>
@@ -71,7 +73,13 @@ function CustomDrawerContent({ navigation }) {
           />
           <Text style={styles.drawerText}>Sobre nós</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.drawerItem}>
+        <TouchableOpacity
+          style={styles.drawerItem}
+          onPress={() => {
+            navigation.navigate("Parceiros");
+            navigation.closeDrawer();
+          }}
+        >
           <Feather
             name="users"
             size={20}
@@ -201,6 +209,7 @@ export default function DrawerNavigator() {
       <Drawer.Screen name="MainTabs" component={BottomTabs} />
       <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="SobreNos" component={SobreNosScreen} />
+      <Drawer.Screen name="Parceiros" component={ParceirosScreen} />
     </Drawer.Navigator>
   );
 }

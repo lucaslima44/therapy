@@ -46,6 +46,7 @@ export default function OnboardingSegundo({ navigation }) {
         <Image
           source={require("./../../../../assets/onboarding2.webp")} // Imagem correta
           style={styles.image}
+          resizeMode="contain"
         />
         <Text style={styles.titulo}>Meditação & Yoga</Text>
         <Text style={styles.text}>

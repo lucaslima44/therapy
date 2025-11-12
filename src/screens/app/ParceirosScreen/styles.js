@@ -24,6 +24,7 @@ export default StyleSheet.create({
   logo: {
     width: 40,
     height: 40,
+    resizeMode: "contain",
     marginBottom: 20,
   },
   header: {

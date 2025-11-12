@@ -4,7 +4,7 @@
     "slug": "therapy",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/iconBranco.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -24,11 +24,9 @@
       "package": "com.luucasalvess.therapy"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/faviconBranco.png"
     },
-    "plugins": [
-      "expo-font"
-    ],
+    "plugins": ["expo-font"],
     "extra": {
       "eas": {
         "projectId": "6862b7ce-c95a-4aa9-8693-29081c4481c1"

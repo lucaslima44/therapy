@@ -28,7 +28,6 @@ export const styles = StyleSheet.create({
   logoImage: {
     width: 330,
     height: 295,
-    resizeMode: "contain",
   },
   logoNome: {
     fontFamily: "Marcellus-Regular",
