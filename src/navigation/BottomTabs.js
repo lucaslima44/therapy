@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { Platform, StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Import das telas
 import HomeScreen from "../screens/app/HomeScreen";
@@ -13,6 +14,7 @@ import ProfileScreen from "../screens/app/ProfileScreen";
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
+  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -24,7 +26,10 @@ export default function BottomTabs() {
             style={StyleSheet.absoluteFill}
           />
         ),
-        tabBarStyle: styles.tabBarStyle,
+        tabBarStyle: [
+          styles.tabBarStyle,
+          { bottom: insets.bottom + 5 }, // 👈 A MÁGICA. Usamos o vão + 5 de respiro
+        ],
         tabBarActiveTintColor: "#000",
         tabBarInactiveTintColor: "gray",
       }}

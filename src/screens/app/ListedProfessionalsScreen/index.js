@@ -6,7 +6,12 @@ import { profissionaisData } from "./../../../data/profissionaisData";
 
 export default function ListedProfessionalsScreen({ navigation }) {
   const renderProfissionalCard = ({ item }) => (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() =>
+        navigation.navigate("ProfessionalDetailsScreen", { nome: item.nome })
+      }
+    >
       <Image source={item.source} style={styles.imagem} />
       <View style={styles.textContainer}>
         <Text style={styles.nome}>{item.nome}</Text>
@@ -22,7 +27,7 @@ export default function ListedProfessionalsScreen({ navigation }) {
         <Text style={styles.area}>{item.area}</Text>
         <Text style={styles.descricao}>{item.descricao}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   const renderProfissionalPopularesItem = ({ item }) => (
@@ -41,7 +46,12 @@ export default function ListedProfessionalsScreen({ navigation }) {
       >
         {item.descricao.substring(0, 30)}...
       </Text>
-      <TouchableOpacity onPress={() => handleOpenProfissionalPerfil(item)}>
+      <TouchableOpacity
+        // Troque a chamada de função antiga pelo navigation direto:
+        onPress={() =>
+          navigation.navigate("ProfessionalDetailsScreen", { nome: item.nome })
+        }
+      >
         <Text style={styles.profissionalPopularesVerMais}>Ver mais</Text>
       </TouchableOpacity>
     </View>

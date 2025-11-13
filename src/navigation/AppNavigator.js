@@ -15,6 +15,7 @@ import PrimeiraAreaScreen from "../screens/app/PrimeiraAreaScreen";
 import SegundaAreaScreen from "../screens/app/SegundaAreaScreen";
 import AutomassagemScreen from "../screens/app/AutomassagemScreen";
 import AromaterapiaScreen from "../screens/app/AromaterapiaScreen";
+import ProfessionalDetailsScreen from "../screens/app/ProfessionalDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,10 @@ export default function AppNavigator() {
       <Stack.Screen
         name="ListedProfessionals"
         component={ListedProfessionals}
+      />
+      <Stack.Screen
+        name="ProfessionalDetailsScreen"
+        component={ProfessionalDetailsScreen}
       />
       <Stack.Screen name="PrimeiraArea" component={PrimeiraAreaScreen} />
       <Stack.Screen name="SegundaArea" component={SegundaAreaScreen} />
