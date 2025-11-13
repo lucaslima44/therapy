@@ -3,13 +3,10 @@ import React, { useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, Text, TouchableOpacity, Image, Modal } from "react-native";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-
-// 1. Importar os estilos do arquivo separado
 import styles from "./DrawerNavigator.styles";
 
 import BottomTabs from "./BottomTabs";
 import SobreNosScreen from "../screens/app/SobreNosScreen";
-import HomeScreen from "../screens/app/HomeScreen";
 import ParceirosScreen from "../screens/app/ParceirosScreen";
 
 const Drawer = createDrawerNavigator();
@@ -48,7 +45,10 @@ function CustomDrawerContent({ navigation }) {
         <Text style={styles.sectionTitle}>Empresa</Text>
         <TouchableOpacity
           style={styles.drawerItem}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => {
+            navigation.navigate("MainTabs", { screen: "Home" });
+            navigation.closeDrawer();
+          }}
         >
           <Feather
             name="home"
@@ -92,7 +92,10 @@ function CustomDrawerContent({ navigation }) {
 
       <View style={styles.menuSection}>
         <Text style={styles.sectionTitle}>Consultas</Text>
-        <TouchableOpacity style={styles.drawerItem}>
+        <TouchableOpacity
+          style={styles.drawerItem}
+          onPress={() => navigation.navigate("ListedProfessionals")}
+        >
           <Ionicons
             name="people-outline"
             size={20}
@@ -101,7 +104,14 @@ function CustomDrawerContent({ navigation }) {
           />
           <Text style={styles.drawerText}>Profissionais</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.drawerItem}>
+        <TouchableOpacity
+          style={styles.drawerItem}
+          onPress={() => {
+            // 👇 E aqui o nome da TELA DE CONSULTAS
+            navigation.navigate("MainTabs", { screen: "Consultas" });
+            navigation.closeDrawer();
+          }}
+        >
           <Feather
             name="calendar"
             size={20}
@@ -198,6 +208,7 @@ export default function DrawerNavigator() {
     <Drawer.Navigator
       // 3. Usar os estilos importados aqui também
       screenOptions={{
+        initialRouteName: "MainTabs",
         headerShown: false,
         drawerType: "front",
         overlayColor: "rgba(0,0,0,0.3)",
@@ -207,7 +218,6 @@ export default function DrawerNavigator() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       <Drawer.Screen name="MainTabs" component={BottomTabs} />
-      <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="SobreNos" component={SobreNosScreen} />
       <Drawer.Screen name="Parceiros" component={ParceirosScreen} />
     </Drawer.Navigator>

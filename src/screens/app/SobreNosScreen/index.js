@@ -14,11 +14,13 @@ export default function SobreNosScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Feather name="arrow-left" size={28} color="black" />
+        <TouchableOpacity style={styles.backButton}>
+          <Feather
+            name="arrow-left"
+            size={28}
+            color="black"
+            onPress={navigation.goBack}
+          />
         </TouchableOpacity>
       </View>
 

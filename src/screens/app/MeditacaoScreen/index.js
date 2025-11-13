@@ -4,7 +4,7 @@ import styles from "./styles";
 import { Feather } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-export default function ExploreScreen() {
+export default function ExploreScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -17,7 +17,7 @@ export default function ExploreScreen() {
 
       {/* 1ª linha */}
       <View style={styles.row}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Automassagem")}>
           <View style={styles.card}>
             <MaterialIcons name="self-improvement" size={24} color="black" />
             <Text style={styles.title}>Automassagem</Text>
@@ -34,7 +34,7 @@ export default function ExploreScreen() {
 
       {/* 2ª linha */}
       <View style={styles.row}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Aromaterapia")}>
           <View style={styles.card}>
             <Feather name="wind" size={24} color="black" />
             <Text style={styles.title}>Aromaterapia</Text>

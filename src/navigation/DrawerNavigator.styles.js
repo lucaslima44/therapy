@@ -16,8 +16,8 @@ export default StyleSheet.create({
   drawerContainer: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingHorizontal: 20,
-    paddingTop: 50,
+
+    padding: 20,
   },
   closeDrawerButton: {
     position: "absolute",
@@ -68,8 +68,7 @@ export default StyleSheet.create({
   logoutButton: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: "auto", // Empurra para o final da View
-    paddingVertical: 10,
+    marginTop: 20,
   },
   logoutIcon: {
     width: 28, // Mantém alinhamento com outros ícones

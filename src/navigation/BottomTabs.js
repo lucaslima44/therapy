@@ -1,12 +1,12 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { Platform, StyleSheet } from "react-native";
 
 // Import das telas
 import HomeScreen from "../screens/app/HomeScreen";
-import ExploreScreen from "../screens/app/ExploreScreen";
+import MeditacaoScreen from "../screens/app/MeditacaoScreen";
 import ConsultasScreen from "../screens/app/ConsultasScreen";
 import ProfileScreen from "../screens/app/ProfileScreen";
 
@@ -40,11 +40,11 @@ export default function BottomTabs() {
       />
 
       <Tab.Screen
-        name="Explorar"
-        component={ExploreScreen}
+        name="Meditação"
+        component={MeditacaoScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search-outline" size={size} color={color} />
+            <MaterialCommunityIcons name="meditation" size={24} color={color} />
           ),
         }}
       />
