@@ -93,12 +93,12 @@ export default StyleSheet.create({
   },
   profissionaisPopularesTitle: {
     fontSize: 16,
-    fontFamily: "Inter-Bold",
+    fontFamily: " Inter",
     color: "#000",
   },
   profissionaisPopularesSeeAll: {
     fontSize: 16,
-    fontFamily: "Inter-Bold",
+    fontFamily: " Inter",
     color: "#4F49EA",
   },
   profissionalPopularesImage: {
@@ -114,12 +114,12 @@ export default StyleSheet.create({
   },
   profissionalPopularesTitle: {
     fontSize: 16,
-    fontFamily: "Inter-Bold",
+    fontFamily: " Inter",
     color: colors.textDark,
   },
   profissionalPopularesArea: {
     fontSize: 14,
-    fontFamily: "Inter-Regular",
+    fontFamily: " Inter",
     color: "#585858",
   },
   buttonFilterProfissionais: {
@@ -132,7 +132,7 @@ export default StyleSheet.create({
   buttonFilterProfissionaisText: {
     color: "#fff",
     fontSize: 14,
-    fontFamily: "Inter-Regular",
+    fontFamily: " Inter",
   },
   profissionalPopularesItemContainer: {
     alignItems: "center",
@@ -145,7 +145,8 @@ export default StyleSheet.create({
   profissionalPopularesVerMais: {
     color: "#4F49EA",
     fontSize: 14,
-    fontFamily: "Inter-Bold",
+    fontFamily: " Inter",
+    fontWeight: "600",
   },
   agendamentoPendente: {
     width: "100%",
@@ -201,5 +202,10 @@ export default StyleSheet.create({
   },
   editButton: {
     padding: 4,
+  },
+  profissionalPopularesDescricao: {
+    fontSize: 14,
+    fontFamily: " Inter",
+    color: "#585858",
   },
 });

@@ -38,26 +38,26 @@ export default StyleSheet.create({
     padding: 16, // Espaçamento da lista nas laterais da tela
   },
   card: {
+    width: "100%", // Ocupa 100% (dentro do padding da lista)
     backgroundColor: "#fff",
     borderRadius: 10,
-    margin: 15,
-    padding: 15,
+    padding: 12,
+    marginBottom: 15,
     flexDirection: "row", // Imagem ao lado do texto
+
+    // Sombra
     ...Platform.select({
       ios: {
-        // Estilos para iPhone
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.1,
         shadowRadius: 4,
       },
       android: {
-        // Estilo para Android
-        elevation: 5,
+        elevation: 3,
       },
       web: {
-        // Estilo para Web (corrigindo o erro)
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
       },
     }),
   },

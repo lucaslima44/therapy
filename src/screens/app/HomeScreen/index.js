@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  FlatList,
 } from "react-native";
 import styles from "./styles";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import Carousel from "react-native-reanimated-carousel";
-import { FlatList } from "react-native-gesture-handler";
+import { profissionaisData } from "./../../../data/profissionaisData";
 
 const { width: screenWidth } = Dimensions.get("window");
 const carouselData = [
@@ -20,40 +21,9 @@ const carouselData = [
 ];
 // --------------------------------------------------
 
-const profissionaisPopularesData = [
-  {
-    id: 1,
-    nome: "Mister",
-    source: require("./../../../../assets/doutorH.webp"),
-    area: "Psicologia",
-    descricao: "Ajudo a cuidar da saúde mental e estabelecer o bem-estar.",
-  },
-  {
-    id: 2,
-    nome: "Joe",
-    source: require("./../../../../assets/doutoraM.webp"),
-    area: "Psicoterapia",
-    descricao: "Ajudo a lidar com problemas emocionais e emocionalidade.",
-  },
-  {
-    id: 3,
-    nome: "Kamisa",
-    source: require("./../../../../assets/doutoraM.webp"),
-    area: "Psicoterapia",
-    descricao: "Ajudo a lidar com problemas emocionais e emocionalidade.",
-  },
-  {
-    id: 4,
-    nome: "Hitstar",
-    source: require("./../../../../assets/doutoraM.webp"),
-    area: "Psicoterapia",
-    descricao: "Ajudo a lidar com problemas emocionais e emocionalidade.",
-  },
-  // outros profissionais...
-];
-
 export default function HomeScreen({ navigation }) {
   const carouselRef = useRef(null); //para controlar o carrossel
+  const popularesData = profissionaisData.slice(0, 4);
 
   // cada item do carrossel
   const renderCarouselItem = ({ item }) => (
@@ -78,12 +48,16 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.profissionalPopularesArea}>{item.area}</Text>
       <Text
         style={styles.profissionalPopularesDescricao}
-        numberOfLines={1}
+        numberOfLines={2}
         ellipsizeMode="tail"
       >
         {item.descricao.substring(0, 30)}...
       </Text>
-      <TouchableOpacity onPress={() => handleOpenProfissionalPerfil(item)}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("ProfessionalDetailsScreen", { nome: item.nome })
+        }
+      >
         <Text style={styles.profissionalPopularesVerMais}>Ver mais</Text>
       </TouchableOpacity>
     </View>
@@ -173,16 +147,19 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         <FlatList
-          data={profissionaisPopularesData}
+          data={popularesData} // <-- MUDANÇA: Usando a const que criamos no Passo 2
           renderItem={renderProfissionalPopularesItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()} // (Converte para string)
           horizontal
           showsHorizontalScrollIndicator={false}
           style={styles.profissionaisPopularesList}
         />
       </View>
 
-      <TouchableOpacity style={styles.agendamentoPendente}>
+      <TouchableOpacity
+        style={styles.agendamentoPendente}
+        onPress={() => navigation.navigate("Consultas")}
+      >
         {/* IMAGEM (Esquerda) */}
         <Image
           source={require("./../../../../assets/doutorH.webp")}
@@ -191,9 +168,7 @@ export default function HomeScreen({ navigation }) {
 
         {/* CONTAINER DE INFO (Meio) */}
         <View style={styles.infoContainer}>
-          <Text style={styles.nomeProfissional}>
-            {profissionaisPopularesData[0].nome}
-          </Text>
+          <Text style={styles.nomeProfissional}>{popularesData[0].nome}</Text>
           <Text style={styles.dataAgendamento}>
             Agendado para 29/12/25 às 14:00
           </Text>

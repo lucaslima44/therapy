@@ -24,7 +24,8 @@
       "package": "com.luucasalvess.therapy"
     },
     "web": {
-      "favicon": "./assets/faviconBranco.png"
+      "favicon": "./assets/faviconBranco.png",
+      "lang": "pt-BR"
     },
     "plugins": ["expo-font"],
     "extra": {
