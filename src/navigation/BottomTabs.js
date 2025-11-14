@@ -19,27 +19,40 @@ export default function BottomTabs() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarBackground: () => (
-          <BlurView
-            intensity={30}
-            tint="light"
-            style={StyleSheet.absoluteFill}
-          />
-        ),
-        tabBarStyle: [
-          styles.tabBarStyle,
-          { bottom: insets.bottom + 5 }, // 👈 A MÁGICA. Usamos o vão + 5 de respiro
-        ],
         tabBarActiveTintColor: "#000",
         tabBarInactiveTintColor: "gray",
+        // tabBarShowLabel: false, // Se você quiser os nomes, deixe essa linha COMENTADA ou remova.
+
+        tabBarStyle: {
+          ...styles.tabBarStyle,
+          bottom: insets.bottom + 10, // Um pouco mais de espaço embaixo
+          height: 60, // Boa altura para ícones e textos
+          borderRadius: 20, // Borda arredondada
+        },
+
+        tabBarBackground: () => (
+          <BlurView
+            // --- ALTERAÇÕES CHAVE AQUI ---
+            intensity={80} // Aumentar a intensidade do blur (pode ir até 100)
+            tint="light" // 'light' ou 'default'. 'dark' se o fundo for muito claro.
+            style={[
+              StyleSheet.absoluteFill,
+              { backgroundColor: "rgba(255, 255, 255, 0.2)" }, // Um overlay branco semi-transparente para clarear
+            ]}
+          />
+        ),
       }}
     >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "home" : "home-outline"}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
@@ -48,8 +61,12 @@ export default function BottomTabs() {
         name="Meditação"
         component={MeditacaoScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="meditation" size={24} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? "meditation" : "meditation"}
+              size={30}
+              color={color}
+            />
           ),
         }}
       />
@@ -57,8 +74,12 @@ export default function BottomTabs() {
         name="Consultas"
         component={ConsultasScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calendar-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "calendar" : "calendar-outline"}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
@@ -66,8 +87,12 @@ export default function BottomTabs() {
         name="Perfil"
         component={ProfileScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
@@ -78,26 +103,31 @@ export default function BottomTabs() {
 const styles = StyleSheet.create({
   tabBarStyle: {
     position: "absolute",
-    bottom: 0,
     left: 20,
     right: 20,
-    borderRadius: 16,
-    height: 52,
-    backgroundColor: "rgba(255, 255, 255, 0.08)",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.18)",
+    borderRadius: 20, // Ajustei para combinar com o `tabBarStyle` do componente
+    height: 60, // Ajustei para combinar com o `tabBarStyle` do componente
+    backgroundColor: "transparent",
+    overflow: "hidden",
+
+    // --- ALTERAÇÃO NA BORDA ---
+    borderWidth: 0.5, // Borda mais fina
+    borderColor: "rgba(255, 255, 255, 0.4)", // Borda mais clara e visível
+    // -------------------------
+
     ...Platform.select({
       ios: {
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+        shadowOpacity: 0.15, // Sombra um pouco mais forte
+        shadowRadius: 5, // Sombra mais suave
       },
       android: {
-        elevation: 5,
+        elevation: 8, // Aumentei a elevação para uma sombra mais perceptível
+        backgroundColor: "rgba(255, 255, 255, 0.1)", // Base mais clara para a elevation no Android
       },
       web: {
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)", // Sombra web mais suave
       },
     }),
   },
