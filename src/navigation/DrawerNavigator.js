@@ -118,7 +118,7 @@ function CustomDrawerContent({ navigation }) {
             color="#000"
             style={styles.drawerIcon}
           />
-          <Text style={styles.drawerText}>Minhas consultas</Text>
+          <Text style={styles.drawerText}>Meus Agendamentos</Text>
         </TouchableOpacity>
       </View>
 

@@ -7,7 +7,19 @@ export default StyleSheet.create({
     backgroundColor: "#F5F5DC",
     textAlign: "center",
   },
-
+  header: {
+    paddingTop: 50, // Ajuste para status bar
+    paddingBottom: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between", // Para a view "fantasma" funcionar
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  backButton: {
+    // padding: 5, // Aumenta área de clique
+  },
   cabecalho: {
     flexDirection: "row",
     alignItems: "center",

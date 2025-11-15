@@ -8,7 +8,17 @@ export default StyleSheet.create({
     padding: 20,
   },
   header: {
-    position: "absolute",
+    paddingTop: 50, // Ajuste para status bar
+    paddingBottom: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between", // Para a view "fantasma" funcionar
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  backButton: {
+    // padding: 5, // Aumenta área de clique
   },
   title: {
     fontSize: 20,

@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F5F5F5" },
   header: {
-    height: 100,
+    height: 70,
     backgroundColor: "#4B0082",
     padding: 20,
     justifyContent: "flex-end",
@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   content: { paddingBottom: 100 },
 
-  profileContainer: { alignItems: "center", marginTop: -30, marginBottom: 20 },
+  profileContainer: { alignItems: "center", marginTop: 20, marginBottom: 20 },
   avatar: {
     width: 100,
     height: 100,

@@ -3,9 +3,10 @@ import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 20,
-    backgroundColor: "#f8f8f8", // Cor de fundo suave para a tela
+    // backgroundColor: "#f8f8f8",
+    backgroundColor: colors.backgroundBege,
   },
   header: {
     flexDirection: "row",
@@ -88,5 +89,77 @@ export default StyleSheet.create({
   },
   iconeEditar: {
     padding: 5, // Aumenta a área de toque do ícone
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: "85%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+  },
+  modalSubtitle: {
+    fontSize: 16,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 25,
+  },
+  buttonContainer: {
+    width: "100%",
+  },
+  modalButton: {
+    width: "100%",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  cancelButton: {
+    backgroundColor: "#DC3545",
+    borderWidth: 1,
+    borderColor: colors.DANGER,
+  },
+  keepButton: {
+    backgroundColor: "#4F49EA",
+  },
+  buttonTextDanger: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  // --- ADICIONE ESTES ESTILOS NOVOS ---
+
+  confirmDeleteButton: {
+    backgroundColor: "#DC3545", // Vermelho
   },
 });

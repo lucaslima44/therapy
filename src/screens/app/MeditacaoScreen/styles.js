@@ -1,17 +1,28 @@
 import { StyleSheet, Platform } from "react-native";
+import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#eef2f3",
+    padding: 20,
+    // backgroundColor: "#eef2f3",
+    backgroundColor: colors.backgroundBege,
   },
 
   header: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 40, // espaço entre o título e os cards
+    justifyContent: "center",
+    paddingVertical: 20,
+  },
+  menuButton: {
+    left: 0,
+    position: "absolute",
+  },
+  titulo: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#333",
   },
 
   imagem: {
@@ -20,13 +31,6 @@ export default StyleSheet.create({
     marginRight: 20,
     alignItems: "center",
     resizeMode: "contain",
-  },
-
-  titulo: {
-    fontFamily: "Marcellus SC",
-    fontSize: 20,
-    color: "#000",
-    alignItems: "center",
   },
 
   row: {
@@ -40,7 +44,8 @@ export default StyleSheet.create({
   card: {
     width: 160,
     height: 150,
-    backgroundColor: "#2cbec4",
+    // backgroundColor: "#2cbec4",
+    backgroundColor: "#4F49EA",
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
@@ -60,9 +65,9 @@ export default StyleSheet.create({
     }),
   },
 
-  title: {
+  titleCard: {
     fontSize: 14,
-    color: "#000",
+    color: colors.textLight,
     textAlign: "center",
   },
 });

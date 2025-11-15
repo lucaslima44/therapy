@@ -133,10 +133,10 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   buttonSim: {
-    backgroundColor: "#2a9d8f",
+    backgroundColor: "#4F49EA",
   },
   buttonNao: {
-    backgroundColor: "#e76f51",
+    backgroundColor: "#ff3300ff",
   },
   buttonText: {
     color: "#fff",

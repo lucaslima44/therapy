@@ -3,28 +3,36 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
+  // StyleSheet, // Removido - não estava sendo usado
   Image,
-  ScrollView,
+  ScrollView, // Mantido
 } from "react-native";
 import styles from "./styles";
 import { Feather } from "@expo/vector-icons";
 
 export default function SobreNosScreen({ navigation }) {
   return (
-    <ScrollView style={styles.container}>
+    // --- ERRO 1 CORRIGIDO ---
+    // A View principal foi trocada por um ScrollView.
+    // O 'style' foi movido para 'contentContainerStyle'
+    // para que o padding e outros estilos do container funcionem.
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Cabeçalho */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
-          <Feather
-            name="arrow-left"
-            size={28}
-            color="black"
-            onPress={navigation.goBack}
-          />
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Feather name="arrow-left" size={24} color="#333" />
         </TouchableOpacity>
-      </View>
 
-      <Text style={styles.title}>Sobre Nós</Text>
+        {/* --- ERRO 2 CORRIGIDO --- */}
+        {/* A variável 'area' foi trocada por um texto estático */}
+        <Text style={styles.title}>Sobre Nós</Text>
+
+        {/* View "fantasma" para centralizar o título */}
+        <View style={{ width: 24 }} />
+      </View>
 
       <Text style={styles.text}>
         A Therapy Room nasceu em 2025 com o propósito de transformar o cuidado
@@ -51,6 +59,6 @@ export default function SobreNosScreen({ navigation }) {
         style={styles.image}
         source={require("../../../../assets/sobrenos.webp")}
       />
-    </ScrollView>
+    </ScrollView> // <-- ERRO 3 CORRIGIDO: Esta tag agora fecha o ScrollView
   );
 }

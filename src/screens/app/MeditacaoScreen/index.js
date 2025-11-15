@@ -8,11 +8,13 @@ export default function ExploreScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          source={require("../../../../assets/logoB.webp")}
-          style={styles.imagem}
-        />
-        <Text style={styles.titulo}>Therapy Room</Text>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => navigation.openDrawer()}
+        >
+          <Feather name="menu" size={28} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.titulo}>Meditação</Text>
       </View>
 
       {/* 1ª linha */}
@@ -20,14 +22,14 @@ export default function ExploreScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Automassagem")}>
           <View style={styles.card}>
             <MaterialIcons name="self-improvement" size={24} color="black" />
-            <Text style={styles.title}>Automassagem</Text>
+            <Text style={styles.titleCard}>Automassagem</Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity>
           <View style={styles.card}>
             <MaterialIcons name="video-camera-front" size={24} color="black" />
-            <Text style={styles.title}>Yoga em vídeo</Text>
+            <Text style={styles.titleCard}>Yoga em vídeo</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -37,14 +39,14 @@ export default function ExploreScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Aromaterapia")}>
           <View style={styles.card}>
             <Feather name="wind" size={24} color="black" />
-            <Text style={styles.title}>Aromaterapia</Text>
+            <Text style={styles.titleCard}>Aromaterapia</Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity>
           <View style={styles.card}>
             <AntDesign name="team" size={24} color="black" />
-            <Text style={styles.title}>Meditação Guiada</Text>
+            <Text style={styles.titleCard}>Meditação Guiada</Text>
           </View>
         </TouchableOpacity>
       </View>

@@ -11,11 +11,12 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import { profissionaisData } from "../../../data/profissionaisData";
+import { useAgendamento } from "../../../context/AgendamentoContext";
 
 export default function ProfessionalDetailsScreen({ navigation, route }) {
   const nome = route.params?.nome;
-  const profissional = profissionaisData.find((item) => item.nome === nome);
+  const { profissionais } = useAgendamento();
+  const profissional = profissionais.find((item) => item.nome === nome);
 
   // Dados de agendamento
   const [dataSelecionada, setDataSelecionada] = useState(null);

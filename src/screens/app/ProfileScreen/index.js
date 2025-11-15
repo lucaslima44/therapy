@@ -5,91 +5,82 @@ import {
   Image,
   ScrollView,
   FlatList,
-  StyleSheet,
-  TouchableOpacity, // Importado para o botão de menu
+  TouchableOpacity,
 } from "react-native";
-import styles from "./styles"; // O .js do StyleSheet (logo abaixo)
+import styles from "./styles";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { Feather } from "@expo/vector-icons"; // Importado para o ícone de menu
-import { useSafeAreaInsets } from "react-native-safe-area-context"; // Para o padding do "notch"
+import { Feather } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// --- Dados para as listas ---
-const moodData = [
-  { day: "DOM", value: 1 },
-  { day: "SEG", value: 2 },
-  { day: "TER", value: 3 },
-  { day: "QUA", value: 4 },
-  { day: "QUI", value: 5 },
-  { day: "SEX", value: 6 },
-  { day: "SAB", value: 7 },
-];
+// --- IMPORTAÇÃO DOS DADOS ---
+// Importamos nossos dados fictícios do novo arquivo
+import { userData, moodData, recentData } from "../../../data/mockProfileData";
 
-const recentData = [
-  { id: "1", source: require("../../../../assets/terapia1.jpg") },
-  { id: "2", source: require("../../../../assets/terapia2.jpg") },
-  { id: "3", source: require("../../../../assets/terapia1.jpg") }, // Exemplo
-];
-// ------------------------------------
+// --- COMPONENTES AUXILIARES ---
+// Movendo a lógica de renderização para fora do componente principal.
+// Isso melhora a performance e a legibilidade.
 
+// Helper para cor do humor
+const getMoodColor = (value) => {
+  const colors = [
+    "#7ED957",
+    "#FED93F",
+    "#FF9147",
+    "#FF4444",
+    "#FF4444",
+    "#C5A8E0",
+    "#69DB7C",
+  ];
+  return colors[value - 1] || "#CCCCCC";
+};
+
+// Componente para cada item de Humor
+// Usamos React.memo para evitar re-renderizações desnecessárias
+const MoodDayItem = React.memo(({ item }) => (
+  <View style={styles.moodDay}>
+    <Text style={styles.dayLabel}>{item.day}</Text>
+    <View
+      style={[
+        styles.moodValueBox,
+        { backgroundColor: getMoodColor(item.value) },
+      ]}
+    >
+      <Text style={styles.moodValue}>{item.value}</Text>
+    </View>
+  </View>
+));
+
+// Componente para cada card Recente
+const RecentCardItem = React.memo(({ item }) => (
+  <View style={styles.recentCard}>
+    <Image source={item.source} style={styles.recentImage} />
+  </View>
+));
+
+// --- COMPONENTE PRINCIPAL ---
 export default function ProfileScreen({ navigation }) {
-  // <-- Recebe 'navigation'
   const insets = useSafeAreaInsets(); // Hook para pegar a área segura
-
-  const getMoodColor = (value) => {
-    const colors = [
-      "#7ED957",
-      "#FED93F",
-      "#FF9147",
-      "#FF4444",
-      "#FF4444",
-      "#C5A8E0",
-      "#69DB7C",
-    ];
-    return colors[value - 1] || "#CCCCCC";
-  };
-
-  // --- Funções de renderização para as FlatLists ---
-  const renderMoodItem = ({ item }) => (
-    <View style={styles.moodDay}>
-      <Text style={styles.dayLabel}>{item.day}</Text>
-      <View
-        style={[
-          styles.moodValueBox,
-          { backgroundColor: getMoodColor(item.value) },
-        ]}
-      >
-        <Text style={styles.moodValue}>{item.value}</Text>
-      </View>
-    </View>
-  );
-
-  const renderRecentItem = ({ item }) => (
-    <View style={styles.recentCard}>
-      <Image source={item.source} style={styles.recentImage} />
-    </View>
-  );
-  // --------------------------------------------------------
+  
+  // Funções de renderização para as FlatLists
+  // Elas agora apenas chamam os componentes que criamos
+  const renderMoodItem = ({ item }) => <MoodDayItem item={item} />;
+  const renderRecentItem = ({ item }) => <RecentCardItem item={item} />;
 
   return (
     <View style={styles.container}>
-      {/* 1. ÁREA SUPERIOR (BRANCA) - ATUALIZADA */}
+      {/* 1. ÁREA SUPERIOR (BRANCA) */}
       <View style={[styles.headerContainer, { paddingTop: insets.top + 10 }]}>
-        {/* Usamos o 'insets' para o padding do topo */}
-
         <View style={styles.topBar}>
           {/* Botão Menu (Esquerda) */}
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <Feather name="menu" size={28} color="#333" />
           </TouchableOpacity>
 
-          {/* Nome do Cliente (Centro) */}
-          <Text style={styles.clientName}>Nome do Cliente</Text>
+          {/* Nome do Cliente (Centro) - DADO DO "BANCO" */}
+          <Text style={styles.clientName}>{userData.name}</Text>
 
-          {/* Avatar (Direita) */}
-          <Image
-            source={require("../../../../assets/logoP.webp")}
-            style={styles.profileAvatar} // <-- Usando o novo estilo de avatar
-          />
+          {/* Avatar (Direita) - DADO DO "BANCO" */}
+          <Image source={userData.avatar} style={styles.profileAvatar} />
         </View>
       </View>
 
@@ -125,7 +116,7 @@ export default function ProfileScreen({ navigation }) {
         {/* Humor semanal */}
         <Text style={styles.sectionTitle}>Humor semanal</Text>
         <FlatList
-          data={moodData}
+          data={moodData} // <-- Dado importado
           renderItem={renderMoodItem}
           keyExtractor={(item) => item.day}
           horizontal
@@ -136,7 +127,7 @@ export default function ProfileScreen({ navigation }) {
         {/* Mais recentes */}
         <Text style={styles.recentTitle}>Mais recentes</Text>
         <FlatList
-          data={recentData}
+          data={recentData} // <-- Dado importado
           renderItem={renderRecentItem}
           keyExtractor={(item) => item.id}
           horizontal={true}

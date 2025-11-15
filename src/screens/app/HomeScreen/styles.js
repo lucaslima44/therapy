@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { colors } from "../../../styles/colors";
 import { Dimensions } from "react-native";
 
@@ -7,13 +7,17 @@ const { width: screenWidth } = Dimensions.get("window");
 export default StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 20,
+    padding: 20, // Controla o espaçamento lateral da TELA TODA
     backgroundColor: colors.backgroundBege,
   },
   title: {
     fontSize: 28,
     fontFamily: "Karma-Regular",
     color: "#5B5959",
+  },
+  menuButton: {
+    left: 0,
+    position: "absolute",
   },
   subtitle: {
     fontFamily: "Karma-Bold",
@@ -24,7 +28,6 @@ export default StyleSheet.create({
   logo: {
     width: 40,
     height: 40,
-    marginBottom: 20,
   },
   header: {
     flexDirection: "row",
@@ -56,7 +59,7 @@ export default StyleSheet.create({
   carouselContainer: {
     width: "100%",
     height: 120,
-    position: "relative", // ponto de referência
+    position: "relative",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
@@ -76,7 +79,6 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   arrowLeft: {
     left: 10,
   },
@@ -148,64 +150,81 @@ export default StyleSheet.create({
     fontFamily: " Inter",
     fontWeight: "600",
   },
-  agendamentoPendente: {
-    width: "100%",
-    padding: 12,
-    borderRadius: 12,
-    marginTop: 24,
-    backgroundColor: "#FBFBF4",
-    borderWidth: 1,
-    borderColor: colors.textDark,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    minHeight: 80,
-    marginBottom: 70,
-  },
-  agendamentoPendenteImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 12,
-  },
-  infoContainer: {
-    flex: 1,
-    flexShrink: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    marginRight: 8,
-  },
-  nomeProfissional: {
-    fontSize: 18,
-    fontFamily: "Karma-Bold",
-    fontWeight: "bold",
-  },
-  dataAgendamento: {
-    fontSize: 16,
-    fontFamily: "Karma-Regular",
-    color: "#636363",
-  },
-  actionsContainer: {
-    flexDirection: "column",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
-  statusBadge: {
-    backgroundColor: colors.SUCCESS,
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-  },
-  statusText: {
-    fontSize: 14,
-    color: colors.textDark,
-    fontFamily: "Karma-Regular",
-  },
-  editButton: {
-    padding: 4,
-  },
   profissionalPopularesDescricao: {
     fontSize: 14,
     fontFamily: " Inter",
     color: "#585858",
+  },
+
+  // Estilos do Card de Agendamento (unificados)
+  cardAgendamento: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 15,
+    marginTop: 20,
+    marginBottom: 60,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 5,
+      },
+      web: {
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+      },
+    }),
+  },
+  topRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  imagemProfissional: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 15,
+    backgroundColor: "#e0e0e0",
+  },
+  nomeEStatus: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  nomeProfissional: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    fontFamily: "Karma-Bold", // <-- Unificado
+  },
+  statusConfirmado: {
+    backgroundColor: "#aed581",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+  },
+  statusText: {
+    color: "#33691e",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  bottomRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 5,
+  },
+  dataAgendamento: {
+    fontSize: 15,
+    color: "#555",
+    fontFamily: "Karma-Regular", // <-- Unificado (escolhi o de 15px)
+  },
+  iconeEditar: {
+    padding: 5,
   },
 });

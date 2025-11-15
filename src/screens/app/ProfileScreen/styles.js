@@ -1,48 +1,40 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF", // Fundo geral branco
+    backgroundColor: colors.backgroundBege,
   },
 
   // --- Header (Top Section) ---
   headerContainer: {
-    backgroundColor: "#FFFFFF", // Fundo do header branco
-    // paddingTop é aplicado dinamicamente no componente
-    paddingBottom: 10,
+    backgroundColor: "#FFFFFF",
   },
-
-  // Novo estilo para a barra superior
   topBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20, // Espaçamento nas laterais
+    padding: 20,
   },
-
-  // Estilo do nome do cliente (antigo 'title')
   clientName: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333333", // Cor escura para fundo branco
+    color: "#333333",
   },
-
-  // Estilo do avatar (antigo 'profileImage')
   profileAvatar: {
-    width: 44, // Tamanho de avatar
+    width: 44,
     height: 44,
-    borderRadius: 22, // Metade do tamanho para ser redondo
+    borderRadius: 22,
   },
 
   // --- Scrollable Content (Bottom Section) ---
   contentContainer: {
-    flex: 1,
-    backgroundColor: "#2cbec4", // Cor azul
+    backgroundColor: "#4F49EA",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 20,
-    paddingBottom: 40, // Espaço no fim do scroll
+    paddingBottom: 40,
   },
 
   // --- Stats Section ---
@@ -83,10 +75,10 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   moodListContent: {
-    flexDirection: "row", // (Necessário para FlatList horizontal)
+    flexDirection: "row",
     gap: 8,
     marginBottom: 25,
-    paddingHorizontal: 5, // Adiciona um respiro nas pontas
+    paddingHorizontal: 5,
   },
   moodDay: {
     alignItems: "center",
@@ -118,15 +110,15 @@ export default StyleSheet.create({
     marginBottom: 15,
   },
   recentListContent: {
-    gap: 16, // Espaçamento de 16px entre os cards
-    paddingHorizontal: 5, // Adiciona um respiro nas pontas
+    gap: 16,
+    paddingHorizontal: 5,
   },
   recentCard: {
     width: 160,
     height: 140,
     borderRadius: 20,
     overflow: "hidden",
-    backgroundColor: "#E0E0E0", // Cor de placeholder
+    backgroundColor: "#E0E0E0",
   },
   recentImage: {
     width: "100%",

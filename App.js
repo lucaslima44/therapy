@@ -5,9 +5,15 @@ import * as SplashScreen from "expo-splash-screen";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AgendamentoProvider } from "./src/context/AgendamentoContext";
+import {
+  Ionicons,
+  Feather,
+  MaterialCommunityIcons,
+  AntDesign,
+} from "@expo/vector-icons";
 
 SplashScreen.preventAutoHideAsync();
-
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "Marcellus-Regular": require("./assets/fonts/MarcellusSC-Regular.ttf"),
@@ -17,6 +23,10 @@ export default function App() {
     "Karma-Light": require("./assets/fonts/Karma-Light.ttf"),
     "Karma-Medium": require("./assets/fonts/Karma-Medium.ttf"),
     "Karma-SemiBold": require("./assets/fonts/Karma-SemiBold.ttf"),
+    ...Ionicons.font,
+    ...Feather.font,
+    ...MaterialCommunityIcons.font,
+    ...AntDesign.font,
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -26,12 +36,14 @@ export default function App() {
   if (!fontsLoaded && !fontError) return null;
 
   return (
-    <SafeAreaProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer onReady={onLayoutRootView}>
-          <AppNavigator />
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <AgendamentoProvider>
+          <NavigationContainer onReady={onLayoutRootView}>
+            <AppNavigator />
+          </NavigationContainer>
+        </AgendamentoProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
