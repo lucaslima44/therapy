@@ -11,7 +11,7 @@ import {
 import styles from "./styles";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function AromaterapiaScreen() {
+export default function AromaterapiaScreen({ navigation }) {
   // Substitua o link abaixo pelo link do vídeo que você quiser
   const youtubeLink =
     "https://www.youtube.com/watch?v=jfysVM4z_gQ&list=PLyxPafvd4nh8vFLNqngQ0FUWCaeh63FAi&index=1";

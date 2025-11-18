@@ -15,6 +15,8 @@ import PrimeiraAreaScreen from "../screens/app/PrimeiraAreaScreen";
 import SegundaAreaScreen from "../screens/app/SegundaAreaScreen";
 import AutomassagemScreen from "../screens/app/AutomassagemScreen";
 import AromaterapiaScreen from "../screens/app/AromaterapiaScreen";
+import MeditacaoGuiadaScreen from "../screens/app/MeditacaoGuiadaScreen";
+import YogaVideoScreen from "../screens/app/YogaVideoScreen";
 import ProfessionalDetailsScreen from "../screens/app/ProfessionalDetailsScreen";
 import PaymentScreen from "../screens/app/PaymentScreen";
 
@@ -50,6 +52,11 @@ export default function AppNavigator() {
       <Stack.Screen name="SegundaArea" component={SegundaAreaScreen} />
       <Stack.Screen name="Automassagem" component={AutomassagemScreen} />
       <Stack.Screen name="Aromaterapia" component={AromaterapiaScreen} />
+      <Stack.Screen
+        name="MeditacaoGuiada"
+        component={MeditacaoGuiadaScreen}
+      />
+      <Stack.Screen name="YogaVideo" component={YogaVideoScreen} />
       <Stack.Screen name="Payment" component={PaymentScreen} />
     </Stack.Navigator>
   );

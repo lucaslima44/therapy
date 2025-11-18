@@ -26,7 +26,7 @@ export default function ExploreScreen({ navigation }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("YogaVideo")}>
           <View style={styles.card}>
             <MaterialIcons name="video-camera-front" size={24} color="black" />
             <Text style={styles.titleCard}>Yoga em vídeo</Text>
@@ -43,7 +43,7 @@ export default function ExploreScreen({ navigation }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("MeditacaoGuiada")}>
           <View style={styles.card}>
             <AntDesign name="team" size={24} color="black" />
             <Text style={styles.titleCard}>Meditação Guiada</Text>
