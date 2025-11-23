@@ -20,7 +20,7 @@ export default StyleSheet.create({
     padding: 20,
     backgroundColor: colors.backgroundBege,
   },
-  
+
   // --- CABEÇALHO (HEADER) ---
   header: {
     flexDirection: "row",
@@ -29,7 +29,7 @@ export default StyleSheet.create({
     marginBottom: 20, // Dá um respiro para o conteúdo abaixo
   },
   menuButton: {
-    // position: "absolute" aqui pode ser perigoso se o título for grande. 
+    // position: "absolute" aqui pode ser perigoso se o título for grande.
     // Se funcionar pra você, ok. Mas prefira Flexbox normal se puder.
     position: "absolute",
     left: 0,
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     // margin: "auto" as vezes falha no RN antigo. justifyContent center no pai é mais seguro.
-    flex: 1, 
+    flex: 1,
     justifyContent: "center",
     gap: 10,
   },
@@ -62,8 +62,9 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   subtitle: {
-    fontFamily: "Karma-Bold",
+    fontFamily: "Inter",
     fontSize: 18,
+    fontWeight: "600",
     marginTop: -5, // Ajustei levemente
     color: "#000",
   },
@@ -90,7 +91,7 @@ export default StyleSheet.create({
     borderRadius: 12, // 50 era muito oval para um banner retangular, 12 é mais padrão
     overflow: "hidden",
   },
-  
+
   // Setas do Carrossel
   arrowButton: {
     position: "absolute",
@@ -113,22 +114,25 @@ export default StyleSheet.create({
   arrowRight: { right: 10 },
 
   // --- SEÇÃO: PROFISSIONAIS POPULARES (HEADER DA SEÇÃO) ---
-  sectionHeader: { // Renomeei para evitar conflito
+  sectionHeader: {
+    // Renomeei para evitar conflito
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: 30,
     marginBottom: 15,
   },
-  sectionTitle: { // Título da seção (Ex: "Populares")
+  sectionTitle: {
+    // Título da seção (Ex: "Populares")
     fontSize: 16,
-    fontFamily: "Inter-Regular", // CORREÇÃO: Removido espaço inicial
+    fontFamily: "Inter",
     fontWeight: "bold",
     color: "#000",
   },
-  seeAllButton: { // Texto "Ver todos"
+  seeAllButton: {
+    // Texto "Ver todos"
     fontSize: 14,
-    fontFamily: "Inter-Regular",
+    fontFamily: "Inter",
     color: localColors.purple,
     fontWeight: "600",
   },
@@ -138,7 +142,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     // gap: 10, // Se seu RN for antigo, use marginRight no item
   },
-  
+
   // O Card Individual do Profissional
   cardProfissionalPop: {
     alignItems: "center",
@@ -150,28 +154,29 @@ export default StyleSheet.create({
   },
   cardProfissionalImage: {
     width: "100%", // Ocupa a largura do card
-    height: 120,   // Altura reduzida para caber melhor
+    height: 120, // Altura reduzida para caber melhor
     borderRadius: 8,
     marginBottom: 8,
     backgroundColor: "#ddd", // Cor de fundo enquanto carrega
   },
-  cardProfissionalName: { // Renomeei para não conflitar com sectionTitle
+  cardProfissionalName: {
+    // Renomeei para não conflitar com sectionTitle
     fontSize: 15,
-    fontFamily: "Inter-Regular",
+    fontFamily: "Inter",
     fontWeight: "bold",
     color: colors.textDark || "#333",
     textAlign: "center",
   },
   cardProfissionalArea: {
     fontSize: 13,
-    fontFamily: "Inter-Regular",
+    fontFamily: "Inter",
     color: localColors.grayText,
     textAlign: "center",
     marginBottom: 5,
   },
   cardProfissionalDesc: {
     fontSize: 12,
-    fontFamily: "Inter-Regular",
+    fontFamily: "Inter",
     color: localColors.grayText,
     textAlign: "center",
   },
@@ -198,7 +203,7 @@ export default StyleSheet.create({
   buttonFilterText: {
     color: "#fff",
     fontSize: 14,
-    fontFamily: "Inter-Regular",
+    fontFamily: "Inter",
   },
 
   // --- CARD DE AGENDAMENTO (JÁ ESTAVA BOM, SÓ AJUSTEI NOMES) ---
@@ -220,19 +225,22 @@ export default StyleSheet.create({
       web: { boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)" },
     }),
   },
-  agendamentoHeader: { // topRow
+  agendamentoHeader: {
+    // topRow
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 12,
   },
-  agendamentoAvatar: { // imagemProfissional
+  agendamentoAvatar: {
+    // imagemProfissional
     width: 50,
     height: 50,
     borderRadius: 25,
     marginRight: 12,
     backgroundColor: "#eee",
   },
-  agendamentoInfo: { // nomeEStatus
+  agendamentoInfo: {
+    // nomeEStatus
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -257,7 +265,8 @@ export default StyleSheet.create({
     fontWeight: "bold",
     textTransform: "uppercase",
   },
-  agendamentoFooter: { // bottomRow
+  agendamentoFooter: {
+    // bottomRow
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

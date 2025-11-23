@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // <--- Adicionado useEffect
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // <--- Adicionado
 import styles from "./styles";
 import { AntDesign, Feather, FontAwesome5, Entypo } from "@expo/vector-icons";
 import HumorModal from "./../HumorModal";
@@ -34,7 +35,7 @@ const MoodDayItem = React.memo(({ item, onPress }) => {
         <IconLib
           name={currentMood.icon}
           size={24}
-          color={item.mood ? "#fff" : "#888"} // Ícone branco se selecionado
+          color={item.mood ? "#fff" : "#888"}
         />
       </View>
       <Text style={styles.dayLabel}>{item.day}</Text>
@@ -51,7 +52,10 @@ const RecentCardItem = React.memo(({ item }) => (
 // --- TELA PRINCIPAL ---
 export default function ProfileScreen({ navigation }) {
   
-  // Estados
+  // 1. ESTADO PARA O NOME DO USUÁRIO
+  const [userName, setUserName] = useState("Cliente");
+
+  // Estados do Humor
   const [weeklyMoods, setWeeklyMoods] = useState([
     { id: 1, day: "Seg", mood: null },
     { id: 2, day: "Ter", mood: null },
@@ -64,6 +68,36 @@ export default function ProfileScreen({ navigation }) {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDayId, setSelectedDayId] = useState(null);
+
+  // 2. BUSCAR DADOS DO ASYNC STORAGE (IGUAL NA HOME)
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const storedUser = await AsyncStorage.getItem("@user_data");
+        
+        if (storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          
+          if (parsedUser.name) {
+            // Lógica de Formatação (Capitalize)
+            const nomeFormatado = parsedUser.name
+              .toLowerCase()
+              .split(" ")
+              .map((palavra) => {
+                return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+              })
+              .join(" ");
+
+            setUserName(nomeFormatado);
+          }
+        }
+      } catch (error) {
+        console.log("Erro ao carregar perfil:", error);
+      }
+    };
+
+    loadUserData();
+  }, []);
 
   const handleOpenModal = (item) => {
     setSelectedDayId(item.id);
@@ -96,7 +130,6 @@ export default function ProfileScreen({ navigation }) {
         
         <Text style={styles.headerTitle}>Meu Perfil</Text>
         
-        {/* View fantasma */}
         <View style={{ width: 28 }} />
       </View>
 
@@ -107,19 +140,22 @@ export default function ProfileScreen({ navigation }) {
         
         {/* --- PERFIL HERO (Avatar + Nome) --- */}
         <View style={styles.profileHero}>
+          {/* Mantivemos o avatar do mock, mas você pode mudar depois */}
           <Image source={userData.avatar} style={styles.profileAvatar} />
-          <Text style={styles.clientName}>{userData.name}</Text>
+          
+          {/* 3. AQUI ESTÁ A VARIÁVEL COM O NOME DO BANCO */}
+          <Text style={styles.clientName}>{userName}</Text>
+          
           <Text style={styles.clientEmail}>Cliente Premium</Text>
         </View>
 
-        {/* --- STATS CARD (Branco e Limpo) --- */}
+        {/* --- STATS CARD --- */}
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
             <Text style={styles.statNumber}>02</Text>
             <Text style={styles.statLabel}>Agendadas</Text>
           </View>
           
-          {/* Divisor Vertical */}
           <View style={styles.verticalDivider} />
           
           <View style={styles.statItem}>
@@ -142,17 +178,6 @@ export default function ProfileScreen({ navigation }) {
             contentContainerStyle={{ paddingHorizontal: 10 }}
           />
         </View>
-
-        {/* --- MAIS RECENTES --- */}
-        {/* <Text style={styles.sectionTitle}>Mais Recentes</Text>
-        <FlatList
-          data={recentData}
-          renderItem={({ item }) => <RecentCardItem item={item} />}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.recentListContent}
-        /> */}
 
         <View style={{ height: 40 }} />
       </ScrollView>

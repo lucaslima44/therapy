@@ -13,8 +13,13 @@ function CustomDrawerContent({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleLogout = () => {
-    setModalVisible(false);
-    navigation.navigate("Login");
+    // Lógica de limpar token, etc...
+
+    // RESET NA NAVEGAÇÃO (Mata o histórico)
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }], // Certifique-se que o nome da rota é 'Login' mesmo
+    });
   };
 
   // Função auxiliar para navegar para dentro da Home Stack

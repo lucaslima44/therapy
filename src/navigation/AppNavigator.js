@@ -7,6 +7,7 @@ import OnboardingSegundo from "../screens/auth/OnboardingSegundo";
 import OnboardingTerceiro from "../screens/auth/OnboardingTerceiro";
 import WelcomeScreen from "../screens/auth/WelcomeScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
+import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
 import ProRegister from "../screens/auth/ProRegisterScreen";
 
 // demais telas sem o drawer
@@ -28,7 +29,7 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="OnboardingPrimeiro"
+      initialRouteName="Welcome"
       screenOptions={{ headerShown: false }}
     >
       {/* Fluxo auth */}
@@ -37,6 +38,11 @@ export default function AppNavigator() {
       <Stack.Screen name="OnboardingTerceiro" component={OnboardingTerceiro} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="ProRegister" component={ProRegister} />
 
       {/* Fluxo principal*/}
