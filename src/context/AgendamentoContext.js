@@ -1,50 +1,64 @@
 import React, { createContext, useState, useContext } from "react";
-// Importe seus dados INICIAIS
-import { profissionaisData } from "../data/profissionaisData"; 
+import { profissionaisData } from "../data/profissionaisData";
 
 // 1. Criar o Contexto
 const AgendamentoContext = createContext();
 
-// 2. Criar o "Provedor" (o componente que vai guardar os dados)
+// 2. Criar o "Provedor"
 export function AgendamentoProvider({ children }) {
-  // Carregamos os dados da agenda no 'useState'.
-  // Esta é a nossa "memória global" que PODE ser alterada.
   const [profissionais, setProfissionais] = useState(profissionaisData);
 
-  // Esta é a função que o PaymentScreen vai chamar
+  // Lista de Agendamentos do usuário (Começa vazia [])
+  const [agendamentos, setAgendamentos] = useState([]);
+
+  // --- Função 1: Agendar (Salva na lista e remove da agenda do médico) ---
   const agendarHorario = (nomeProfissional, data, horario) => {
+    // A. Adiciona na lista de "Meus Agendamentos"
+    const novoAgendamento = {
+      id: Date.now().toString(), // Gera um ID único
+      nomeProfissional,
+      data,
+      horario,
+      status: "Confirmado",
+    };
+
+    setAgendamentos((listaAtual) => [...listaAtual, novoAgendamento]);
+
+    // B. Remove o horário disponível da lista geral (Visualmente para outros)
     setProfissionais((profissionaisAtuais) => {
-      // 1. Mapeia a lista de profissionais
       return profissionaisAtuais.map((prof) => {
-        // 2. Encontra o profissional certo
         if (prof.nome === nomeProfissional) {
-          // 3. Mapeia a agenda dele
           const agendaAtualizada = prof.agenda.map((dia) => {
-            // 4. Encontra o dia certo
             if (dia.data === data) {
-              // 5. Filtra e remove o horário agendado
               const horariosAtualizados = dia.horarios.filter(
                 (h) => h !== horario
               );
-              // 6. Retorna o dia com os horários atualizados
               return { ...dia, horarios: horariosAtualizados };
             }
-            return dia; // Retorna o dia inalterado
+            return dia;
           });
-          // 7. Retorna o profissional com a agenda atualizada
           return { ...prof, agenda: agendaAtualizada };
         }
-        return prof; // Retorna o profissional inalterado
+        return prof;
       });
     });
 
-    console.log(`Horário agendado: ${nomeProfissional}, ${data} às ${horario}`);
+    console.log("Agendamento salvo:", novoAgendamento);
   };
 
-  // 4. Compartilha o estado (profissionais) e a função (agendarHorario)
+  // --- Função 2: Cancelar (Remove da lista de agendamentos) ---
+  const cancelarAgendamento = (id) => {
+    setAgendamentos((listaAtual) =>
+      listaAtual.filter((item) => item.id !== id)
+    );
+  };
+
+  // 4. Compartilha TUDO no value
   const value = {
-    profissionais,
-    agendarHorario,
+    profissionais, // Lista geral de médicos
+    agendamentos, // <--- FALTAVA ISSO (A lista do usuário)
+    agendarHorario, // Função de adicionar
+    cancelarAgendamento, // <--- FALTAVA ISSO (Função de remover)
   };
 
   return (
@@ -54,7 +68,13 @@ export function AgendamentoProvider({ children }) {
   );
 }
 
-// 5. Criar um "Hook" customizado para facilitar o uso
+// 5. Hook customizado
 export function useAgendamento() {
-  return useContext(AgendamentoContext);
+  const context = useContext(AgendamentoContext);
+  if (!context) {
+    throw new Error(
+      "useAgendamento deve ser usado dentro de um AgendamentoProvider"
+    );
+  }
+  return context;
 }

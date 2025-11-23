@@ -19,13 +19,16 @@ import MeditacaoGuiadaScreen from "../screens/app/MeditacaoGuiadaScreen";
 import YogaVideoScreen from "../screens/app/YogaVideoScreen";
 import ProfessionalDetailsScreen from "../screens/app/ProfessionalDetailsScreen";
 import PaymentScreen from "../screens/app/PaymentScreen";
+import SobreNosScreen from "../screens/app/SobreNosScreen";
+import ParceirosScreen from "../screens/app/ParceirosScreen";
+import ConsultasScreen from "../screens/app/ConsultasScreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="MainApp"
+      initialRouteName="OnboardingPrimeiro"
       screenOptions={{ headerShown: false }}
     >
       {/* Fluxo auth */}
@@ -47,15 +50,15 @@ export default function AppNavigator() {
         name="ProfessionalDetailsScreen"
         component={ProfessionalDetailsScreen}
       />
+      <Stack.Screen name="SobreNos" component={SobreNosScreen} />
+      <Stack.Screen name="Parceiros" component={ParceirosScreen} />
+      <Stack.Screen name="Consultas" component={ConsultasScreen} />
 
       <Stack.Screen name="PrimeiraArea" component={PrimeiraAreaScreen} />
       <Stack.Screen name="SegundaArea" component={SegundaAreaScreen} />
       <Stack.Screen name="Automassagem" component={AutomassagemScreen} />
       <Stack.Screen name="Aromaterapia" component={AromaterapiaScreen} />
-      <Stack.Screen
-        name="MeditacaoGuiada"
-        component={MeditacaoGuiadaScreen}
-      />
+      <Stack.Screen name="MeditacaoGuiada" component={MeditacaoGuiadaScreen} />
       <Stack.Screen name="YogaVideo" component={YogaVideoScreen} />
       <Stack.Screen name="Payment" component={PaymentScreen} />
     </Stack.Navigator>

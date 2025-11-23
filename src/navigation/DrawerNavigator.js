@@ -50,7 +50,7 @@ function CustomDrawerContent({ navigation }) {
       {/* Perfil */}
       <View style={styles.profileContainer}>
         <Image
-          source={require("../../assets/logoP.webp")}
+          source={require("../../assets/logoColorida.webp")}
           style={styles.profileImage}
           resizeMode="contain"
         />
@@ -91,9 +91,7 @@ function CustomDrawerContent({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.drawerItem}
-          onPress={() => {
-            navigateToHomeStack("Parceiros");
-          }}
+          onPress={() => navigation.navigate("Parceiros")}
         >
           <Feather
             name="users"

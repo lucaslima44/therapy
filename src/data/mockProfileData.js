@@ -2,7 +2,7 @@
 
 // Dados do usuário logado
 export const userData = {
-  name: "Ana Silva",
+  name: "Teste User",
   avatar: require("./../../assets/profile.webp"),
 };
 

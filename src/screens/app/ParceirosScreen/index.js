@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import styles from "./styles";
 import { Feather } from "@expo/vector-icons";
-// import MaterialIcons from "@expo/vector-icons/MaterialIcons"; // Removido (não utilizado)
 
 export default function ParceirosScreen({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.getParent()?.setOptions({ swipeEnabled: false });
+    return () => {
+      navigation.getParent()?.setOptions({ swipeEnabled: true });
+    };
+  }, [navigation]);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* Cabeçalho */}
+    <View style={styles.container}>
+      {/* --- HEADER FIXO --- */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -15,49 +21,79 @@ export default function ParceirosScreen({ navigation }) {
         >
           <Feather name="arrow-left" size={24} color="#333" />
         </TouchableOpacity>
-        {/* --- CORRIGIDO --- */}
-        {/* O título foi atualizado para "Parceiros" */}
-        <Text style={styles.title}>Parceiros</Text>
-        {/* View "fantasma" para centralizar o título */}
+        <Text style={styles.headerTitle}>Parceiros</Text>
         <View style={{ width: 24 }} />
       </View>
 
-      <Text style={styles.subtitulo}>
-        Conheça nossos parceiros que colaboram para promover bem-estar e
-        qualidade de vida aos nossos usuários.
-      </Text>
+      {/* --- CONTEÚDO --- */}
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={styles.introText}>
+          Conheça nossos parceiros que colaboram para promover bem-estar e
+          qualidade de vida aos nossos usuários.
+        </Text>
 
-      <View style={styles.partnersRow}>
-        <View style={styles.parceiroContainer}>
+        {/* --- CARD 1: WELLHUB --- */}
+        <View style={styles.partnerCard}>
           <Image
             source={require("./../../../../assets/wellhub.webp")}
             style={styles.image}
-            resizeMode="contain" // Adicionado para a imagem não cortar
+            resizeMode="contain"
           />
           <Text style={styles.nomeParceiro}>Wellhub</Text>
+          <Text style={styles.categoriaParceiro}>Benefício Corporativo</Text>
+
+          <View style={styles.divider} />
+
+          <Text style={styles.descricaoParceiro}>
+            Aproveite seu plano corporativo. Usuários Wellhub têm acesso
+            facilitado à nossa rede de psicólogos, integrando o cuidado da mente
+            com sua rotina de exercícios.
+          </Text>
         </View>
 
-        <View style={styles.parceiroContainer}>
+        {/* --- CARD 2: HOSPITAL SP --- */}
+        <View style={styles.partnerCard}>
           <Image
             source={require("./../../../../assets/hospitalSaoPaulo.webp")}
             style={styles.image}
-            resizeMode="contain" // Adicionado
+            resizeMode="contain"
           />
           <Text style={styles.nomeParceiro}>Hospital São Paulo</Text>
+          <Text style={styles.categoriaParceiro}>Suporte e Orientação</Text>
+
+          <View style={styles.divider} />
+
+          <Text style={styles.descricaoParceiro}>
+            Segurança em primeiro lugar. Dependendo da gravidade ou necessidade
+            clínica identificada na triagem, orientamos o encaminhamento direto
+            para o atendimento presencial no HSP.
+          </Text>
         </View>
 
-        <View style={styles.parceiroContainer}>
+        {/* --- CARD 3: ÍTALO --- */}
+        <View style={styles.partnerCard}>
           <Image
             source={require("./../../../../assets/italo.webp")}
             style={styles.image}
-            resizeMode="contain" // Adicionado
+            resizeMode="contain"
           />
-
           <Text style={styles.nomeParceiro}>Centro Universitário Ítalo</Text>
+          <Text style={styles.categoriaParceiro}>Parceria Estudantil</Text>
+
+          <View style={styles.divider} />
+
+          <Text style={styles.descricaoParceiro}>
+            Incentivo à educação e saúde mental. Matricule-se em qualquer curso
+            da Ítalo e ganhe a 1ª sessão de terapia gratuita, além de descontos
+            exclusivos nos pacotes mensais.
+          </Text>
         </View>
-      </View>
-      {/* --- CORRIGIDO --- */}
-      {/* Removida a tag <View> extra que estava sobrando aqui */}
-    </ScrollView>
+
+        <View style={{ marginBottom: 40 }} />
+      </ScrollView>
+    </View>
   );
 }

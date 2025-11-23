@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   Image,
   TouchableOpacity,
@@ -11,81 +10,72 @@ import {
 import styles from "./styles";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { profissionaisData } from "./../../../data/profissionaisData";
-import { agendamentosData } from "./../../../data/agendamentosData";
 import Screen from "../../../components/Screen";
+import { useAgendamento } from "../../../context/AgendamentoContext";
 
 export default function ConsultasScreen({ navigation }) {
-  const [agendamentos, setAgendamentos] = useState(
-    agendamentosData.slice(0, 5)
-  );
+  // --- CORREÇÃO 1: Adicionar valor padrão para evitar o erro "undefined" ---
+  // Se useAgendamento retornar algo sem 'agendamentos', ele assume []
+  const { agendamentos = [], cancelarAgendamento } = useAgendamento() || {};
 
-  // --- MUDANÇA 2: Estados para os dois modais ---
   const [isManageModalVisible, setManageModalVisible] = useState(false);
   const [isConfirmModalVisible, setConfirmModalVisible] = useState(false);
-  // ------------------------------------------------
-
   const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
-  // --- MUDANÇA 3: Funções de controle atualizadas ---
 
-  // Função para ABRIR o primeiro modal (Gerenciar)
   const handleOpenManageModal = (appointmentId) => {
     setSelectedAppointmentId(appointmentId);
     setManageModalVisible(true);
   };
 
-  // Função para FECHAR o primeiro modal (Gerenciar)
   const handleCloseManageModal = () => {
     setManageModalVisible(false);
-    setSelectedAppointmentId(null); // Limpamos aqui por via das dúvidas
+    setSelectedAppointmentId(null);
   };
 
-  // Função para ABRIR o segundo modal (Confirmação)
-  // Ela fecha o primeiro e abre o segundo
   const handleOpenConfirmModal = () => {
     setManageModalVisible(false);
     setConfirmModalVisible(true);
   };
 
-  // Função para FECHAR o segundo modal (Confirmação)
-  // Ela fecha o segundo e REABRE o primeiro (para o usuário não se perder)
   const handleCloseConfirmModal = () => {
     setConfirmModalVisible(false);
     setManageModalVisible(true);
   };
 
-  // Função para DELETAR o agendamento (só do front)
   const handleDeleteAppointment = () => {
-    // Filtramos o estado, removendo o item com o ID selecionado
-    setAgendamentos((currentAgendamentos) =>
-      currentAgendamentos.filter((ag) => ag.id !== selectedAppointmentId)
-    );
-
-    // Fechamos tudo e limpamos o ID
+    if (selectedAppointmentId && cancelarAgendamento) {
+      cancelarAgendamento(selectedAppointmentId);
+    }
     setConfirmModalVisible(false);
     setSelectedAppointmentId(null);
-    console.log("Consulta cancelada com sucesso:", selectedAppointmentId);
   };
-  // --- FIM DAS MUDANÇAS NAS FUNÇÕES ---
 
-  // Data para formatar
-  const formatarData = (dataISO) => {
-    const data = new Date(dataISO);
-    const dia = String(data.getDate()).padStart(2, "0");
-    const mes = String(data.getMonth() + 1).padStart(2, "0"); // Mês começa do 0
-    const ano = String(data.getFullYear()).slice(-2);
-    const hora = String(data.getHours()).padStart(2, "0");
-    const minuto = String(data.getMinutes()).padStart(2, "0");
-    return `Agendado para ${dia}/${mes}/${ano} às ${hora}:${minuto}`;
+  const renderDataHora = (agendamento) => {
+    if (agendamento.horario && !agendamento.dataAgendamento) {
+      return `Agendado para ${agendamento.data} às ${agendamento.horario}`;
+    }
+
+    if (agendamento.dataAgendamento) {
+      const data = new Date(agendamento.dataAgendamento);
+      return `Agendado para ${String(data.getDate()).padStart(2, "0")}/${String(
+        data.getMonth() + 1
+      ).padStart(2, "0")} às ${String(data.getHours()).padStart(
+        2,
+        "0"
+      )}:${String(data.getMinutes()).padStart(2, "0")}`;
+    }
+    return "Data a definir";
   };
+
+  // Garante que é um array antes de checar length
+  const listaAgendamentos = agendamentos || [];
+
   return (
     <Screen>
-      {/* 4. O <ScrollView> vai DENTRO do <Screen> */}
       <ScrollView
-        // 5. O styles.container (com padding) vai AQUI
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
       >
-        {/* 6. O Header e a lista vão DENTRO do ScrollView */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.menuButton}
@@ -94,41 +84,56 @@ export default function ConsultasScreen({ navigation }) {
             <Feather name="menu" size={28} color="#000" />
           </TouchableOpacity>
           <Text style={styles.titulo}>Meus Agendamentos</Text>
+          <View style={{ width: 28 }} />
         </View>
 
-        {agendamentos.map((agendamento) => {
+        {/* --- CORREÇÃO: Usar a variável segura 'listaAgendamentos' --- */}
+        {listaAgendamentos.length === 0 && (
+          <View style={{ alignItems: "center", marginTop: 50 }}>
+            <Feather name="calendar" size={50} color="#ddd" />
+            <Text style={{ color: "#999", marginTop: 10 }}>
+              Você ainda não tem agendamentos.
+            </Text>
+          </View>
+        )}
+
+        {listaAgendamentos.map((agendamento) => {
           const profissional = profissionaisData.find(
-            (prof) => prof.id === agendamento.professionalId
+            (p) =>
+              p.nome === agendamento.nomeProfissional ||
+              p.id === agendamento.professionalId
           );
 
-          if (!profissional) {
-            return null;
-          }
+          const imagemSource = profissional ? profissional.source : null;
 
           return (
             <TouchableOpacity
               key={agendamento.id}
               style={styles.cardAgendamento}
             >
-              {/* ... (Todo o seu card JSX ... ) */}
               <View style={styles.topRow}>
-                <Image
-                  source={profissional.source}
-                  style={styles.imagemProfissional}
-                />
+                {imagemSource && (
+                  <Image
+                    source={imagemSource}
+                    style={styles.imagemProfissional}
+                  />
+                )}
                 <View style={styles.nomeEStatus}>
                   <Text style={styles.nomeProfissional}>
-                    {profissional.nome}
+                    {agendamento.nomeProfissional || profissional?.nome}
                   </Text>
                   <View style={styles.statusConfirmado}>
                     <Text style={styles.statusText}>Confirmado</Text>
                   </View>
                 </View>
               </View>
+
               <View style={styles.bottomRow}>
                 <Text style={styles.dataAgendamento}>
-                  {formatarData(agendamento.dataAgendamento)}
+                  <Feather name="calendar" size={14} color="#8E8E93" />{" "}
+                  {renderDataHora(agendamento)}
                 </Text>
+
                 <TouchableOpacity
                   style={styles.iconeEditar}
                   onPress={() => handleOpenManageModal(agendamento.id)}
@@ -141,24 +146,21 @@ export default function ConsultasScreen({ navigation }) {
         })}
       </ScrollView>
 
-      {/* 7. Os Modais ficam FORA do ScrollView, mas DENTRO do Screen */}
+      {/* --- MODAIS (MANTIDOS IGUAIS) --- */}
       <Modal
         animationType="fade"
         transparent={true}
         visible={isManageModalVisible}
         onRequestClose={handleCloseManageModal}
       >
-        {/* ... (Seu Modal de Gerenciar) ... */}
         <TouchableOpacity
           style={styles.modalOverlay}
           activeOpacity={1}
           onPressOut={handleCloseManageModal}
         >
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Gerenciamento de Consultas</Text>
-            <Text style={styles.modalSubtitle}>
-              O que você gostaria de fazer?
-            </Text>
+            <Text style={styles.modalTitle}>Gerenciamento</Text>
+            <Text style={styles.modalSubtitle}>O que deseja fazer?</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={[styles.modalButton, styles.cancelButton]}
@@ -183,17 +185,11 @@ export default function ConsultasScreen({ navigation }) {
         visible={isConfirmModalVisible}
         onRequestClose={() => setConfirmModalVisible(false)}
       >
-        {/* ... (Seu Modal de Confirmar) ... */}
         <View style={styles.modalOverlay}>
-          <TouchableOpacity
-            style={styles.modalContent}
-            activeOpacity={1}
-            onPress={() => {}}
-          >
+          <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Tem certeza?</Text>
             <Text style={styles.modalSubtitle}>
-              Esta ação não pode ser desfeita. Deseja mesmo cancelar sua
-              consulta?
+              Deseja mesmo cancelar este agendamento?
             </Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
@@ -209,7 +205,7 @@ export default function ConsultasScreen({ navigation }) {
                 <Text style={styles.buttonText}>Não, voltar</Text>
               </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </Screen>

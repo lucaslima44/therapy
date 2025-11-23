@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,29 +6,49 @@ import {
   StyleSheet,
   Platform,
   StatusBar,
+  Alert,
+  Modal, // <--- 1. Importar Modal
 } from "react-native";
 import { useAgendamento } from "../../../context/AgendamentoContext";
 import { Feather } from "@expo/vector-icons";
 
 export default function PaymentScreen({ route, navigation }) {
-  // Pegando os dados que vieram da tela anterior
   const { agendarHorario } = useAgendamento();
   const { profissional, data, horario, preco } = route.params;
-  // --- NOVA FUNÇÃO ---
-  const handleConfirmarPagamento = () => {
-    // 1. Simula o pagamento... (em um app real, aqui teria o Stripe, etc.)
 
-    // 2. Chama a função do contexto para "sumir" com o horário
+  // --- 2. Estado para controlar a visibilidade do Modal ---
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleConfirmarPagamento = () => {
+    // 1. Chama a função do contexto para salvar o horário
     agendarHorario(profissional.nome, data, horario);
 
-    // 3. Avisa o usuário e o envia para a tela de consultas
-    Alert.alert("Sucesso!", "Seu agendamento foi confirmado.");
-
-    // 4. Navega de volta ao topo e depois para a lista de consultas
-    navigation.popToTop(); // Limpa a pilha de navegação
-    navigation.navigate("Consultas"); // Manda para a tela de "Meus Agendamentos"
+    // 2. Em vez de navegar direto, ABRIMOS O MODAL
+    setModalVisible(true);
   };
-  // --- FIM DA NOVA FUNÇÃO ---
+
+  const fecharModalENavegar = () => {
+    setModalVisible(false);
+
+    // TENTATIVA 1: O padrão (se o nome for exatamente "Consultas")
+    // navigation.navigate("Consultas");
+
+    // TENTATIVA 2 (Mais segura): Voltar para a Home e depois tentar ir para Consultas
+    // Isso ajuda se você estiver "profundo" em telas empilhadas
+    navigation.popToTop();
+
+    // Pequeno delay para garantir que o popToTop terminou antes de trocar de aba
+    setTimeout(() => {
+      // 2. Navegação Aninhada (Deep Linking)
+      navigation.navigate("MainApp", {
+        screen: "MainTabs", // Nome da tela no DrawerNavigator
+        params: {
+          screen: "Consultas", // Nome da tela no BottomTabs
+        },
+      });
+    }, 100);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -41,7 +61,7 @@ export default function PaymentScreen({ route, navigation }) {
         <Text style={styles.headerTitle}>Resumo do Agendamento</Text>
         <View style={{ width: 34 }} />
       </View>
-      {/* --- CONTEÚDO (Tudo movido para cá) --- */}
+
       <View style={styles.content}>
         <Text style={styles.title}>Confirme seus dados</Text>
 
@@ -60,53 +80,69 @@ export default function PaymentScreen({ route, navigation }) {
 
         <TouchableOpacity
           style={styles.payButton}
-          onPress={handleConfirmarPagamento} // Usando sua função criada
+          onPress={handleConfirmarPagamento}
         >
           <Text style={styles.payText}>Confirmar Pagamento</Text>
         </TouchableOpacity>
       </View>
+
+      {/* --- 3. IMPLEMENTAÇÃO DO MODAL --- */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={fecharModalENavegar} // Fecha se apertar botão voltar do Android
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Feather name="check-circle" size={60} color="#28a745" />
+            <Text style={styles.modalTitle}>Sucesso!</Text>
+            <Text style={styles.modalMessage}>
+              Sua consulta com {profissional.nome} foi agendada corretamente.
+            </Text>
+
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={fecharModalENavegar}
+            >
+              <Text style={styles.modalButtonText}>Ver meus Agendamentos</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
   },
-
-  // --- CSS DO HEADER (Simplificado e Alinhado) ---
   header: {
     width: "100%",
     backgroundColor: "#4B0082",
     flexDirection: "row",
-    // Alinha verticalmente tudo no centro da linha
     alignItems: "center",
-    // Separa: Botão <--- Espaço ---> Texto <--- Espaço ---> Fantasma
     justifyContent: "space-between",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 20 : 50,
-    paddingBottom: 20, // Dá um respiro embaixo
+    paddingBottom: 20,
     paddingHorizontal: 20,
   },
-
   backButton: {
-    padding: 5, // 24px (icone) + 10px (padding total) = 34px de largura visual
+    padding: 5,
   },
-
   headerTitle: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    flex: 1, // Ocupa o espaço disponível no meio
-    // Removemos position absolute, bottom, etc. O Flexbox cuida disso agora.
+    flex: 1,
   },
-
-  // --- CSS DO CONTEÚDO ---
   content: {
-    flex: 1, // Ocupa o resto da tela
-    padding: 20, // AQUI ESTÁ O PADDING QUE VOCÊ QUERIA (LATERAIS E TOPO)
+    flex: 1,
+    padding: 20,
   },
-
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -115,23 +151,19 @@ const styles = StyleSheet.create({
     color: "#333",
     marginTop: 10,
   },
-
   card: {
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
     elevation: 3,
-    // Sombra para iOS
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-
   label: { color: "#666", marginTop: 10 },
   value: { fontSize: 18, fontWeight: "bold", color: "#333" },
   total: { fontSize: 22, fontWeight: "bold", color: "#4B0082", marginTop: 5 },
-
   payButton: {
     marginTop: 30,
     backgroundColor: "#28a745",
@@ -140,4 +172,50 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   payText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+
+  // --- ESTILOS DO MODAL ---
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)", // Fundo escuro transparente
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 30,
+    alignItems: "center",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#333",
+    marginTop: 15,
+    marginBottom: 10,
+  },
+  modalMessage: {
+    fontSize: 16,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 25,
+  },
+  modalButton: {
+    backgroundColor: "#4B0082",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    width: "100%",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });

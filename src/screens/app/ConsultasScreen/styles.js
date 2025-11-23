@@ -4,25 +4,36 @@ import { colors } from "../../../styles/colors";
 export default StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 20,
-    // backgroundColor: "#f8f8f8",
+    // Padding Padrão da Home (Horizontal 20, Topo 20)
+    paddingHorizontal: 20,
+    paddingTop: 20,
     backgroundColor: colors.backgroundBege,
   },
+
+  // --- HEADER IDÊNTICO AO DA HOME ---
   header: {
     flexDirection: "row",
-    justifyContent: "center",
-    paddingVertical: 20,
+    alignItems: "center",
+    justifyContent: "space-between", // Espalha Menu - Titulo - Fantasma
+    marginBottom: 20, // Respiro padrão
+    // Removido paddingVertical e marginTop manual
   },
+
   menuButton: {
-    left: 0,
-    position: "absolute",
+    // Removido position absolute
+    padding: 5, // Área de toque
   },
+
   titulo: {
-    fontSize: 18,
+    fontSize: 20, // Tamanho padrão
     fontWeight: "bold",
-    marginBottom: 20,
     color: "#333",
+    textAlign: "center",
+    // Se a Home usa Marcellus, descomente abaixo:
+    // fontFamily: "Marcellus-Regular", 
   },
+
+  // --- ESTILOS DOS CARDS E MODAIS (MANTIDOS IGUAIS) ---
   cardAgendamento: {
     backgroundColor: "#fff",
     borderRadius: 10,
@@ -35,12 +46,8 @@ export default StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
       },
-      android: {
-        elevation: 5,
-      },
-      web: {
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-      },
+      android: { elevation: 5 },
+      web: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)" },
     }),
   },
   topRow: {
@@ -51,30 +58,32 @@ export default StyleSheet.create({
   imagemProfissional: {
     width: 60,
     height: 60,
-    borderRadius: 30, // Metade da largura/altura para um círculo
+    borderRadius: 30,
     marginRight: 15,
-    backgroundColor: "#e0e0e0", // Fundo para imagens que podem não carregar
+    backgroundColor: "#e0e0e0",
   },
   nomeEStatus: {
-    flex: 1, // Faz com que o nome e status ocupem o espaço restante
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   nomeProfissional: {
-    fontSize: 18,
+    fontSize: 16, // Leve ajuste
     fontWeight: "bold",
     color: "#333",
+    flex: 1,
+    marginRight: 10,
   },
   statusConfirmado: {
-    backgroundColor: "#aed581", // Verde suave
+    backgroundColor: "#aed581",
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 20,
   },
   statusText: {
-    color: "#33691e", // Verde mais escuro para o texto
-    fontSize: 12,
+    color: "#33691e",
+    fontSize: 11,
     fontWeight: "bold",
   },
   bottomRow: {
@@ -82,14 +91,20 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 5,
+    borderTopWidth: 1,
+    borderTopColor: "#f0f0f0",
+    paddingTop: 10,
   },
   dataAgendamento: {
-    fontSize: 15,
+    fontSize: 14,
     color: "#555",
+    fontWeight: "500",
   },
   iconeEditar: {
-    padding: 5, // Aumenta a área de toque do ícone
+    padding: 5,
   },
+
+  // --- MODAIS ---
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -102,14 +117,10 @@ export default StyleSheet.create({
     borderRadius: 12,
     padding: 20,
     alignItems: "center",
+    elevation: 5,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
   },
   modalTitle: {
     fontSize: 20,
@@ -123,9 +134,7 @@ export default StyleSheet.create({
     textAlign: "center",
     marginBottom: 25,
   },
-  buttonContainer: {
-    width: "100%",
-  },
+  buttonContainer: { width: "100%" },
   modalButton: {
     width: "100%",
     paddingVertical: 12,
@@ -134,15 +143,14 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   cancelButton: {
-    backgroundColor: "#DC3545",
+    backgroundColor: "#FFF",
     borderWidth: 1,
-    borderColor: colors.DANGER,
+    borderColor: "#DC3545",
   },
-  keepButton: {
-    backgroundColor: "#4F49EA",
-  },
+  confirmDeleteButton: { backgroundColor: "#DC3545" },
+  keepButton: { backgroundColor: "#4F49EA" },
   buttonTextDanger: {
-    color: "#FFF",
+    color: "#DC3545",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -150,16 +158,5 @@ export default StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-
-  // --- ADICIONE ESTES ESTILOS NOVOS ---
-
-  confirmDeleteButton: {
-    backgroundColor: "#DC3545", // Vermelho
   },
 });

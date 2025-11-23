@@ -4,7 +4,7 @@
     "slug": "therapy",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/iconBranco.png",
+    "icon": "./assets/logoColorida.webp",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -17,22 +17,27 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logoColorida.webp",
         "backgroundColor": "#ffffff"
       },
-
       "edgeToEdgeEnabled": false,
       "package": "com.luucasalvess.therapy"
     },
-
     "backgroundColor": "#000000",
-    "barStyle": "light-content"
+    "barStyle": "light-content",
+    "extra": {
+      "eas": {
+        "projectId": "6862b7ce-c95a-4aa9-8693-29081c4481c1"
+      }
+    }
   },
   "web": {
-    "favicon": "./assets/faviconBranco.png",
+    "favicon": "./assets/logoColorida.webp",
     "lang": "pt-BR"
   },
-  "plugins": ["expo-font"],
+  "plugins": [
+    "expo-font"
+  ],
   "extra": {
     "eas": {
       "projectId": "6862b7ce-c95a-4aa9-8693-29081c4481c1"

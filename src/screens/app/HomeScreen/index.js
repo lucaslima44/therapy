@@ -2,232 +2,239 @@ import React, { useRef } from "react";
 import {
   View,
   Text,
-  ScrollView, // <-- O ScrollView AINDA é necessário!
+  ScrollView,
   TouchableOpacity,
   Image,
   Dimensions,
   FlatList,
 } from "react-native";
-import Screen from "../../../components/Screen"; // Import 1
-import styles from "./styles";
-import {
-  Feather,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import Screen from "../../../components/Screen";
+import styles from "./styles"; // O arquivo novo que criamos
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import Carousel from "react-native-reanimated-carousel";
 import { profissionaisData } from "./../../../data/profissionaisData";
 import { agendamentosData } from "./../../../data/agendamentosData";
 
 const { width: screenWidth } = Dimensions.get("window");
+
 const carouselData = [
   { id: "1", source: require("./../../../../assets/wellhub.webp") },
   { id: "2", source: require("./../../../../assets/italo.webp") },
   { id: "3", source: require("./../../../../assets/hospitalSaoPaulo.webp") },
 ];
-// --------------------------------------------------
 
 export default function HomeScreen({ navigation }) {
-  const carouselRef = useRef(null); //para controlar o carrossel
+  const carouselRef = useRef(null);
+
+  // Pega apenas os 4 primeiros para a lista horizontal
   const popularesData = profissionaisData.slice(0, 4);
 
+  // Lógica do Agendamento (Pega o primeiro da lista se existir)
   const agendamento = agendamentosData[0];
   const profissional = agendamento
     ? profissionaisData.find((prof) => prof.id === agendamento.professionalId)
     : null;
 
-  // Função para formatar a data (copiada da ConsultasScreen)
+  // --- FUNÇÕES AUXILIARES ---
+
   const formatarData = (dataISO) => {
-    if (!dataISO) return ""; // Proteção caso dataISO seja nulo
+    if (!dataISO) return "";
     const data = new Date(dataISO);
     const dia = String(data.getDate()).padStart(2, "0");
     const mes = String(data.getMonth() + 1).padStart(2, "0");
-    const ano = String(data.getFullYear()).slice(-2);
     const hora = String(data.getHours()).padStart(2, "0");
     const minuto = String(data.getMinutes()).padStart(2, "0");
-    return `Agendado para ${dia}/${mes}/${ano} às ${hora}:${minuto}`;
+    return `${dia}/${mes} às ${hora}:${minuto}`;
   };
 
-  // --- CONTEÚDO DE VOLTA AQUI ---
+  // --- RENDER ITEMS (COMPONENTES VISUAIS) ---
+
   const renderCarouselItem = ({ item }) => (
     <View style={styles.carouselItemContainer}>
       <Image
         style={styles.parceirosImage}
         source={item.source}
-        resizeMode="contain"
+        // ResizeMode "cover" é melhor para banners, "contain" se for logo
+        resizeMode="cover"
       />
     </View>
   );
-  // ------------------------------------------------------------
 
-  // --- CONTEÚDO DE VOLTA AQUI ---
-  const renderProfissionalPopularesItem = ({ item }) => (
+  const renderProfissionalCard = ({ item }) => (
     <TouchableOpacity
-      style={styles.profissionalPopularesItemContainer}
+      style={styles.cardProfissionalPop} // Nome atualizado
       onPress={() =>
         navigation.navigate("ProfessionalDetailsScreen", { nome: item.nome })
       }
     >
       <Image
-        style={styles.profissionalPopularesImage}
+        style={styles.cardProfissionalImage} // Nome atualizado
         source={item.source}
-        resizeMode="contain"
+        resizeMode="cover"
       />
-      <Text style={styles.profissionalPopularesTitle}>{item.nome}</Text>
-      <Text style={styles.profissionalPopularesArea}>{item.area}</Text>
+
+      {/* Nomes de estilos atualizados conforme o styles.js novo */}
+      <Text style={styles.cardProfissionalName} numberOfLines={1}>
+        {item.nome}
+      </Text>
+
+      <Text style={styles.cardProfissionalArea} numberOfLines={1}>
+        {item.area}
+      </Text>
+
       <Text
-        style={styles.profissionalPopularesDescricao}
+        style={styles.cardProfissionalDesc}
         numberOfLines={2}
         ellipsizeMode="tail"
       >
-        {item.descricao.substring(0, 30)}...
+        {item.descricao}
       </Text>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("ProfessionalDetailsScreen", { nome: item.nome })
-        }
-      >
-        <Text style={styles.profissionalPopularesVerMais}>Ver mais</Text>
-      </TouchableOpacity>
+
+      <Text style={styles.cardVerMais}>Ver mais</Text>
     </TouchableOpacity>
   );
 
+  // --- ESTRUTURA DA TELA ---
   return (
     <Screen>
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
       >
-        {/* --- CONTEÚDO DE VOLTA AQUI --- */}
+        {/* 1. HEADER (MENU + LOGO) */}
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => navigation.openDrawer()}
             style={styles.menuButton}
           >
-            <Feather name="menu" size={28} color="#000" />
+            <Feather name="menu" size={28} color="#333" />
           </TouchableOpacity>
 
           <View style={styles.logoContainer}>
             <Image
-              source={require("./../../../../assets/Group (1).png")}
+              source={require("./../../../../assets/logoColorida.webp")}
               style={styles.logo}
               resizeMode="contain"
             />
             <Text style={styles.logoText}>Therapy Room</Text>
           </View>
+
+          {/* View vazia para equilibrar o layout (Menu esquerda - Logo centro - Nada direita) */}
+          <View style={{ width: 28 }} />
         </View>
 
+        {/* 2. SAUDAÇÃO */}
         <Text style={styles.title}>Olá,</Text>
         <Text style={styles.subtitle}>Cliente</Text>
 
-        {/* --- CONTEÚDO DE VOLTA AQUI --- */}
+        {/* 3. CARROSSEL DE PARCEIROS */}
         <View style={styles.carouselContainer}>
           <TouchableOpacity onPress={() => navigation.navigate("Parceiros")}>
             <Carousel
               ref={carouselRef}
               loop
-              width={screenWidth * 0.9}
-              height={150}
+              width={screenWidth * 0.9} // Deve bater com o itemContainer
+              height={120}
               autoPlay={true}
               autoPlayInterval={5000}
               data={carouselData}
               renderItem={renderCarouselItem}
-              style={styles.carousel}
+              scrollAnimationDuration={1000}
             />
           </TouchableOpacity>
 
-          {/* --- Seta Esquerda --- */}
+          {/* Setas de Navegação */}
           <TouchableOpacity
             style={[styles.arrowButton, styles.arrowLeft]}
-            onPress={() => carouselRef.current?.prev()} // Manda o carrossel voltar
+            onPress={() => carouselRef.current?.prev()}
           >
             <Feather name="chevron-left" size={24} color="#000" />
           </TouchableOpacity>
 
-          {/* --- Seta Direita --- */}
           <TouchableOpacity
             style={[styles.arrowButton, styles.arrowRight]}
-            onPress={() => carouselRef.current?.next()} // Manda o carrossel avançar
+            onPress={() => carouselRef.current?.next()}
           >
             <Feather name="chevron-right" size={24} color="#000" />
           </TouchableOpacity>
         </View>
 
-        {/* --- CONTEÚDO DE VOLTA AQUI --- */}
-        <View style={styles.profissionaisPopularesContainer}>
-          <View style={styles.profissionaisPopularesHeader}>
-            <Text style={styles.profissionaisPopularesTitle}>
-              Profissionais Populares
-            </Text>
+        {/* 4. SEÇÃO: PROFISSIONAIS POPULARES */}
+        <View style={{ marginTop: 10 }}>
+          {/* Cabeçalho da Seção */}
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Profissionais Populares</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("ListedProfessionals")}
             >
-              <Text style={styles.profissionaisPopularesSeeAll}>Ver tudo</Text>
+              <Text style={styles.seeAllButton}>Ver tudo</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={styles.profissionaisPopularesList}>
+          {/* Botões de Filtro Rápido */}
+          <View style={styles.filterListContainer}>
             <TouchableOpacity
-              style={styles.buttonFilterProfissionais}
+              style={styles.buttonFilter}
               onPress={() => navigation.navigate("ListedProfessionals")}
             >
-              <Text style={styles.buttonFilterProfissionaisText}>Todos</Text>
+              <Text style={styles.buttonFilterText}>Todos</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
-              style={styles.buttonFilterProfissionais}
+              style={styles.buttonFilter}
               onPress={() => navigation.navigate("PrimeiraArea")}
             >
-              <Text style={styles.buttonFilterProfissionaisText}>
-                Psicologia
-              </Text>
+              <Text style={styles.buttonFilterText}>Psicologia</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
-              style={styles.buttonFilterProfissionais}
+              style={styles.buttonFilter}
               onPress={() => navigation.navigate("SegundaArea")}
             >
-              <Text style={styles.buttonFilterProfissionaisText}>
-                Psicoterapia
-              </Text>
+              <Text style={styles.buttonFilterText}>Psicoterapia</Text>
             </TouchableOpacity>
           </View>
 
+          {/* Lista Horizontal de Cards */}
           <FlatList
             data={popularesData}
-            renderItem={renderProfissionalPopularesItem}
+            renderItem={renderProfissionalCard}
             keyExtractor={(item) => item.id.toString()}
             horizontal
             showsHorizontalScrollIndicator={false}
-            style={styles.profissionaisPopularesList}
+            contentContainerStyle={{ marginTop: 15, paddingRight: 20 }}
           />
         </View>
 
-        {/* --- CONTEÚDO DE VOLTA AQUI --- */}
+        {/* 5. CARD DE PRÓXIMO AGENDAMENTO */}
         {agendamento && profissional && (
           <TouchableOpacity
             style={styles.cardAgendamento}
             onPress={() => navigation.navigate("Consultas")}
           >
-            <View style={styles.topRow}>
-              {/* Imagem do profissional */}
+            {/* Topo do Card (Avatar + Nome + Status) */}
+            <View style={styles.agendamentoHeader}>
               <Image
                 source={profissional.source}
-                style={styles.imagemProfissional}
+                style={styles.agendamentoAvatar}
               />
-              <View style={styles.nomeEStatus}>
-                <Text style={styles.nomeProfissional}>{profissional.nome}</Text>
-                {/* Botão Confirmado */}
-                <View style={styles.statusConfirmado}>
+              <View style={styles.agendamentoInfo}>
+                <Text style={styles.agendamentoNome} numberOfLines={1}>
+                  {profissional.nome}
+                </Text>
+                <View style={styles.statusBadge}>
                   <Text style={styles.statusText}>Confirmado</Text>
                 </View>
               </View>
             </View>
 
-            <View style={styles.bottomRow}>
-              <Text style={styles.dataAgendamento}>
+            {/* Rodapé do Card (Data + Ícone) */}
+            <View style={styles.agendamentoFooter}>
+              <Text style={styles.agendamentoData}>
+                <Feather name="calendar" size={14} color="#8E8E93" />
                 {formatarData(agendamento.dataAgendamento)}
               </Text>
-              {/* Ícone de Lápis (Editar) */}
-              <TouchableOpacity style={styles.iconeEditar}>
+              <TouchableOpacity style={styles.iconeAcao}>
                 <MaterialIcons name="edit" size={20} color="#555" />
               </TouchableOpacity>
             </View>

@@ -9,45 +9,35 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { AntDesign, Feather, FontAwesome5, Entypo } from "@expo/vector-icons";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-// Importamos o seu componente de Modal (certifique-se que o caminho está certo)
 import HumorModal from "./../HumorModal";
-
-// Importamos dados (apenas userData e recentData, pois o moodData agora será dinâmico)
 import { userData, recentData } from "../../../data/mockProfileData";
 
-// --- CONFIGURAÇÃO DOS HUMORES (MAPA) ---
-// Isso liga a string do modal ("feliz") ao Ícone e Cor do perfil
+// --- MAPA DE HUMORES ---
 const MOOD_MAP = {
   feliz: { lib: AntDesign, icon: "smile", color: "#7ED957" },
-  chorando: { lib: FontAwesome5, icon: "sad-cry", color: "#6CCDFF" }, // Azul claro
+  chorando: { lib: FontAwesome5, icon: "sad-cry", color: "#6CCDFF" },
   raiva: { lib: FontAwesome5, icon: "angry", color: "#FF4444" },
-  triste: { lib: Entypo, icon: "emoji-sad", color: "#C5A8E0" }, // Roxo
+  triste: { lib: Entypo, icon: "emoji-sad", color: "#C5A8E0" },
   surpreso: { lib: FontAwesome5, icon: "surprise", color: "#FED93F" },
-  default: { lib: AntDesign, icon: "plus", color: "#E0E0E0" }, // Estado vazio
+  default: { lib: AntDesign, icon: "plus", color: "#E0E0E0" },
 };
 
 // --- COMPONENTES AUXILIARES ---
 
 const MoodDayItem = React.memo(({ item, onPress }) => {
-  // Descobre qual configuração usar baseada no humor salvo (ou default se for null)
   const currentMood = item.mood ? MOOD_MAP[item.mood] : MOOD_MAP["default"];
   const IconLib = currentMood.lib;
 
   return (
     <TouchableOpacity style={styles.moodDay} onPress={() => onPress(item)}>
-      <Text style={styles.dayLabel}>{item.day}</Text>
-      <View
-        style={[styles.moodValueBox, { backgroundColor: currentMood.color }]}
-      >
-        {/* Renderiza o ícone dinamicamente */}
+      <View style={[styles.moodValueBox, { backgroundColor: currentMood.color }]}>
         <IconLib
           name={currentMood.icon}
-          size={20}
-          color={item.mood ? "#000" : "#888"}
+          size={24}
+          color={item.mood ? "#fff" : "#888"} // Ícone branco se selecionado
         />
       </View>
+      <Text style={styles.dayLabel}>{item.day}</Text>
     </TouchableOpacity>
   );
 });
@@ -58,12 +48,10 @@ const RecentCardItem = React.memo(({ item }) => (
   </View>
 ));
 
-// --- COMPONENTE PRINCIPAL ---
+// --- TELA PRINCIPAL ---
 export default function ProfileScreen({ navigation }) {
-  const insets = useSafeAreaInsets();
-
-  // 1. ESTADO DOS DIAS (Inicializa 7 dias vazios)
-  // Como é front-end puro, ao recarregar o app isso reseta.
+  
+  // Estados
   const [weeklyMoods, setWeeklyMoods] = useState([
     { id: 1, day: "Seg", mood: null },
     { id: 2, day: "Ter", mood: null },
@@ -74,26 +62,21 @@ export default function ProfileScreen({ navigation }) {
     { id: 7, day: "Dom", mood: null },
   ]);
 
-  // 2. ESTADOS DO MODAL
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDayId, setSelectedDayId] = useState(null);
 
-  // Ação ao clicar na bolinha do dia
   const handleOpenModal = (item) => {
     setSelectedDayId(item.id);
     setModalVisible(true);
   };
 
-  // Ação ao escolher o humor no Modal
   const handleSelectMood = (moodKey) => {
-    // Atualiza apenas o dia que foi clicado
     const updatedWeek = weeklyMoods.map((dayItem) => {
       if (dayItem.id === selectedDayId) {
         return { ...dayItem, mood: moodKey };
       }
       return dayItem;
     });
-
     setWeeklyMoods(updatedWeek);
     setModalVisible(false);
     setSelectedDayId(null);
@@ -101,72 +84,80 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* ÁREA SUPERIOR */}
-      <View style={[styles.headerContainer, { paddingTop: insets.top + 10 }]}>
-        <View style={styles.topBar}>
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <Feather name="menu" size={28} color="#333" />
-          </TouchableOpacity>
-          <Text style={styles.clientName}>{userData.name}</Text>
-          <Image source={userData.avatar} style={styles.profileAvatar} />
-        </View>
+      
+      {/* --- HEADER PADRÃO --- */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => navigation.openDrawer()}
+        >
+          <Feather name="menu" size={28} color="#333" />
+        </TouchableOpacity>
+        
+        <Text style={styles.headerTitle}>Meu Perfil</Text>
+        
+        {/* View fantasma */}
+        <View style={{ width: 28 }} />
       </View>
 
-      {/* ÁREA INFERIOR */}
       <ScrollView
-        style={styles.contentContainer}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Stats */}
-        <View style={styles.statsCard}>
+        
+        {/* --- PERFIL HERO (Avatar + Nome) --- */}
+        <View style={styles.profileHero}>
+          <Image source={userData.avatar} style={styles.profileAvatar} />
+          <Text style={styles.clientName}>{userData.name}</Text>
+          <Text style={styles.clientEmail}>Cliente Premium</Text>
+        </View>
+
+        {/* --- STATS CARD (Branco e Limpo) --- */}
+        <View style={styles.statsContainer}>
           <View style={styles.statItem}>
-            <AntDesign
-              name="hourglass"
-              size={28}
-              color="#FFF"
-              style={styles.statIcon}
-            />
             <Text style={styles.statNumber}>02</Text>
-            <Text style={styles.statLabel}>Consultas Agendadas</Text>
+            <Text style={styles.statLabel}>Agendadas</Text>
           </View>
+          
+          {/* Divisor Vertical */}
+          <View style={styles.verticalDivider} />
+          
           <View style={styles.statItem}>
-            <AntDesign
-              name="check-circle"
-              size={28}
-              color="#FFF"
-              style={styles.statIcon}
-            />
             <Text style={styles.statNumber}>15</Text>
-            <Text style={styles.statLabel}>Consultas Realizadas</Text>
+            <Text style={styles.statLabel}>Realizadas</Text>
           </View>
         </View>
 
-        {/* Humor semanal INTERATIVO */}
-        <Text style={styles.sectionTitle}>Humor semanal</Text>
-        <FlatList
-          data={weeklyMoods} // Usamos o estado local agora
-          renderItem={({ item }) => (
-            <MoodDayItem item={item} onPress={handleOpenModal} />
-          )}
-          keyExtractor={(item) => item.id.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.moodListContent}
-        />
+        {/* --- HUMOR SEMANAL --- */}
+        <Text style={styles.sectionTitle}>Humor Semanal</Text>
+        <View style={styles.moodSection}>
+          <FlatList
+            data={weeklyMoods}
+            renderItem={({ item }) => (
+              <MoodDayItem item={item} onPress={handleOpenModal} />
+            )}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 10 }}
+          />
+        </View>
 
-        {/* Mais recentes */}
-        <Text style={styles.recentTitle}>Mais recentes</Text>
+        {/* --- MAIS RECENTES --- */}
+        {/* <Text style={styles.sectionTitle}>Mais Recentes</Text>
         <FlatList
           data={recentData}
           renderItem={({ item }) => <RecentCardItem item={item} />}
           keyExtractor={(item) => item.id}
-          horizontal={true}
+          horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.recentListContent}
-        />
+        /> */}
+
+        <View style={{ height: 40 }} />
       </ScrollView>
 
-      {/* MODAL DE HUMOR */}
+      {/* --- MODAL --- */}
       <HumorModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}

@@ -1,72 +1,114 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 
 export default StyleSheet.create({
   container: {
-    flexGrow: 1,
-    padding: 20,
-    backgroundColor: "#F5F5DC",
+    flex: 1,
+    backgroundColor: "#f8f8f8",
   },
-  
-  // --- Cabeçalho ---
+
+  // --- HEADER (Estilo Roxo Solicitado) ---
   header: {
-    paddingTop: 50, // Ajuste para status bar
-    paddingBottom: 15,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between", // Para a view "fantasma" funcionar
+    width: "100%",
+    height: Platform.OS === "android" ? 80 : 100, // Ajuste leve para iOS
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
-  },
-  backButton: {
-    // padding: 5, // Aumenta área de clique
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  subtitle: {
-    fontSize: 18,
-    color: "#555",
-    marginTop: 10,
-    lineHeight: 26,
-  },
-  button: {
-    marginTop: 30,
-    backgroundColor: "#B8D8BA",
-    paddingVertical: 12,
-    borderRadius: 10,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 40,
+    paddingHorizontal: 20,
+    flexDirection: "row",
     alignItems: "center",
+    // Removemos justifyContent space-between pois estamos usando absolute no título
+  },
+
+  backButton: {
+    zIndex: 10, // Importante para ficar clicável acima do título
+    padding: 5,
+  },
+
+  headerTitle: {
+    color: "#333",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    position: "absolute", // Centraliza ignorando a seta
+    left: 0,
+    right: 0,
+    bottom: 20, // Alinha verticalmente com a seta
+    zIndex: 1, // Fica abaixo do botão de voltar
+  },
+
+  // --- ÁREA DE ROLAGEM ---
+  scrollContent: {
+    padding: 20, // O padding de 20px nas laterais do conteúdo
+    paddingBottom: 50,
+  },
+
+  videoContainer: {
+    width: "100%",
+    borderRadius: 12,
+    overflow: "hidden",
+    marginBottom: 20,
+    backgroundColor: "#000", // Fundo preto enquanto carrega
+  },
+
+  // Seus estilos de texto antigos
+  subtitle: {
+    fontSize: 16, // Reduzi levemente de 18 para 16 para leitura longa (padrão mobile)
+    color: "#555",
+    marginBottom: 15, // Espaço entre parágrafos
+    lineHeight: 24,
+    textAlign: "justify", // Opcional: deixa o texto quadradinho
+  },
+
+  // --- NOVO CARD DE PLAYLIST ---
+  playlistCard: {
+    marginTop: 30,
+    backgroundColor: "#1F5656", // Um verde escuro para combinar com o tema Yoga
+    borderRadius: 12,
+    padding: 15,
+    flexDirection: "row",
+    alignItems: "center",
+
+    // Sombras
     ...Platform.select({
       ios: {
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
       },
       android: {
-        elevation: 5,
+        elevation: 4,
       },
       web: {
-        // Esta é a correção para a web
-        boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+        boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
       },
     }),
   },
-  buttonText: {
-    fontSize: 18,
-    color: "#000000ff",
-    fontWeight: "600",
+
+  iconContainer: {
+    width: 50,
+    height: 50,
+    backgroundColor: "rgba(255,255,255,0.2)", // Círculo translúcido
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 15,
   },
 
-  image: {
-    width: "100%",
-    height: 220,
-    resizeMode: "contain",
-    marginTop: 30,
-    marginBottom: 40,
-    alignSelf: "center",
+  cardTextContainer: {
+    flex: 1, // Ocupa o espaço do meio
+  },
+
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 4,
+  },
+
+  cardDescription: {
+    fontSize: 12,
+    color: "#E0E0E0",
   },
 });

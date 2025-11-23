@@ -1,159 +1,159 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
+    // Padding padrão da tela
+    paddingHorizontal: 20,
+    paddingTop: 20,
     backgroundColor: colors.backgroundBege,
   },
 
-  // --- Header (Top Section) ---
-  headerContainer: {
-    backgroundColor: "#FFFFFF",
-  },
-  topBar: {
+  // --- HEADER PADRÃO ---
+  header: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
+    justifyContent: "space-between",
+    marginBottom: 20,
+    marginTop: 10,
   },
-  clientName: {
+  menuButton: {
+    padding: 5,
+  },
+  headerTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333333",
-  },
-  profileAvatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    color: "#333",
+    textAlign: "center",
   },
 
-  // --- Scrollable Content (Bottom Section) ---
-  contentContainer: {
-    backgroundColor: "#4F49EA",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    padding: 20,
+  // --- SCROLL CONTENT ---
+  scrollContent: {
     paddingBottom: 40,
   },
 
-  // --- Stats Section ---
-  statsCard: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 20,
-    marginBottom: 20,
-  },
-  statItem: {
+  // --- PERFIL HERO (Avatar) ---
+  profileHero: {
     alignItems: "center",
-    flex: 1,
+    marginBottom: 25,
   },
-  statIcon: {
-    fontSize: 28,
-    marginBottom: 8,
-    color: "#FFFFFF",
+  profileAvatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50, // Círculo perfeito
+    borderWidth: 3,
+    borderColor: "#fff", // Borda branca para destaque
+    marginBottom: 10,
   },
-  statNumber: {
-    fontSize: 32,
+  clientName: {
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#FFFFFF",
-    marginBottom: 5,
+    color: "#333",
   },
-  statLabel: {
-    fontSize: 13,
-    color: "#FFFFFF",
-    textAlign: "center",
+  clientEmail: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 2,
   },
 
-  // --- Mood Section ---
-  sectionTitle: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: "#FFFFFF",
-    textAlign: "center",
-    marginBottom: 15,
-    marginTop: 10,
-  },
-  moodListContent: {
+  // --- STATS CARD ---
+  statsContainer: {
     flexDirection: "row",
-    gap: 8,
-    marginBottom: 25,
-    paddingHorizontal: 5,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    paddingVertical: 20,
+    marginBottom: 30,
+    // Sombra suave
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+      },
+      android: { elevation: 3 },
+    }),
+  },
+  statItem: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  statNumber: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#1F5656", // Verde escuro da marca
+  },
+  statLabel: {
+    fontSize: 12,
+    color: "#888",
+    marginTop: 4,
+    textTransform: "uppercase",
+    fontWeight: "600",
+  },
+  verticalDivider: {
+    width: 1,
+    height: "80%",
+    backgroundColor: "#EEE",
+    alignSelf: "center",
+  },
+
+  // --- SEÇÕES ---
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 15,
+    marginLeft: 5,
+  },
+
+  // --- HUMOR ---
+  moodSection: {
+    marginBottom: 30,
   },
   moodDay: {
     alignItems: "center",
-  },
-  dayLabel: {
-    fontSize: 11,
-    color: "#FFFFFF",
-    marginBottom: 8,
-    fontWeight: "500",
+    marginRight: 12,
   },
   moodValueBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 6,
+    width: 50,
+    height: 50,
+    borderRadius: 25, // Redondo
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 8,
+    // Sombra no ícone
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+      },
+      android: { elevation: 2 },
+    }),
   },
-  moodValue: {
-    color: "#000",
-    fontWeight: "bold",
-    fontSize: 16,
+  dayLabel: {
+    fontSize: 12,
+    color: "#555",
+    fontWeight: "500",
   },
 
-  // --- 'Recent' Section ---
-  recentTitle: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: "#FFFFFF",
-    marginBottom: 15,
-  },
+  // --- RECENTES ---
   recentListContent: {
-    gap: 16,
-    paddingHorizontal: 5,
+    paddingRight: 20,
   },
   recentCard: {
     width: 160,
-    height: 140,
-    borderRadius: 20,
+    height: 120,
+    borderRadius: 12,
     overflow: "hidden",
-    backgroundColor: "#E0E0E0",
+    marginRight: 15,
+    backgroundColor: "#eee",
   },
   recentImage: {
     width: "100%",
     height: "100%",
     resizeMode: "cover",
   },
-  moodListContent: {
-    flexDirection: "row",
-    gap: 10, // Aumentei um pouco o gap para ficar bonito
-    marginBottom: 25,
-    paddingHorizontal: 5,
-  },
-  moodDay: {
-    alignItems: "center",
-  },
-  dayLabel: {
-    fontSize: 12,
-    color: "#FFFFFF",
-    marginBottom: 6,
-    fontWeight: "500",
-    fontFamily: "Inter", // Se tiver a fonte
-  },
-  moodValueBox: {
-    width: 45, // Um pouco maior para caber o icone confortavelmente
-    height: 45,
-    borderRadius: 12, // Bordas um pouco mais arredondadas
-    justifyContent: "center",
-    alignItems: "center",
-    // Sombra suave
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  // moodValue não é mais necessário se só usar ícones, 
-  // mas se quiser colocar texto dentro, mantenha.
 });

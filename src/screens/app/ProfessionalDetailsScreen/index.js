@@ -99,6 +99,7 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.data}
+          contentContainerStyle={{ paddingHorizontal: 15, paddingBottom: 10 }}
           renderItem={({ item }) => {
             const isSelected = dataSelecionada?.data === item.data;
             return (
