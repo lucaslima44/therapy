@@ -9,64 +9,157 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { gradientProps } from "./../../../styles/colors";
 import styles from "./styles";
-
-// --- CORREÇÃO AQUI: Importe o Ionicons que estava faltando ---
 import { Feather, MaterialIcons, Ionicons } from "@expo/vector-icons";
-// import { ArrowLeft } from "../../components/ArrowLeft"; // Você importou mas não usou, pode apagar ou usar
 
-// --- ADICIONADO DE VOLTA: O componente Header estava faltando ---
-const Header = ({ navigation }) => (
-  <View style={styles.headerContainer}>
-    <TouchableOpacity
-      onPress={() => navigation.goBack()}
-      style={styles.backButton}
-    >
-      <Feather name="arrow-left" size={28} color="white" />
-    </TouchableOpacity>
+// --- HEADER ---
+const Header = ({ navigation }) => {
+  const canGoBack = navigation.canGoBack();
 
-    <View style={styles.logoContainer}>
-      <Image
-        source={require("./../../../../assets/logoB.webp")}
-        style={styles.logo}
-        resizeMode="contain"
-      />
-      <Text style={styles.logoText}>Therapy room</Text>
+  return (
+    <View style={styles.headerContainer}>
+      {canGoBack ? (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <Feather name="arrow-left" size={28} color="white" />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.backButton} />
+      )}
+
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("./../../../../assets/logoB.webp")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.logoText}>Therapy room</Text>
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text style={styles.mainTitle}>Prossiga e entre na sua conta</Text>
+        <Text style={styles.subTitle}>
+          A melhor experiência de gerenciamento
+        </Text>
+      </View>
     </View>
+  );
+};
 
-    <View style={styles.titleContainer}>
-      {/* Você pode até fazer este texto mudar junto com o 'activeTab' se quiser */}
-      <Text style={styles.mainTitle}>Prossiga e entre na sua conta</Text>
-      <Text style={styles.subTitle}>A melhor experiência de gerenciamento</Text>
-    </View>
-  </View>
-);
-
-// --- Componente Limpo: Formulário ---
-// (Este é o seu código, agora com o Ionicons funcionando)
+// --- FORM BODY (CORRIGIDO) ---
 const FormBody = ({ navigation }) => {
-  // Estado para controlar o toggle (Login ou Cadastrar)
   const [activeTab, setActiveTab] = useState("Login");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  const handleEntrarPress = () => {
-    // simulação simples de login bem-sucedido
-    navigation.replace("MainApp");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Bloqueio Web
+  const handleWebContextMenu = (e) => {
+    if (Platform.OS === "web") {
+      e.preventDefault();
+    }
+  };
+
+  const noSelectStyle = Platform.OS === "web" ? { userSelect: "none" } : {};
+
+  const handleAuthAction = async () => {
+    // 1. Limpa erros
+    setErrorMessage(null);
+
+    // --- REMOVI O BLOCO IF(RESPONSE.OK) QUE ESTAVA AQUI ERRADO ---
+
+    // 2. Validações
+    if (!email || !password) {
+      setErrorMessage("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    if (activeTab === "Cadastrar") {
+      if (!name) {
+        setErrorMessage("Por favor, preencha seu nome.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        setErrorMessage("As senhas não conferem.");
+        return;
+      }
+    }
+
+    setIsLoading(true);
+
+    // 3. Configuração da API
+    const baseUrl = "http://192.168.3.157:3000"; // Confirme seu IP
+    const endpoint = activeTab === "Login" ? "/auth/login" : "/auth/register";
+    const payload =
+      activeTab === "Login" ? { email, password } : { name, email, password };
+
+    try {
+      console.log(`Enviando para: ${baseUrl}${endpoint}`);
+
+      // 4. Faz a requisição
+      const response = await fetch(`${baseUrl}${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      // 5. Verifica sucesso
+      if (response.ok) {
+        if (activeTab === "Cadastrar") {
+          Alert.alert("Sucesso", "Conta criada! Faça login para continuar.");
+          setActiveTab("Login");
+          setPassword("");
+          setConfirmPassword("");
+          setErrorMessage(null);
+        } else {
+          // --- LOGIN COM SUCESSO ---
+          console.log("Usuário logado:", data.user);
+
+          // AQUI É O LUGAR CERTO DE SALVAR:
+          await AsyncStorage.setItem("@user_data", JSON.stringify(data.user));
+
+          navigation.replace("MainApp");
+        }
+      } else {
+        // Erro da API (ex: senha errada)
+        setErrorMessage(data.error || "Ocorreu um erro inesperado.");
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Erro de conexão. Verifique sua internet ou o servidor.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <View style={styles.formContainer}>
-      {/* 1. Toggle Login/Cadastrar (Sem mudanças) */}
+      {/* TOGGLE */}
       <View style={styles.toggleContainer}>
         <TouchableOpacity
           style={[
             styles.toggleButton,
             activeTab === "Login" ? styles.toggleActive : styles.toggleInactive,
           ]}
-          onPress={() => setActiveTab("Login")}
+          onPress={() => {
+            setActiveTab("Login");
+            setErrorMessage(null);
+          }}
         >
           <Text
             style={
@@ -85,7 +178,10 @@ const FormBody = ({ navigation }) => {
               ? styles.toggleActive
               : styles.toggleInactive,
           ]}
-          onPress={() => setActiveTab("Cadastrar")}
+          onPress={() => {
+            setActiveTab("Cadastrar");
+            setErrorMessage(null);
+          }}
         >
           <Text
             style={
@@ -99,9 +195,8 @@ const FormBody = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {/* 2. Inputs */}
+      {/* INPUTS */}
       <View style={styles.inputContainer}>
-        {/* // NOVO: Campo "Nome" (só aparece se activeTab for 'Cadastrar') */}
         {activeTab === "Cadastrar" && (
           <View style={styles.inputWrapper}>
             <Ionicons
@@ -114,11 +209,12 @@ const FormBody = ({ navigation }) => {
               placeholder="Nome Completo"
               style={styles.input}
               autoCapitalize="words"
+              value={name}
+              onChangeText={setName}
             />
           </View>
         )}
 
-        {/* Campo "Email" (aparece em ambos) */}
         <View style={styles.inputWrapper}>
           <MaterialIcons
             name="alternate-email"
@@ -131,10 +227,12 @@ const FormBody = ({ navigation }) => {
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
 
-        {/* Campo "Senha" (aparece em ambos) */}
+        {/* SENHA */}
         <View style={styles.inputWrapper}>
           <Feather
             name="lock"
@@ -144,8 +242,13 @@ const FormBody = ({ navigation }) => {
           />
           <TextInput
             placeholder="Senha"
-            style={styles.input}
+            style={[styles.input, noSelectStyle]}
             secureTextEntry={!isPasswordVisible}
+            value={password}
+            onChangeText={setPassword}
+            contextMenuHidden={true}
+            selectTextOnFocus={false}
+            onContextMenu={handleWebContextMenu}
           />
           <TouchableOpacity
             onPress={() => setIsPasswordVisible(!isPasswordVisible)}
@@ -158,7 +261,7 @@ const FormBody = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* // NOVO: Campo "Confirmar Senha" (só aparece se activeTab for 'Cadastrar') */}
+        {/* CONFIRMAR SENHA */}
         {activeTab === "Cadastrar" && (
           <View style={styles.inputWrapper}>
             <Feather
@@ -169,38 +272,53 @@ const FormBody = ({ navigation }) => {
             />
             <TextInput
               placeholder="Confirmar senha"
-              style={styles.input}
+              style={[styles.input, noSelectStyle]}
               secureTextEntry={!isPasswordVisible}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              contextMenuHidden={true}
+              selectTextOnFocus={false}
+              onContextMenu={handleWebContextMenu}
             />
           </View>
         )}
       </View>
 
-      {/* 3. Esqueceu a senha */}
-      {/* // MODIFICADO: Só aparece se activeTab for 'Login' */}
       {activeTab === "Login" && (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
           <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
         </TouchableOpacity>
       )}
 
-      {/* // NOVO: Espaçador para o modo 'Cadastrar' (para manter o botão no lugar) */}
       {activeTab === "Cadastrar" && (
-        <View style={{ marginVertical: 15, height: 19 }} /> // Espaço vazio
+        <View style={{ marginVertical: 15, height: 19 }} />
       )}
 
-      {/* 4. Botão Entrar / Criar conta */}
-      <TouchableOpacity style={styles.loginButton} onPress={handleEntrarPress}>
-        {/* // MODIFICADO: O texto do botão agora é dinâmico */}
-        <Text style={styles.loginButtonText}>
-          {activeTab === "Login" ? "Entrar" : "Criar conta"}
-        </Text>
+      {errorMessage && (
+        <View style={styles.errorContainer}>
+          <MaterialIcons name="error-outline" size={20} color="#FF375B" />
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+        </View>
+      )}
+
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={handleAuthAction}
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <ActivityIndicator color="#FFF" />
+        ) : (
+          <Text style={styles.loginButtonText}>
+            {activeTab === "Login" ? "Entrar" : "Criar conta"}
+          </Text>
+        )}
       </TouchableOpacity>
     </View>
   );
 };
 
-// --- ADICIONADO DE VOLTA: A TELA PRINCIPAL ESTAVA FALTANDO ---
+// --- TELA PRINCIPAL ---
 export default function LoginScreen({ navigation }) {
   return (
     <LinearGradient style={styles.gradientContainer} {...gradientProps}>
@@ -213,7 +331,6 @@ export default function LoginScreen({ navigation }) {
           showsVerticalScrollIndicator={false}
         >
           <StatusBar style="light" />
-
           <Header navigation={navigation} />
           <FormBody navigation={navigation} />
         </ScrollView>
