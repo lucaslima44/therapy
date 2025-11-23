@@ -82,7 +82,11 @@ export default function ForgotPasswordScreen({ navigation }) {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          <StatusBar style="light" />
+          <StatusBar
+            barStyle="light-content" // Deixa os ícones (bateria, hora) brancos
+            backgroundColor="transparent" // Tira a cor de fundo da barra
+            translucent={true} // Permite que o seu Gradiente passe por baixo da barra
+          />
 
           <Header navigation={navigation} />
 

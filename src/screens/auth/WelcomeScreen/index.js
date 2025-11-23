@@ -1,5 +1,11 @@
 import React from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import { 
+  Image, 
+  Text, 
+  View, 
+  TouchableOpacity, 
+  StatusBar // <--- 1. ADICIONE O IMPORT AQUI
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { gradientProps } from "../../../styles/colors";
 import { styles } from "./styles";
@@ -20,6 +26,14 @@ export default function WelcomeScreen({ navigation }) {
 
   return (
     <LinearGradient style={styles.gradientContainer} {...gradientProps}>
+      
+      {/* 2. ADICIONE O COMPONENTE AQUI */}
+      <StatusBar 
+        barStyle="light-content" 
+        backgroundColor="transparent" 
+        translucent={true} 
+      />
+
       <View style={styles.content}>
         <View style={styles.boxTop}>
           <Image
@@ -51,6 +65,7 @@ export default function WelcomeScreen({ navigation }) {
           />
         </View>
       </View>
+      
     </LinearGradient>
   );
 }

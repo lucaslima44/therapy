@@ -10,7 +10,10 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-around",
-    paddingVertical: 40,
+
+    // Substitua o paddingVertical: 40 por estes dois:
+    paddingTop: Platform.OS === "ios" ? 60 : 50, // Mais espaço no topo para a StatusBar
+    paddingBottom: 40, // Mantém o espaço original embaixo
   },
 
   boxTop: {
