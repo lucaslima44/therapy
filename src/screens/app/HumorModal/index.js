@@ -29,8 +29,8 @@ export default function HumorModal({ visible, onClose, onSelectMood }) {
               <Entypo name="emoji-sad" size={40} color="black" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => onSelectMood("surpreso")}>
-              <FontAwesome5 name="surprise" size={40} color="black" />
+            <TouchableOpacity onPress={() => onSelectMood("normal")}>
+              <FontAwesome5 name="meh" size={40} color="black" />
             </TouchableOpacity>
           </View>
 
@@ -42,5 +42,3 @@ export default function HumorModal({ visible, onClose, onSelectMood }) {
     </Modal>
   );
 }
-
-HumorModal.js;

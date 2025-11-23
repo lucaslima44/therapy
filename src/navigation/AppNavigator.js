@@ -7,7 +7,6 @@ import OnboardingSegundo from "../screens/auth/OnboardingSegundo";
 import OnboardingTerceiro from "../screens/auth/OnboardingTerceiro";
 import WelcomeScreen from "../screens/auth/WelcomeScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
-import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
 import ProRegister from "../screens/auth/ProRegisterScreen";
 
 // demais telas sem o drawer
@@ -23,6 +22,7 @@ import PaymentScreen from "../screens/app/PaymentScreen";
 import SobreNosScreen from "../screens/app/SobreNosScreen";
 import ParceirosScreen from "../screens/app/ParceirosScreen";
 import ConsultasScreen from "../screens/app/ConsultasScreen";
+import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 

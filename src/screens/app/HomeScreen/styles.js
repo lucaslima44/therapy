@@ -285,4 +285,29 @@ export default StyleSheet.create({
   iconeAcao: {
     padding: 5,
   },
+  // --- ESTILOS DO CARD DE HUMOR (NOVO) ---
+  moodRow: {
+    flexDirection: "row", // Coloca os itens lado a lado
+    justifyContent: "space-between", // Espaça eles igualmente
+    width: "100%", // Ocupa toda a largura do card
+    paddingHorizontal: 5, // Um pequeno respiro nas laterais
+    marginTop: 5,
+  },
+  moodButton: {
+    alignItems: "center", // Centraliza o ícone com o texto
+    gap: 8, // Espaço entre a bolinha e o texto "Bem"
+  },
+  moodIconBg: {
+    width: 52, // Tamanho da bolinha
+    height: 52,
+    borderRadius: 26, // Metade da largura para ficar redondo
+    justifyContent: "center", // Centraliza o ícone verticalmente
+    alignItems: "center", // Centraliza o ícone horizontalmente
+    // A cor de fundo (backgroundColor) é definida dinamicamente no JSX
+  },
+  moodText: {
+    fontSize: 12,
+    color: "#666",
+    fontWeight: "500", // Peso médio da fonte
+  },
 });

@@ -12,10 +12,17 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Screen from "../../../components/Screen";
 import styles from "./styles";
-import { Feather, MaterialIcons } from "@expo/vector-icons";
+import {
+  Feather,
+  MaterialIcons,
+  AntDesign,
+  FontAwesome5,
+  Entypo,
+} from "@expo/vector-icons";
 import Carousel from "react-native-reanimated-carousel";
 import { profissionaisData } from "./../../../data/profissionaisData";
 import { agendamentosData } from "./../../../data/agendamentosData";
+import HumorModal from "../../../screens/app/HumorModal";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -31,6 +38,7 @@ export default function HomeScreen({ navigation }) {
   // 2. ESTADO PARA GUARDAR O NOME (Inicia como "Cliente" enquanto carrega)
   const [userName, setUserName] = useState("Cliente");
 
+  const [modalVisible, setModalVisible] = useState(false);
   // 3. EFEITO QUE BUSCA O DADO DO BANCO (SALVO NA MEMÓRIA)
   useEffect(() => {
     const loadUserData = async () => {
@@ -62,6 +70,11 @@ export default function HomeScreen({ navigation }) {
     loadUserData();
   }, []);
 
+  const handleSelectMood = (moodKey) => {
+    setModalVisible(false);
+    // Aqui você pode salvar no AsyncStorage ou enviar para API futuramente
+    Alert.alert("Registado!", "O seu humor foi salvo no seu diário.");
+  };
   // Pega apenas os 4 primeiros para a lista horizontal
   const popularesData = profissionaisData.slice(0, 4);
 
@@ -229,39 +242,92 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
 
-        {/* CARD DE PRÓXIMO AGENDAMENTO */}
-        {agendamento && profissional && (
-          <TouchableOpacity
-            style={styles.cardAgendamento}
-            onPress={() => navigation.navigate("Consultas")}
+        {/* CARD DE HUMOR (Check-in) */}
+        <View
+          style={[
+            styles.cardAgendamento,
+            {
+              flexDirection: "column",
+              alignItems: "flex-start",
+              paddingVertical: 20,
+            },
+          ]}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              marginBottom: 15,
+            }}
           >
-            <View style={styles.agendamentoHeader}>
-              <Image
-                source={profissional.source}
-                style={styles.agendamentoAvatar}
-              />
-              <View style={styles.agendamentoInfo}>
-                <Text style={styles.agendamentoNome} numberOfLines={1}>
-                  {profissional.nome}
-                </Text>
-                <View style={styles.statusBadge}>
-                  <Text style={styles.statusText}>Confirmado</Text>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.agendamentoFooter}>
-              <Text style={styles.agendamentoData}>
-                <Feather name="calendar" size={14} color="#8E8E93" />
-                {" " + formatarData(agendamento.dataAgendamento)}
+            <View>
+              <Text style={{ fontSize: 16, fontWeight: "bold", color: "#333" }}>
+                Como se sente hoje?
               </Text>
-              <TouchableOpacity style={styles.iconeAcao}>
-                <MaterialIcons name="edit" size={20} color="#555" />
-              </TouchableOpacity>
+              <Text style={{ fontSize: 12, color: "#666" }}>
+                Registe o seu humor diário
+              </Text>
             </View>
-          </TouchableOpacity>
-        )}
+            <TouchableOpacity onPress={() => navigation.navigate("Perfil")}>
+              <Text
+                style={{ color: "#6C63FF", fontSize: 12, fontWeight: "bold" }}
+              >
+                Ver histórico
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.moodRow}>
+            <TouchableOpacity
+              style={styles.moodButton}
+              onPress={() => navigation.navigate("Perfil")} // MUDANÇA AQUI
+            >
+              <View style={[styles.moodIconBg, { backgroundColor: "#E8F5E9" }]}>
+                <AntDesign name="smile" size={32} color="#4CAF50" />
+              </View>
+              <Text style={styles.moodText}>Feliz</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.moodButton}
+              onPress={() => navigation.navigate("Perfil")} // MUDANÇA AQUI
+            >
+              <View style={[styles.moodIconBg, { backgroundColor: "#E3F2FD" }]}>
+                <FontAwesome5 name="meh" size={32} color="#2196F3" />
+              </View>
+              <Text style={styles.moodText}>Normal</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.moodButton}
+              onPress={() => navigation.navigate("Perfil")} // MUDANÇA AQUI
+            >
+              <View style={[styles.moodIconBg, { backgroundColor: "#FFF3E0" }]}>
+                <Entypo name="emoji-sad" size={32} color="#FF9800" />
+              </View>
+              <Text style={styles.moodText}>Mal</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.moodButton}
+              onPress={() => navigation.navigate("Perfil")} // MUDANÇA AQUI
+            >
+              <View style={[styles.moodIconBg, { backgroundColor: "#FFEBEE" }]}>
+                <FontAwesome5 name="angry" size={32} color="#F44336" />
+              </View>
+              <Text style={styles.moodText}>Raiva</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
+
+      {/* MODAL */}
+      <HumorModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSelectMood={handleSelectMood}
+      />
     </Screen>
   );
 }
