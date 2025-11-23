@@ -1,134 +1,159 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
-import { Platform, StyleSheet } from "react-native";
+import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as NavigationBar from "expo-navigation-bar";
 
-// Import das telas
+// --- SEUS IMPORTS MANTIDOS ---
 import HomeScreen from "../screens/app/HomeScreen";
 import MeditacaoScreen from "../screens/app/MeditacaoScreen";
 import ConsultasScreen from "../screens/app/ConsultasScreen";
 import ProfileScreen from "../screens/app/ProfileScreen";
+import SobreNosScreen from "../screens/app/SobreNosScreen";
+import ParceirosScreen from "../screens/app/ParceirosScreen";
+import SonsRelaxantesScreen from "../screens/app/SonsRelaxantesScreen";
 
 const Tab = createBottomTabNavigator();
+const HomeStack = createNativeStackNavigator();
 
-export default function BottomTabs() {
-  const insets = useSafeAreaInsets();
+function HomeStackNavigator() {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: "#000",
-        tabBarInactiveTintColor: "gray",
-        // tabBarShowLabel: false, // Se você quiser os nomes, deixe essa linha COMENTADA ou remova.
-
-        tabBarStyle: {
-          ...styles.tabBarStyle,
-          bottom: insets.bottom + 10, // Um pouco mais de espaço embaixo
-          height: 60, // Boa altura para ícones e textos
-          borderRadius: 20, // Borda arredondada
-        },
-
-        tabBarBackground: () => (
-          <BlurView
-            // --- ALTERAÇÕES CHAVE AQUI ---
-            intensity={80} // Aumentar a intensidade do blur (pode ir até 100)
-            tint="light" // 'light' ou 'default'. 'dark' se o fundo for muito claro.
-            style={[
-              StyleSheet.absoluteFill,
-              { backgroundColor: "rgba(255, 255, 255, 0.2)" }, // Um overlay branco semi-transparente para clarear
-            ]}
-          />
-        ),
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
-              name={focused ? "home" : "home-outline"}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+      <HomeStack.Screen name="SobreNos" component={SobreNosScreen} />
+      <HomeStack.Screen name="Parceiros" component={ParceirosScreen} />
+      <HomeStack.Screen
+        name="SonsRelaxantes"
+        component={SonsRelaxantesScreen}
       />
-
-      <Tab.Screen
-        name="Meditação"
-        component={MeditacaoScreen}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => (
-            <MaterialCommunityIcons
-              name={focused ? "meditation" : "meditation"}
-              size={30}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Consultas"
-        component={ConsultasScreen}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
-              name={focused ? "calendar" : "calendar-outline"}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Perfil"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
-              name={focused ? "person" : "person-outline"}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+    </HomeStack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  tabBarStyle: {
-    position: "absolute",
-    left: 20,
-    right: 20,
-    borderRadius: 20, // Ajustei para combinar com o `tabBarStyle` do componente
-    height: 60, // Ajustei para combinar com o `tabBarStyle` do componente
-    backgroundColor: "transparent",
-    overflow: "hidden",
+export default function BottomTabs() {
+  const insets = useSafeAreaInsets();
 
-    // --- ALTERAÇÃO NA BORDA ---
-    borderWidth: 0.5, // Borda mais fina
-    borderColor: "rgba(255, 255, 255, 0.4)", // Borda mais clara e visível
-    // -------------------------
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      // Força a cor preta na API do Android
+      NavigationBar.setBackgroundColorAsync("#000000");
+      NavigationBar.setButtonStyleAsync("light");
+    }
+  }, []);
 
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.15, // Sombra um pouco mais forte
-        shadowRadius: 5, // Sombra mais suave
-      },
-      android: {
-        elevation: 8, // Aumentei a elevação para uma sombra mais perceptível
-        backgroundColor: "rgba(255, 255, 255, 0.1)", // Base mais clara para a elevation no Android
-      },
-      web: {
-        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)", // Sombra web mais suave
-      },
-    }),
-  },
-});
+  const iosHeight = 75 + insets.bottom;
+  const androidHeight = 60;
+
+  return (
+    // 1. Envolvemos tudo em uma View com flex: 1
+    <View style={{ flex: 1, backgroundColor: "#000000" }}>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: "#000000",
+          tabBarInactiveTintColor: "#999",
+          tabBarShowLabel: true,
+
+          tabBarItemStyle: {
+            paddingVertical: Platform.OS === "ios" ? 0 : 2,
+          },
+
+          tabBarLabelStyle: {
+            fontSize: 10,
+            paddingBottom: Platform.OS === "ios" ? 0 : 5,
+          },
+
+          tabBarStyle: {
+            position: "absolute",
+            left: 0,
+            right: 0,
+            // No Android, a barra sobe (insets.bottom).
+            // Isso deixa um espaço vazio embaixo dela.
+            bottom: Platform.OS === "android" ? insets.bottom : 0,
+            height: Platform.OS === "android" ? androidHeight : iosHeight,
+
+            backgroundColor: "#FFFFFF", // Fundo BRANCO da TabBar
+            borderTopWidth: 1,
+            borderTopColor: "#E0E0E0",
+            elevation: 0,
+            paddingTop: Platform.OS === "ios" ? 5 : 0,
+            paddingBottom: Platform.OS === "ios" ? insets.bottom : 0,
+          },
+        }}
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomeStackNavigator}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons
+                name={focused ? "home" : "home-outline"}
+                size={24}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Meditação"
+          component={MeditacaoScreen}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <MaterialCommunityIcons
+                name={focused ? "meditation" : "meditation"}
+                size={24}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Consultas"
+          component={ConsultasScreen}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons
+                name={focused ? "calendar" : "calendar-outline"}
+                size={24}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Perfil"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons
+                name={focused ? "person" : "person-outline"}
+                size={24}
+                color={color}
+              />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+
+      {/* 2. O TRUQUE VISUAL (FIX):
+         Adicionamos uma View PRETA no rodapé do Android.
+         Ela preenche exatamente o espaço que o 'bottom: insets.bottom' deixou vazio.
+      */}
+      {Platform.OS === "android" && insets.bottom > 0 && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: insets.bottom, // Altura exata da barra de navegação do sistema
+            backgroundColor: "#000000", // AQUI FICA O PRETO
+            zIndex: 100, // Garante que fique visível sobre o conteúdo, mas abaixo da TabBar (visualmente)
+          }}
+        />
+      )}
+    </View>
+  );
+}

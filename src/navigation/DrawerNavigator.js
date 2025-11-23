@@ -4,10 +4,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, Text, TouchableOpacity, Image, Modal } from "react-native";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./DrawerNavigator.styles";
-
 import BottomTabs from "./BottomTabs";
-import SobreNosScreen from "../screens/app/SobreNosScreen";
-import ParceirosScreen from "../screens/app/ParceirosScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,6 +15,26 @@ function CustomDrawerContent({ navigation }) {
   const handleLogout = () => {
     setModalVisible(false);
     navigation.navigate("Login");
+  };
+
+  // Função auxiliar para navegar para dentro da Home Stack
+  const navigateToHomeStack = (screenName) => {
+    navigation.navigate("MainTabs", {
+      screen: "Home", // Nome da Aba
+      params: {
+        screen: screenName, // Nome da tela dentro do HomeStackNavigator
+      },
+    });
+    navigation.closeDrawer();
+  };
+
+  // Função auxiliar para navegar para outras Abas (Perfil, Meditação)
+  const navigateToTab = (tabName) => {
+    navigation.navigate("MainTabs", {
+      // 1. Vai para o container das abas
+      screen: tabName, // 2. Procura a aba com o nome ESPECÍFICO (ex: "Perfil")
+    });
+    navigation.closeDrawer();
   };
 
   return (
@@ -61,8 +78,7 @@ function CustomDrawerContent({ navigation }) {
         <TouchableOpacity
           style={styles.drawerItem}
           onPress={() => {
-            navigation.navigate("SobreNos");
-            navigation.closeDrawer();
+            navigateToHomeStack("SobreNos");
           }}
         >
           <Ionicons
@@ -76,8 +92,7 @@ function CustomDrawerContent({ navigation }) {
         <TouchableOpacity
           style={styles.drawerItem}
           onPress={() => {
-            navigation.navigate("Parceiros");
-            navigation.closeDrawer();
+            navigateToHomeStack("Parceiros");
           }}
         >
           <Feather
@@ -124,7 +139,10 @@ function CustomDrawerContent({ navigation }) {
 
       <View style={styles.menuSection}>
         <Text style={styles.sectionTitle}>Aplicativo</Text>
-        <TouchableOpacity style={styles.drawerItem}>
+        <TouchableOpacity
+          style={styles.drawerItem}
+          onPress={() => navigateToTab("Perfil")}
+        >
           <Ionicons
             name="happy-outline"
             size={20}
@@ -133,7 +151,10 @@ function CustomDrawerContent({ navigation }) {
           />
           <Text style={styles.drawerText}>Humor diário</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.drawerItem}>
+        <TouchableOpacity
+          style={styles.drawerItem}
+          onPress={() => navigateToHomeStack("SonsRelaxantes")}
+        >
           <Ionicons
             name="musical-notes-outline"
             size={20}
@@ -142,7 +163,10 @@ function CustomDrawerContent({ navigation }) {
           />
           <Text style={styles.drawerText}>Sons relaxantes</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.drawerItem}>
+        <TouchableOpacity
+          style={styles.drawerItem}
+          onPress={() => navigateToTab("Meditação")}
+        >
           <MaterialCommunityIcons
             name="meditation"
             size={20}
@@ -218,8 +242,6 @@ export default function DrawerNavigator() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       <Drawer.Screen name="MainTabs" component={BottomTabs} />
-      <Drawer.Screen name="SobreNos" component={SobreNosScreen} />
-      <Drawer.Screen name="Parceiros" component={ParceirosScreen} />
     </Drawer.Navigator>
   );
 }

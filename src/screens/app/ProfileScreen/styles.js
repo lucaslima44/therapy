@@ -125,4 +125,35 @@ export default StyleSheet.create({
     height: "100%",
     resizeMode: "cover",
   },
+  moodListContent: {
+    flexDirection: "row",
+    gap: 10, // Aumentei um pouco o gap para ficar bonito
+    marginBottom: 25,
+    paddingHorizontal: 5,
+  },
+  moodDay: {
+    alignItems: "center",
+  },
+  dayLabel: {
+    fontSize: 12,
+    color: "#FFFFFF",
+    marginBottom: 6,
+    fontWeight: "500",
+    fontFamily: "Inter", // Se tiver a fonte
+  },
+  moodValueBox: {
+    width: 45, // Um pouco maior para caber o icone confortavelmente
+    height: 45,
+    borderRadius: 12, // Bordas um pouco mais arredondadas
+    justifyContent: "center",
+    alignItems: "center",
+    // Sombra suave
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  // moodValue não é mais necessário se só usar ícones, 
+  // mas se quiser colocar texto dentro, mantenha.
 });

@@ -109,7 +109,7 @@ export default function HomeScreen({ navigation }) {
 
           <View style={styles.logoContainer}>
             <Image
-              source={require("./../../../../assets/logoP.webp")}
+              source={require("./../../../../assets/Group (1).png")}
               style={styles.logo}
               resizeMode="contain"
             />

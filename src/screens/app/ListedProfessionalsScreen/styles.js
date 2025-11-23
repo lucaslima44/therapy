@@ -1,49 +1,46 @@
 import { StyleSheet, Platform } from "react-native";
-import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.DANGER,
+    backgroundColor: "#f8f8f8",
+    // NÃO coloque padding aqui, senão o Header vai desgrudar das bordas
   },
-  scollView: {
-    flexGrow: 1,
-  },
-  backButton: {
-    left: 20,
-    position: "absolute",
-  },
+
+  // --- Cabeçalho (Full Width) ---
   header: {
+    paddingTop: 50, // Ajuste para status bar
+    paddingBottom: 15,
+    paddingHorizontal: 20, // Padding interno SÓ do cabeçalho
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 20,
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
-  content: {
-    flex: 1,
-    padding: 20,
+  backButton: {
+    padding: 5,
   },
   title: {
-    fontSize: 16,
-    fontFamily: "Inter",
-    fontWeight: "600",
-    color: colors.textDark,
-  },
-  divider: {
-    height: 1, // espessura da linha
-    backgroundColor: "#ccc", // cor da linha
-    width: "100%", // ocupa toda a largura
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333",
   },
   list: {
-    padding: 16, // Espaçamento da lista nas laterais da tela
+    paddingHorizontal: 20, // Isso dá a margem lateral que você quer
+    paddingTop: 20, // Isso dá um respiro no topo
+    paddingBottom: 80, // Isso dá espaço no final
   },
+
+  // --- Card de Profissional ---
   card: {
-    width: "100%", // Ocupa 100% (dentro do padding da lista)
+    width: "100%", // Vai ocupar 100% do espaço DISPONÍVEL (respeitando o padding da lista)
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 12,
     marginBottom: 15,
-    flexDirection: "row", // Imagem ao lado do texto
+    flexDirection: "row",
 
     // Sombra
     ...Platform.select({
@@ -62,47 +59,54 @@ export default StyleSheet.create({
     }),
   },
   imagem: {
-    width: 80,
-    height: 80,
-    borderRadius: 40, // Deixa a imagem redonda
-    marginRight: 15,
-    backgroundColor: "#eee", // Cor de fundo caso a imagem não carregue
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    marginRight: 12,
+    backgroundColor: "#eee",
   },
   textContainer: {
-    flex: 1, // Ocupa o espaço restante
+    flex: 1,
     justifyContent: "center",
   },
+  cardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 4,
+  },
   nome: {
-    fontSize: 18,
+    flex: 1,
+    fontSize: 17,
     fontWeight: "bold",
     color: "#333",
+    marginRight: 8,
   },
-
-  // Estilos da Avaliação (Estrela + Nota)
   ratingContainer: {
-    flexDirection: "row", // Ícone e texto lado a lado
+    flexDirection: "row",
     alignItems: "center",
-    marginTop: 4,
   },
   starIcon: {
-    marginRight: 4,
+    marginRight: 3,
   },
   ratingText: {
     fontSize: 14,
     fontWeight: "bold",
     color: "#555",
   },
-
-  // Estilos da Área e Descrição
-  area: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#2a9d8f", // Cor de destaque
-    marginTop: 4,
-  },
   descricao: {
     fontSize: 14,
     color: "#666",
-    marginTop: 6,
+  },
+
+  // --- Empty State ---
+  emptyContainer: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 50,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: "#888",
   },
 });

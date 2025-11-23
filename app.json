@@ -20,18 +20,22 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
+
+      "edgeToEdgeEnabled": false,
       "package": "com.luucasalvess.therapy"
     },
-    "web": {
-      "favicon": "./assets/faviconBranco.png",
-      "lang": "pt-BR"
-    },
-    "plugins": ["expo-font"],
-    "extra": {
-      "eas": {
-        "projectId": "6862b7ce-c95a-4aa9-8693-29081c4481c1"
-      }
+
+    "backgroundColor": "#000000",
+    "barStyle": "light-content"
+  },
+  "web": {
+    "favicon": "./assets/faviconBranco.png",
+    "lang": "pt-BR"
+  },
+  "plugins": ["expo-font"],
+  "extra": {
+    "eas": {
+      "projectId": "6862b7ce-c95a-4aa9-8693-29081c4481c1"
     }
   }
 }

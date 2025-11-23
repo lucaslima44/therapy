@@ -1,59 +1,75 @@
 import { StyleSheet } from "react-native";
 import { colors } from "./colors";
 
-export const globalStyles = StyleSheet.create({
-  logoNome: {
-    fontFamily: "Marcellus-Regular",
-    color: "#000000",
-    fontSize: 36,
-  },
-  logoSlogan: {
-    fontFamily: "Marcellus-Regular",
-    color: colors.ACCENT,
-    fontSize: 24,
-    textAlign: "center",
-  },
-  subTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#ffffff",
-  },
+// export const globalStyles = StyleSheet.create({
+//   logoNome: {
+//     fontFamily: "Marcellus-Regular",
+//     color: "#000000",
+//     fontSize: 36,
+//   },
+//   logoSlogan: {
+//     fontFamily: "Marcellus-Regular",
+//     color: colors.ACCENT,
+//     fontSize: 24,
+//     textAlign: "center",
+//   },
+//   subTitle: {
+//     fontSize: 18,
+//     fontWeight: "bold",
+//     marginBottom: 20,
+//     color: "#ffffff",
+//   },
 
-  buttonPrimary: {
-    backgroundColor: "#1F5656",
-    paddingVertical: 15,
-    borderRadius: 4,
-    width: 290,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    // sombra botao
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  secondaryButton: {
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: "#FFFFFF",
-    height: 30,
-  },
-  secondaryButtonText: {
-    color: colors.textLight,
-    fontSize: 14,
-    fontWeight: "regular",
-  },
+//   buttonPrimary: {
+//     backgroundColor: "#1F5656",
+//     paddingVertical: 15,
+//     borderRadius: 4,
+//     width: 290,
+//     height: 50,
+//     alignItems: "center",
+//     justifyContent: "center",
+//     // sombra botao
+//     shadowColor: "#000",
+//     shadowOffset: { width: 0, height: 4 },
+//     shadowOpacity: 0.25,
+//     shadowRadius: 4,
+//     elevation: 5,
+//   },
+//   buttonText: {
+//     color: "#FFFFFF",
+//     fontSize: 18,
+//     fontWeight: "bold",
+//   },
+//   secondaryButton: {
+//     backgroundColor: "transparent",
+//     borderWidth: 1,
+//     borderColor: "#FFFFFF",
+//     height: 30,
+//   },
+//   secondaryButtonText: {
+//     color: colors.textLight,
+//     fontSize: 14,
+//     fontWeight: "regular",
+//   },
 
-  logoImage: {
-    width: 83,
-    height: 74,
+//   logoImage: {
+//     width: 83,
+//     height: 74,
+//   },
+// });
+
+export const theme = StyleSheet.create({
+  // Padrão para containers que seguram o resto da tela
+  contentContainer: {
+    flex: 1, // Ocupa o espaço que sobra
+    paddingHorizontal: 20, // O famoso 20 lateral
+    paddingTop: 20,
+    paddingBottom: 40,
+  },
+  // Padrão para telas que usam FlatList
+  listContentContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 40,
   },
 });

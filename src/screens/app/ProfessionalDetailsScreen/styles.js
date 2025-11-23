@@ -3,22 +3,31 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F5F5F5" },
   header: {
-    height: 70,
+    height: 80,
     backgroundColor: "#4B0082",
-    padding: 20,
-    justifyContent: "flex-end",
+    paddingTop: 25,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    paddingHorizontal: 20,
   },
+
+  backButton: {
+    zIndex: 10,
+    padding: 5,
+  },
+
   headerTitle: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
-    flex: 1,
     textAlign: "center",
-    marginRight: 24,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 20, // Ajuste conforme necessário para alinhar verticalmente com o ícone
+    // (Ou remova o bottom e confie no alignItems do header, mas absolute costuma pedir alinhamento manual)
   },
+
   content: { paddingBottom: 100 },
 
   profileContainer: { alignItems: "center", marginTop: 20, marginBottom: 20 },
@@ -83,7 +92,7 @@ export default StyleSheet.create({
   // Footer
   footer: {
     position: "absolute",
-    bottom: 0,
+    bottom: 40,
     left: 0,
     right: 0,
     backgroundColor: "#fff",

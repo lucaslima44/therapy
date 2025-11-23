@@ -5,6 +5,7 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { profissionaisData } from "./../../../data/profissionaisData";
 
 export default function ListedProfessionalsScreen({ navigation }) {
+  const area = "Todos os Profissionais";
   const renderProfissionalCard = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
@@ -63,16 +64,22 @@ export default function ListedProfessionalsScreen({ navigation }) {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Feather name="arrow-left" size={22} color="white" />
+          <Feather name="arrow-left" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.title}>Todos os Profissionais</Text>
+
+        <Text style={styles.title}>{area}</Text>
+
+        {/* View "fantasma" para centralizar o título (da nossa conversa anterior) */}
+        <View style={{ width: 24 }} />
       </View>
+
       <View style={styles.divider} />
       <FlatList
         data={profissionaisData}
         renderItem={renderProfissionalCard}
         keyExtractor={(item) => item.id.toString()}
-        // style={styles.profissionaisPopularesList}
+        contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

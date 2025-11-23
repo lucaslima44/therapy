@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  StatusBar,
+} from "react-native";
 import { useAgendamento } from "../../../context/AgendamentoContext";
 import { Feather } from "@expo/vector-icons";
 
@@ -32,70 +39,99 @@ export default function PaymentScreen({ route, navigation }) {
           <Feather name="arrow-left" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Resumo do Agendamento</Text>
+        <View style={{ width: 34 }} />
       </View>
+      {/* --- CONTEÚDO (Tudo movido para cá) --- */}
+      <View style={styles.content}>
+        <Text style={styles.title}>Confirme seus dados</Text>
 
-      <View style={styles.card}>
-        <Text style={styles.label}>Profissional:</Text>
-        <Text style={styles.value}>{profissional.nome}</Text>
+        <View style={styles.card}>
+          <Text style={styles.label}>Profissional:</Text>
+          <Text style={styles.value}>{profissional.nome}</Text>
 
-        <Text style={styles.label}>Data e Hora:</Text>
-        <Text style={styles.value}>
-          {data} às {horario}
-        </Text>
+          <Text style={styles.label}>Data e Hora:</Text>
+          <Text style={styles.value}>
+            {data} às {horario}
+          </Text>
 
-        <Text style={styles.label}>Valor a Pagar:</Text>
-        <Text style={styles.total}>R$ {preco.toFixed(2)}</Text>
+          <Text style={styles.label}>Valor a Pagar:</Text>
+          <Text style={styles.total}>R$ {preco.toFixed(2)}</Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.payButton}
+          onPress={handleConfirmarPagamento} // Usando sua função criada
+        >
+          <Text style={styles.payText}>Confirmar Pagamento</Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={styles.payButton}
-        onPress={() => alert("Integração de pagamento aqui!")}
-      >
-        <Text style={styles.payText}>Confirmar Pagamento</Text>
-      </TouchableOpacity>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: "center",
     backgroundColor: "#f5f5f5",
   },
+
+  // --- CSS DO HEADER (Simplificado e Alinhado) ---
   header: {
-    height: 70,
+    width: "100%",
     backgroundColor: "#4B0082",
-    padding: 20,
-    justifyContent: "flex-end",
     flexDirection: "row",
+    // Alinha verticalmente tudo no centro da linha
     alignItems: "center",
+    // Separa: Botão <--- Espaço ---> Texto <--- Espaço ---> Fantasma
     justifyContent: "space-between",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 20 : 50,
+    paddingBottom: 20, // Dá um respiro embaixo
+    paddingHorizontal: 20,
   },
+
+  backButton: {
+    padding: 5, // 24px (icone) + 10px (padding total) = 34px de largura visual
+  },
+
   headerTitle: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
-    flex: 1,
     textAlign: "center",
-    marginRight: 24,
+    flex: 1, // Ocupa o espaço disponível no meio
+    // Removemos position absolute, bottom, etc. O Flexbox cuida disso agora.
   },
+
+  // --- CSS DO CONTEÚDO ---
+  content: {
+    flex: 1, // Ocupa o resto da tela
+    padding: 20, // AQUI ESTÁ O PADDING QUE VOCÊ QUERIA (LATERAIS E TOPO)
+  },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
+    color: "#333",
+    marginTop: 10,
   },
+
   card: {
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
     elevation: 3,
+    // Sombra para iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
+
   label: { color: "#666", marginTop: 10 },
   value: { fontSize: 18, fontWeight: "bold", color: "#333" },
   total: { fontSize: 22, fontWeight: "bold", color: "#4B0082", marginTop: 5 },
+
   payButton: {
     marginTop: 30,
     backgroundColor: "#28a745",
