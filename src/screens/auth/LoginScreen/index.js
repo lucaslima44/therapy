@@ -101,7 +101,7 @@ const FormBody = ({ navigation }) => {
     setIsLoading(true);
 
     // 3. Configuração da API
-    const baseUrl = "http://192.168.3.157:3000"; // Confirme seu IP
+    const baseUrl = "https://therapy-api-y4uh.onrender.com";
     const endpoint = activeTab === "Login" ? "/auth/login" : "/auth/register";
     const payload =
       activeTab === "Login" ? { email, password } : { name, email, password };
@@ -207,6 +207,7 @@ const FormBody = ({ navigation }) => {
             />
             <TextInput
               placeholder="Nome Completo"
+              placeholderTextColor="#333"
               style={styles.input}
               autoCapitalize="words"
               value={name}
@@ -224,6 +225,7 @@ const FormBody = ({ navigation }) => {
           />
           <TextInput
             placeholder="therapyroom@app.br"
+            placeholderTextColor="#333"
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -242,6 +244,7 @@ const FormBody = ({ navigation }) => {
           />
           <TextInput
             placeholder="Senha"
+            placeholderTextColor="#333"
             style={[styles.input, noSelectStyle]}
             secureTextEntry={!isPasswordVisible}
             value={password}
@@ -272,6 +275,7 @@ const FormBody = ({ navigation }) => {
             />
             <TextInput
               placeholder="Confirmar senha"
+              placeholderTextColor="#333"
               style={[styles.input, noSelectStyle]}
               secureTextEntry={!isPasswordVisible}
               value={confirmPassword}
@@ -330,7 +334,11 @@ export default function LoginScreen({ navigation }) {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          <StatusBar style="light" />
+          <StatusBar
+            barStyle="light-content" // Deixa os ícones (bateria, hora) brancos
+            backgroundColor="transparent" // Tira a cor de fundo da barra
+            translucent={true} // Permite que o seu Gradiente passe por baixo da barra
+          />
           <Header navigation={navigation} />
           <FormBody navigation={navigation} />
         </ScrollView>
