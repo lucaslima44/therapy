@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logoColorida.png",
+        "foregroundImage": "./assets/logoAndroid.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": false,
