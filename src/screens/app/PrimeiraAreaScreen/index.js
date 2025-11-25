@@ -28,7 +28,13 @@ export default function PrimeiraAreaScreen({ navigation }) {
 
   // 6. O Card de Profissional (Compacto, com imagem)
   const renderProfissionalCard = ({ item }) => (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() =>
+        // Chama a navegação, passando o nome do profissional
+        navigation.navigate("ProfessionalDetailsScreen", { nome: item.nome })
+      }
+    >
       {/* Imagem do lado esquerdo */}
       <Image
         source={item.source}

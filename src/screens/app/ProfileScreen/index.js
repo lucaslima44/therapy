@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // <--- Adicionado useEffect
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,14 +6,22 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // <--- Adicionado
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
 import styles from "./styles";
 import { AntDesign, Feather, FontAwesome5, Entypo } from "@expo/vector-icons";
 import HumorModal from "./../HumorModal";
-import { userData, recentData } from "../../../data/mockProfileData";
+import { useAgendamento } from "../../../context/AgendamentoContext";
 
-// --- MAPA DE HUMORES ---
+// Imagem padrão correta
+const DEFAULT_AVATAR = require("../../../../assets/profile.webp");
+
+// Chave para salvar a foto
+const PROFILE_IMAGE_KEY = "@user_profile_image";
+
+// Mapa de humores
 const MOOD_MAP = {
   feliz: { lib: AntDesign, icon: "smile", color: "#7ED957" },
   chorando: { lib: FontAwesome5, icon: "sad-cry", color: "#6CCDFF" },
@@ -23,15 +31,15 @@ const MOOD_MAP = {
   default: { lib: AntDesign, icon: "plus", color: "#E0E0E0" },
 };
 
-// --- COMPONENTES AUXILIARES ---
-
 const MoodDayItem = React.memo(({ item, onPress }) => {
   const currentMood = item.mood ? MOOD_MAP[item.mood] : MOOD_MAP["default"];
   const IconLib = currentMood.lib;
 
   return (
     <TouchableOpacity style={styles.moodDay} onPress={() => onPress(item)}>
-      <View style={[styles.moodValueBox, { backgroundColor: currentMood.color }]}>
+      <View
+        style={[styles.moodValueBox, { backgroundColor: currentMood.color }]}
+      >
         <IconLib
           name={currentMood.icon}
           size={24}
@@ -43,19 +51,14 @@ const MoodDayItem = React.memo(({ item, onPress }) => {
   );
 });
 
-const RecentCardItem = React.memo(({ item }) => (
-  <View style={styles.recentCard}>
-    <Image source={item.source} style={styles.recentImage} />
-  </View>
-));
+// ---------------------------------------------------------------------
+// TELA PRINCIPAL
+// ---------------------------------------------------------------------
 
-// --- TELA PRINCIPAL ---
 export default function ProfileScreen({ navigation }) {
-  
-  // 1. ESTADO PARA O NOME DO USUÁRIO
   const [userName, setUserName] = useState("Cliente");
+  const [profileImageUri, setProfileImageUri] = useState(null);
 
-  // Estados do Humor
   const [weeklyMoods, setWeeklyMoods] = useState([
     { id: 1, day: "Seg", mood: null },
     { id: 2, day: "Ter", mood: null },
@@ -69,34 +72,87 @@ export default function ProfileScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDayId, setSelectedDayId] = useState(null);
 
-  // 2. BUSCAR DADOS DO ASYNC STORAGE (IGUAL NA HOME)
-  useEffect(() => {
-    const loadUserData = async () => {
+  // Agendamentos dinâmicos
+  const { agendamentos = [] } = useAgendamento() || {};
+  const totalAgendadas = agendamentos.length;
+  const totalRealizadas = 0;
+
+  // ---------------------------------------------------------------------
+  // PERMISSÕES
+  // ---------------------------------------------------------------------
+  const requestMediaLibraryPermissions = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!granted) {
+      Alert.alert(
+        "Permissão negada",
+        "Você precisa permitir o acesso à galeria para alterar a foto."
+      );
+      return false;
+    }
+    return true;
+  };
+
+  // Selecionar nova foto do perfil
+  const pickProfileImage = async () => {
+    const hasPermission = await requestMediaLibraryPermissions();
+    if (!hasPermission) return;
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5,
+    });
+
+    if (!result.canceled) {
+      const newUri = result.assets[0].uri;
+      setProfileImageUri(newUri);
+
       try {
+        await AsyncStorage.setItem(PROFILE_IMAGE_KEY, newUri);
+      } catch (error) {
+        console.error("Erro ao salvar imagem:", error);
+      }
+    }
+  };
+
+  // ---------------------------------------------------------------------
+  // LOAD INICIAL (NOME E FOTO)
+  // ---------------------------------------------------------------------
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Carrega nome
         const storedUser = await AsyncStorage.getItem("@user_data");
-        
         if (storedUser) {
           const parsedUser = JSON.parse(storedUser);
-          
           if (parsedUser.name) {
-            // Lógica de Formatação (Capitalize)
             const nomeFormatado = parsedUser.name
               .toLowerCase()
               .split(" ")
-              .map((palavra) => {
-                return palavra.charAt(0).toUpperCase() + palavra.slice(1);
-              })
+              .map(
+                (palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1)
+              )
               .join(" ");
-
             setUserName(nomeFormatado);
           }
         }
       } catch (error) {
-        console.log("Erro ao carregar perfil:", error);
+        console.log("Erro ao carregar nome:", error);
+      }
+
+      // Carrega foto
+      try {
+        const storedUri = await AsyncStorage.getItem(PROFILE_IMAGE_KEY);
+        if (storedUri) {
+          setProfileImageUri(storedUri);
+        }
+      } catch (error) {
+        console.log("Erro ao carregar URI da foto:", error);
       }
     };
 
-    loadUserData();
+    loadData();
   }, []);
 
   const handleOpenModal = (item) => {
@@ -116,10 +172,13 @@ export default function ProfileScreen({ navigation }) {
     setSelectedDayId(null);
   };
 
+  // ---------------------------------------------------------------------
+  // RENDER
+  // ---------------------------------------------------------------------
+
   return (
     <View style={styles.container}>
-      
-      {/* --- HEADER PADRÃO --- */}
+      {/* HEADER */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.menuButton}
@@ -127,9 +186,9 @@ export default function ProfileScreen({ navigation }) {
         >
           <Feather name="menu" size={28} color="#333" />
         </TouchableOpacity>
-        
+
         <Text style={styles.headerTitle}>Meu Perfil</Text>
-        
+
         <View style={{ width: 28 }} />
       </View>
 
@@ -137,34 +196,48 @@ export default function ProfileScreen({ navigation }) {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        
-        {/* --- PERFIL HERO (Avatar + Nome) --- */}
+        {/* PERFIL HERO */}
         <View style={styles.profileHero}>
-          {/* Mantivemos o avatar do mock, mas você pode mudar depois */}
-          <Image source={userData.avatar} style={styles.profileAvatar} />
-          
-          {/* 3. AQUI ESTÁ A VARIÁVEL COM O NOME DO BANCO */}
+          <View style={styles.avatarWrapper}>
+            <Image
+              source={
+                profileImageUri ? { uri: profileImageUri } : DEFAULT_AVATAR
+              }
+              style={styles.profileAvatar}
+            />
+
+            <TouchableOpacity
+              style={styles.cameraIconButton}
+              onPress={pickProfileImage}
+            >
+              <Feather name="camera" size={20} color="#fff" />
+            </TouchableOpacity>
+          </View>
+
           <Text style={styles.clientName}>{userName}</Text>
-          
           <Text style={styles.clientEmail}>Cliente Premium</Text>
         </View>
 
-        {/* --- STATS CARD --- */}
+        {/* STATS */}
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
-            <Text style={styles.statNumber}>02</Text>
+            <Text style={styles.statNumber}>
+              {String(totalAgendadas).padStart(2, "0")}
+            </Text>
             <Text style={styles.statLabel}>Agendadas</Text>
           </View>
-          
+
           <View style={styles.verticalDivider} />
-          
+
           <View style={styles.statItem}>
-            <Text style={styles.statNumber}>15</Text>
+            <Text style={styles.statNumber}>
+              {String(totalRealizadas).padStart(2, "0")}
+            </Text>
             <Text style={styles.statLabel}>Realizadas</Text>
           </View>
         </View>
 
-        {/* --- HUMOR SEMANAL --- */}
+        {/* HUMOR */}
         <Text style={styles.sectionTitle}>Humor Semanal</Text>
         <View style={styles.moodSection}>
           <FlatList
@@ -182,7 +255,7 @@ export default function ProfileScreen({ navigation }) {
         <View style={{ height: 40 }} />
       </ScrollView>
 
-      {/* --- MODAL --- */}
+      {/* MODAL */}
       <HumorModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}

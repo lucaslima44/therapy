@@ -6,8 +6,7 @@ import {
   StyleSheet,
   Platform,
   StatusBar,
-  Alert,
-  Modal, // <--- 1. Importar Modal
+  Modal,
 } from "react-native";
 import { useAgendamento } from "../../../context/AgendamentoContext";
 import { Feather } from "@expo/vector-icons";
@@ -16,34 +15,28 @@ export default function PaymentScreen({ route, navigation }) {
   const { agendarHorario } = useAgendamento();
   const { profissional, data, horario, preco } = route.params;
 
-  // --- 2. Estado para controlar a visibilidade do Modal ---
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleConfirmarPagamento = () => {
-    // 1. Chama a função do contexto para salvar o horário
-    agendarHorario(profissional.nome, data, horario);
+  const handleConfirmarPagamento = async () => {
+    // Salva a consulta no contexto (e no AsyncStorage dentro do contexto)
+    await agendarHorario(profissional.nome, data, horario);
 
-    // 2. Em vez de navegar direto, ABRIMOS O MODAL
+    // Abre o modal de sucesso
     setModalVisible(true);
   };
 
   const fecharModalENavegar = () => {
     setModalVisible(false);
 
-    // TENTATIVA 1: O padrão (se o nome for exatamente "Consultas")
-    // navigation.navigate("Consultas");
-
-    // TENTATIVA 2 (Mais segura): Voltar para a Home e depois tentar ir para Consultas
-    // Isso ajuda se você estiver "profundo" em telas empilhadas
+    // Volta para a Home
     navigation.popToTop();
 
-    // Pequeno delay para garantir que o popToTop terminou antes de trocar de aba
+    // Depois navega para a aba de Consultas
     setTimeout(() => {
-      // 2. Navegação Aninhada (Deep Linking)
       navigation.navigate("MainApp", {
-        screen: "MainTabs", // Nome da tela no DrawerNavigator
+        screen: "MainTabs",
         params: {
-          screen: "Consultas", // Nome da tela no BottomTabs
+          screen: "Consultas",
         },
       });
     }, 100);
@@ -51,6 +44,7 @@ export default function PaymentScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      {/* --- HEADER --- */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -62,6 +56,7 @@ export default function PaymentScreen({ route, navigation }) {
         <View style={{ width: 34 }} />
       </View>
 
+      {/* --- CONTEÚDO --- */}
       <View style={styles.content}>
         <Text style={styles.title}>Confirme seus dados</Text>
 
@@ -86,12 +81,12 @@ export default function PaymentScreen({ route, navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* --- 3. IMPLEMENTAÇÃO DO MODAL --- */}
+      {/* --- MODAL DE SUCESSO --- */}
       <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={fecharModalENavegar} // Fecha se apertar botão voltar do Android
+        onRequestClose={fecharModalENavegar}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -115,10 +110,7 @@ export default function PaymentScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
+  container: { flex: 1, backgroundColor: "#f5f5f5" },
   header: {
     width: "100%",
     backgroundColor: "#4B0082",
@@ -129,9 +121,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 20,
   },
-  backButton: {
-    padding: 5,
-  },
+  backButton: { padding: 5 },
   headerTitle: {
     color: "#fff",
     fontSize: 18,
@@ -139,10 +129,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flex: 1,
   },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
+  content: { flex: 1, padding: 20 },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -172,11 +159,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   payText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
-
-  // --- ESTILOS DO MODAL ---
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)", // Fundo escuro transparente
+    backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
   },

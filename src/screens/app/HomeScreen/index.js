@@ -7,22 +7,14 @@ import {
   Image,
   Dimensions,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
-// 1. IMPORTANTE: Importar o AsyncStorage
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Screen from "../../../components/Screen";
 import styles from "./styles";
-import {
-  Feather,
-  MaterialIcons,
-  AntDesign,
-  FontAwesome5,
-  Entypo,
-} from "@expo/vector-icons";
+import { Feather, AntDesign, FontAwesome5, Entypo } from "@expo/vector-icons";
 import Carousel from "react-native-reanimated-carousel";
 import { profissionaisData } from "./../../../data/profissionaisData";
-import { agendamentosData } from "./../../../data/agendamentosData";
-import HumorModal from "../../../screens/app/HumorModal";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -35,67 +27,43 @@ const carouselData = [
 export default function HomeScreen({ navigation }) {
   const carouselRef = useRef(null);
 
-  // 2. ESTADO PARA GUARDAR O NOME (Inicia como "Cliente" enquanto carrega)
+  // Estados
   const [userName, setUserName] = useState("Cliente");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  // 3. EFEITO QUE BUSCA O DADO DO BANCO (SALVO NA MEMÓRIA)
+  // Carrega dados do usuário
   useEffect(() => {
     const loadUserData = async () => {
       try {
         const storedUser = await AsyncStorage.getItem("@user_data");
-
         if (storedUser) {
           const parsedUser = JSON.parse(storedUser);
-
           if (parsedUser.name) {
-            // LÓGICA DE FORMATAÇÃO (Capitalize)
+            // Formata para Primeira Letra Maiúscula (Capitalize)
             const nomeFormatado = parsedUser.name
-              .toLowerCase() // 1. Garante que tudo comece minúsculo (ex: "LUCAS" vira "lucas")
-              .split(" ") // 2. Separa as palavras (["lucas", "alves"])
-              .map((palavra) => {
-                // 3. Pega a 1ª letra e joga pra maiúscula + o resto da palavra
-                return palavra.charAt(0).toUpperCase() + palavra.slice(1);
-              })
-              .join(" "); // 4. Junta tudo de novo com espaço ("Lucas Alves")
-
+              .toLowerCase()
+              .split(" ")
+              .map(
+                (palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1)
+              )
+              .join(" ");
             setUserName(nomeFormatado);
           }
         }
       } catch (error) {
-        console.log("Erro ao carregar nome do usuário:", error);
+        console.log("Erro ao carregar usuário:", error);
+      } finally {
+        // Pequeno delay para evitar "piscada" de tela
+        setTimeout(() => setIsLoading(false), 1000);
       }
     };
-
     loadUserData();
   }, []);
 
-  const handleSelectMood = (moodKey) => {
-    setModalVisible(false);
-    // Aqui você pode salvar no AsyncStorage ou enviar para API futuramente
-    Alert.alert("Registado!", "O seu humor foi salvo no seu diário.");
-  };
-  // Pega apenas os 4 primeiros para a lista horizontal
+  // Dados da lista horizontal
   const popularesData = profissionaisData.slice(0, 4);
 
-  // Lógica do Agendamento
-  const agendamento = agendamentosData[0];
-  const profissional = agendamento
-    ? profissionaisData.find((prof) => prof.id === agendamento.professionalId)
-    : null;
-
-  // --- FUNÇÕES AUXILIARES ---
-  const formatarData = (dataISO) => {
-    if (!dataISO) return "";
-    const data = new Date(dataISO);
-    const dia = String(data.getDate()).padStart(2, "0");
-    const mes = String(data.getMonth() + 1).padStart(2, "0");
-    const hora = String(data.getHours()).padStart(2, "0");
-    const minuto = String(data.getMinutes()).padStart(2, "0");
-    return `${dia}/${mes} às ${hora}:${minuto}`;
-  };
-
-  // --- RENDER ITEMS ---
+  // --- RENDERIZADORES ---
   const renderCarouselItem = ({ item }) => (
     <View style={styles.carouselItemContainer}>
       <Image
@@ -135,7 +103,23 @@ export default function HomeScreen({ navigation }) {
     </TouchableOpacity>
   );
 
-  // --- ESTRUTURA DA TELA ---
+  // --- LOADING STATE ---
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#F5F7FA",
+        }}
+      >
+        <ActivityIndicator size="large" color="#6C63FF" />
+      </View>
+    );
+  }
+
+  // --- TELA PRINCIPAL ---
   return (
     <Screen>
       <ScrollView
@@ -159,11 +143,10 @@ export default function HomeScreen({ navigation }) {
             />
             <Text style={styles.logoText}>Therapy Room</Text>
           </View>
-
           <View style={{ width: 28 }} />
         </View>
 
-        {/* 4. AQUI APARECE O NOME QUE VEIO DO BANCO */}
+        {/* SAUDAÇÃO */}
         <Text style={styles.title}>Olá,</Text>
         <Text style={styles.subtitle}>{userName}</Text>
 
@@ -183,13 +166,13 @@ export default function HomeScreen({ navigation }) {
             />
           </TouchableOpacity>
 
+          {/* Setas do Carrossel */}
           <TouchableOpacity
             style={[styles.arrowButton, styles.arrowLeft]}
             onPress={() => carouselRef.current?.prev()}
           >
             <Feather name="chevron-left" size={24} color="#000" />
           </TouchableOpacity>
-
           <TouchableOpacity
             style={[styles.arrowButton, styles.arrowRight]}
             onPress={() => carouselRef.current?.next()}
@@ -198,7 +181,7 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* SEÇÃO: PROFISSIONAIS POPULARES */}
+        {/* PROFISSIONAIS POPULARES */}
         <View style={{ marginTop: 10 }}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Profissionais Populares</Text>
@@ -216,14 +199,12 @@ export default function HomeScreen({ navigation }) {
             >
               <Text style={styles.buttonFilterText}>Todos</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.buttonFilter}
               onPress={() => navigation.navigate("PrimeiraArea")}
             >
               <Text style={styles.buttonFilterText}>Psicologia</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.buttonFilter}
               onPress={() => navigation.navigate("SegundaArea")}
@@ -242,7 +223,7 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
 
-        {/* CARD DE HUMOR (Check-in) */}
+        {/* CHECK-IN DE HUMOR (Redireciona para o Perfil) */}
         <View
           style={[
             styles.cardAgendamento,
@@ -281,17 +262,17 @@ export default function HomeScreen({ navigation }) {
           <View style={styles.moodRow}>
             <TouchableOpacity
               style={styles.moodButton}
-              onPress={() => navigation.navigate("Perfil")} // MUDANÇA AQUI
+              onPress={() => navigation.navigate("Perfil")}
             >
               <View style={[styles.moodIconBg, { backgroundColor: "#E8F5E9" }]}>
                 <AntDesign name="smile" size={32} color="#4CAF50" />
               </View>
-              <Text style={styles.moodText}>Feliz</Text>
+              <Text style={styles.moodText}>Bem</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.moodButton}
-              onPress={() => navigation.navigate("Perfil")} // MUDANÇA AQUI
+              onPress={() => navigation.navigate("Perfil")}
             >
               <View style={[styles.moodIconBg, { backgroundColor: "#E3F2FD" }]}>
                 <FontAwesome5 name="meh" size={32} color="#2196F3" />
@@ -301,7 +282,7 @@ export default function HomeScreen({ navigation }) {
 
             <TouchableOpacity
               style={styles.moodButton}
-              onPress={() => navigation.navigate("Perfil")} // MUDANÇA AQUI
+              onPress={() => navigation.navigate("Perfil")}
             >
               <View style={[styles.moodIconBg, { backgroundColor: "#FFF3E0" }]}>
                 <Entypo name="emoji-sad" size={32} color="#FF9800" />
@@ -311,7 +292,7 @@ export default function HomeScreen({ navigation }) {
 
             <TouchableOpacity
               style={styles.moodButton}
-              onPress={() => navigation.navigate("Perfil")} // MUDANÇA AQUI
+              onPress={() => navigation.navigate("Perfil")}
             >
               <View style={[styles.moodIconBg, { backgroundColor: "#FFEBEE" }]}>
                 <FontAwesome5 name="angry" size={32} color="#F44336" />
@@ -321,13 +302,6 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
       </ScrollView>
-
-      {/* MODAL */}
-      <HumorModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onSelectMood={handleSelectMood}
-      />
     </Screen>
   );
 }

@@ -11,97 +11,90 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Audio } from "expo-av";
 import { BlurView } from "expo-blur";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import styles from "./styles";
+import styles from "./styles"; // Mantenha a importação de seus estilos
 import { ScrollView } from "react-native";
 
-export default function SonsRelaxantesScreen({ navigation }) {
-  // Lista de faixas
-  const tracks = [
-    {
-      title: "Cola No Ap 3 - Mc Dena, Mc IG, Mc GP",
-      file: require("../../../../assets/audio/audio1.mp3"),
-    },
-    {
-      title:
-        "GOODNIGHT 5 - MC IG, MC GP, MC Ryan SP, Aaron Modesto, MC Meno K e MC GH do 7 (Fepache e DJ Oreia)",
-      file: require("../../../../assets/audio/audio2.mp3"),
-    },
-    {
-      title: "AMOR E FE",
-      file: require("../../../../assets/audio/audio3.mp3"),
-    },
-  ];
+// --- URL DO STREAM DE RÁDIO CHILLHOP 24H (MP3) ---
+const CHILLHOP_STREAM = "https://channels.fluxfm.de/chillhop/externalembedflxhp/stream.mp3";
+const RADIO_TITLE = "ChillHop Radio (FluxFM - 24h Stream)";
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function SonsRelaxantesScreen({ navigation }) {
+  // O Stream não tem um 'index' ou 'tracks', mas mantemos estados de controle
   const [isPlaying, setIsPlaying] = useState(false);
   const [position, setPosition] = useState(0);
-  const [duration, setDuration] = useState(1);
   const [volume, setVolume] = useState(0.8);
 
   const soundRef = useRef(null);
+
   // --- FUNÇÃO PARA FORMATAR O TEMPO (MM:SS) ---
+  // Para stream 24h, isso mostrará o tempo de execução desde que o play foi iniciado.
   const formatTime = (millis) => {
     if (!millis) return "00:00";
-    const minutes = Math.floor(millis / 60000);
-    const seconds = Math.floor((millis % 60000) / 1000);
+    const totalSeconds = Math.floor(millis / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
     return `${minutes < 10 ? "0" : ""}${minutes}:${
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
 
-  // Carrega a música
-  const loadTrack = async (index) => {
-    // Garante que parou a anterior
+  // Carrega o Stream
+  const loadStream = async () => {
+    // Garante que parou o anterior, se houver
     if (soundRef.current) {
       await soundRef.current.unloadAsync();
     }
 
     try {
+      // Audio.Sound.createAsync aceita a URI remota
       const { sound } = await Audio.Sound.createAsync(
-        tracks[index].file,
-        { shouldPlay: true, volume: volume }, // Já inicia com o volume configurado
+        { uri: CHILLHOP_STREAM }, // Passando a URL do stream
+        { shouldPlay: true, volume: volume },
         onPlaybackUpdate
       );
       soundRef.current = sound;
       setIsPlaying(true);
     } catch (error) {
-      console.log("Erro ao carregar som:", error);
+      console.log("Erro ao carregar o Stream:", error);
+      // Aqui você pode adicionar um alerta para o usuário
     }
   };
 
-  // Atualiza o status da música (tempo, play/pause)
+  // Atualiza o status do Stream (tempo, play/pause)
+  // Nota: durationMillis será nulo ou indefinido em streams 24h.
   const onPlaybackUpdate = (status) => {
     if (status.isLoaded) {
+      // Apenas atualiza a posição e o status de reprodução.
       setPosition(status.positionMillis);
-      setDuration(status.durationMillis || 1);
       setIsPlaying(status.isPlaying);
-    } else if (status.didJustFinish) {
-      // Opcional: Ir para próxima música automaticamente quando acabar
-      setIsPlaying(false);
-      setPosition(0);
-    }
+    } 
+    // Não precisamos de lógica 'didJustFinish', pois o stream é infinito.
   };
 
   // --- CICLO DE VIDA (INICIAR E SAIR) ---
   useEffect(() => {
     
-    async function configureAudio() {
+    async function configureAndLoad() {
       try {
+        // Configuração essencial para playback em segundo plano
         await Audio.setAudioModeAsync({
           allowsRecordingIOS: false,
-          staysActiveInBackground: true, // Continua tocando se o app for para background
-          playsInSilentModeIOS: true, // <--- O PULO DO GATO PARA IPHONE
+          staysActiveInBackground: true, 
+          playsInSilentModeIOS: true, 
           shouldDuckAndroid: true,
           playThroughEarpieceAndroid: false,
         });
-        loadTrack(currentIndex);
+        
+        // Carrega o stream ao iniciar o componente
+        loadStream();
       } catch (e) {
-        console.log("Erro config audio", e);
+        console.log("Erro ao configurar ou carregar áudio:", e);
       }
     }
 
-    configureAudio();
+    configureAndLoad();
 
+    // Limpeza: Descarrega o som quando o componente for desmontado
     return () => {
       if (soundRef.current) {
         soundRef.current.stopAsync();
@@ -110,38 +103,18 @@ export default function SonsRelaxantesScreen({ navigation }) {
     };
   }, []);
 
-  // Trocar para próxima música
-  const nextTrack = async () => {
-    let next = (currentIndex + 1) % tracks.length;
-    setCurrentIndex(next);
-    await loadTrack(next);
-  };
-
-  // Música anterior
-  const prevTrack = async () => {
-    let prev = currentIndex === 0 ? tracks.length - 1 : currentIndex - 1;
-    setCurrentIndex(prev);
-    await loadTrack(prev);
-  };
-
   // Play / Pause
   const togglePlay = async () => {
     if (!soundRef.current) return;
     if (isPlaying) {
       await soundRef.current.pauseAsync();
     } else {
-      await soundRef.current.playAsync();
+      // Se não estiver tocando, tente tocar
+      await soundRef.current.playAsync(); 
     }
     setIsPlaying(!isPlaying);
   };
-
-  // Mover slider de progresso
-  const onSliderChange = async (value) => {
-    if (!soundRef.current) return;
-    const seekPosition = value * duration;
-    await soundRef.current.setPositionAsync(seekPosition);
-  };
-
+  
   // --- CONTROLE DE VOLUME ---
   const handleVolumeChange = async (value) => {
     setVolume(value);
@@ -149,6 +122,8 @@ export default function SonsRelaxantesScreen({ navigation }) {
       await soundRef.current.setVolumeAsync(value);
     }
   };
+  
+  // O componente renderiza.
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -159,7 +134,7 @@ export default function SonsRelaxantesScreen({ navigation }) {
         >
           <Feather name="arrow-left" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>Sons Relaxantes</Text>
+        <Text style={styles.title}>Rádio Relaxante 24h</Text>
         <View style={{ width: 24 }} />
       </View>
 
@@ -178,19 +153,18 @@ export default function SonsRelaxantesScreen({ navigation }) {
           source={require("../../../../assets/som.webp")}
           style={styles.mainImage}
         />
-        <Text style={styles.titleText}>{tracks[currentIndex].title}</Text>
+        {/* Usamos o título fixo da rádio */}
+        <Text style={styles.titleText}>{RADIO_TITLE}</Text>
       </View>
 
       {/* Controles Principais */}
       <View style={styles.controlsContainer}>
-        {/* Botões Play/Pause/Next */}
+        
+        {/* Botões Play/Pause (Removemos Next/Prev pois o stream é contínuo) */}
         <View style={styles.buttonsRow}>
-          <Icon
-            name="play-skip-back"
-            size={35}
-            color="#fff"
-            onPress={prevTrack}
-          />
+          
+          {/* Ocultamos o botão Anterior/Prev (apenas para estética, não tem função) */}
+          <Icon name="play-skip-back" size={35} color="transparent" /> 
 
           <TouchableOpacity
             onPress={togglePlay}
@@ -203,31 +177,11 @@ export default function SonsRelaxantesScreen({ navigation }) {
             />
           </TouchableOpacity>
 
-          <Icon
-            name="play-skip-forward"
-            size={35}
-            color="#fff"
-            onPress={nextTrack}
-          />
+          {/* Ocultamos o botão Próxima/Next (apenas para estética, não tem função) */}
+          <Icon name="play-skip-forward" size={35} color="transparent" /> 
         </View>
 
-        {/* Slider de Progresso */}
-        <Slider
-          style={styles.slider}
-          minimumValue={0}
-          maximumValue={1}
-          value={position / duration}
-          onValueChange={onSliderChange}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="rgba(255,255,255,0.3)"
-          thumbTintColor="#FFFFFF"
-        />
-
-        {/* Tempo Formatado (00:00 / 00:00) */}
-        <View style={styles.timeContainer}>
-          <Text style={styles.timeText}>{formatTime(position)}</Text>
-          <Text style={styles.timeText}>{formatTime(duration)}</Text>
-        </View>
+ 
 
         {/* --- CONTROLE DE VOLUME --- */}
         <View style={styles.volumeContainer}>

@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  Modal, // <-- ADICIONADO
+  Modal,
+  Platform,
 } from "react-native";
 import { Feather, Ionicons, FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -54,7 +55,7 @@ export default function ProRegisterScreen({ navigation }) {
   ];
 
   // -----------------------------------------------------------------
-  // Função de validação de data
+  // Função de validação de data (Mantida igual)
   // -----------------------------------------------------------------
   const validateBirthDate = (dateString) => {
     if (!dateString) {
@@ -94,7 +95,7 @@ export default function ProRegisterScreen({ navigation }) {
   };
 
   // -----------------------------------------------------------------
-  // Funções de Imagem e Documento
+  // Funções de Imagem e Documento (Mantidas iguais)
   // -----------------------------------------------------------------
   const requestMediaLibraryPermissions = async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -128,21 +129,18 @@ export default function ProRegisterScreen({ navigation }) {
         type: ["application/pdf", "image/jpeg", "image/png"],
         copyToCacheDirectory: true,
       });
-      console.log(result);
       if (!result.canceled) {
         setDocumento(result.assets[0]);
       }
     } catch (err) {
       Alert.alert("Erro", "Não foi possível abrir o seletor de arquivos.");
-      console.error("Erro ao selecionar documento:", err);
     }
   };
 
   // -----------------------------------------------------------------
-  // Função de Envio
+  // Função de Envio (Mantida igual)
   // -----------------------------------------------------------------
   const handleSubmit = async () => {
-    // 1. Validar campos
     validateBirthDate(birthDate);
     if (birthDateError) {
       Alert.alert("Erro", "Por favor, corrija os erros no formulário.");
@@ -155,13 +153,12 @@ export default function ProRegisterScreen({ navigation }) {
       !crp ||
       !genero ||
       !areaAtuacao ||
-      !documento // para deixar o documento obrigatorio
+      !documento
     ) {
       Alert.alert("Campos incompletos", "Por favor, preencha todos os campos.");
       return;
     }
 
-    // 2. Montar dados
     const dadosParaApi = {
       nome: nomeCompleto,
       cpf: cpfSemMascara,
@@ -173,11 +170,7 @@ export default function ProRegisterScreen({ navigation }) {
     };
 
     const urlDaApi = "http://192.168.3.157:3000/profissionais";
-    console.log("--- ENVIANDO PARA A API ---");
-    console.log("URL:", urlDaApi);
-    console.log("DADOS (JSON):", JSON.stringify(dadosParaApi, null, 2));
-
-    // 3. Enviar para a API usando fetch
+    
     try {
       const response = await fetch(urlDaApi, {
         method: "POST",
@@ -187,26 +180,16 @@ export default function ProRegisterScreen({ navigation }) {
         body: JSON.stringify(dadosParaApi),
       });
 
-      // 4. Lidar com a resposta da API
       if (response.ok) {
-        // Se deu certo (status 201), mostre o modal de sucesso
-        console.log("SUCESSO! Resposta da API:", await response.json());
         setSuccessModalVisible(true);
       } else {
-        // Se a API deu erro (ex: CPF duplicado, status 400)
         const erroData = await response.json();
-        console.error("--- ERRO DA API (bloco ELSE) ---");
-        console.error("Status da Resposta:", response.status);
-        console.error("Mensagem da API:", erroData);
         Alert.alert(
           "Erro ao cadastrar",
           `Erro: ${erroData.erro || "Verifique os dados e tente novamente."}`
         );
       }
     } catch (err) {
-      // Erro de rede (API desligada, IP errado, sem internet)
-      console.error("--- ERRO DE REDE (bloco CATCH) ---");
-      console.error(err);
       Alert.alert(
         "Erro de conexão",
         "Não foi possível conectar ao servidor. Verifique sua rede e se a API está ligada."
@@ -215,26 +198,34 @@ export default function ProRegisterScreen({ navigation }) {
   };
 
   // -----------------------------------------------------------------
-  // --- JSX (Formulário Atualizado) ---
+  // --- JSX (Com Header e ScrollView Corrigida) ---
   // -----------------------------------------------------------------
   return (
-    <ScrollView style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Feather name="arrow-left-circle" size={28} color="black" />
-      </TouchableOpacity>
+    // ESTILO CONTAINER COM FLEX: 1 É CRUCIAL AQUI
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      
+      {/* 1. HEADER COM TÍTULO E BOTÃO DE VOLTAR */}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Feather name="arrow-left" size={24} color="#333" />
+        </TouchableOpacity>
+        
+        <Text style={styles.headerTitle}>Tela de Cadastro do Profissional</Text>
+        
+        {/* Placeholder vazio para centralização visual do título */}
+        <View style={{ width: 24 }} /> 
+      </View>
 
-      <View style={styles.divider} />
-
-      {/* FOTO DE PERFIL */}
+      {/* 2. FOTO DE PERFIL (styles.teste agora é o wrapper de position: relative) */}
       <View style={styles.teste}>
         <Image
           source={
             profileImage
               ? { uri: profileImage }
-              : require("../../../../assets/profile.webp") // Ajuste o caminho se necessário
+              : require("../../../../assets/profile.webp")
           }
           style={styles.profileImage}
         />
@@ -244,7 +235,6 @@ export default function ProRegisterScreen({ navigation }) {
       </View>
 
       {/* --- Início do Formulário --- */}
-
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Nome Completo</Text>
         <TextInput
@@ -371,17 +361,14 @@ export default function ProRegisterScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* // ---------------------------------------------------- 
-      // --- CÓDIGO DO MODAL DE SUCESSO ---
-      // ---------------------------------------------------- 
-      */}
+      {/* --- CÓDIGO DO MODAL DE SUCESSO --- */}
       <Modal
         animationType="fade"
         transparent={true}
         visible={isSuccessModalVisible}
         onRequestClose={() => {
           setSuccessModalVisible(false);
-          navigation.navigate("Login"); // Mude "Login" para o nome da sua tela de login
+          navigation.navigate("Login"); 
         }}
       >
         <View style={styles.modalOverlay}>
@@ -396,7 +383,7 @@ export default function ProRegisterScreen({ navigation }) {
               style={styles.modalButton}
               onPress={() => {
                 setSuccessModalVisible(false);
-                navigation.navigate("Login"); // Mude "Login" para o nome da sua tela de login
+                navigation.navigate("Login");
               }}
             >
               <Text style={styles.modalButtonText}>Voltar para login</Text>

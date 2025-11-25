@@ -156,4 +156,38 @@ export default StyleSheet.create({
     height: "100%",
     resizeMode: "cover",
   },
+  profileHero: {
+  alignItems: 'center',
+  paddingVertical: 20,
+},
+
+// 1. Novo Wrapper para posicionar a câmera
+avatarWrapper: {
+  width: 120, 
+  height: 120, 
+  marginBottom: 10,
+  position: 'relative', // Importante para que o botão da câmera fique absoluto
+},
+
+// 2. Estilo da Imagem
+profileAvatar: {
+  width: 120,
+  height: 120,
+  borderRadius: 60,
+  borderWidth: 3,
+  borderColor: '#fff',
+},
+
+// 3. Estilo do Botão da Câmera
+cameraIconButton: {
+  position: 'absolute',
+  bottom: 0,
+  right: 0,
+  backgroundColor: '#007AFF', // Azul
+  borderRadius: 20,
+  padding: 8,
+  borderWidth: 2,
+  borderColor: '#fff',
+  zIndex: 10, // Garante que o botão fique sobre a imagem
+},
 });

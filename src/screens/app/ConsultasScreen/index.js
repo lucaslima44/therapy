@@ -9,19 +9,19 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { profissionaisData } from "./../../../data/profissionaisData";
+import { profissionaisData } from "../../../data/profissionaisData";
 import Screen from "../../../components/Screen";
 import { useAgendamento } from "../../../context/AgendamentoContext";
 
 export default function ConsultasScreen({ navigation }) {
-  // --- CORREÇÃO 1: Adicionar valor padrão para evitar o erro "undefined" ---
-  // Se useAgendamento retornar algo sem 'agendamentos', ele assume []
+  // Pega agendamentos do contexto
   const { agendamentos = [], cancelarAgendamento } = useAgendamento() || {};
 
   const [isManageModalVisible, setManageModalVisible] = useState(false);
   const [isConfirmModalVisible, setConfirmModalVisible] = useState(false);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
 
+  // --- Funções de controle dos modais ---
   const handleOpenManageModal = (appointmentId) => {
     setSelectedAppointmentId(appointmentId);
     setManageModalVisible(true);
@@ -50,6 +50,7 @@ export default function ConsultasScreen({ navigation }) {
     setSelectedAppointmentId(null);
   };
 
+  // --- Renderização da data/hora ---
   const renderDataHora = (agendamento) => {
     if (agendamento.horario && !agendamento.dataAgendamento) {
       return `Agendado para ${agendamento.data} às ${agendamento.horario}`;
@@ -64,10 +65,10 @@ export default function ConsultasScreen({ navigation }) {
         "0"
       )}:${String(data.getMinutes()).padStart(2, "0")}`;
     }
+
     return "Data a definir";
   };
 
-  // Garante que é um array antes de checar length
   const listaAgendamentos = agendamentos || [];
 
   return (
@@ -76,6 +77,7 @@ export default function ConsultasScreen({ navigation }) {
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
       >
+        {/* --- HEADER --- */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.menuButton}
@@ -87,7 +89,7 @@ export default function ConsultasScreen({ navigation }) {
           <View style={{ width: 28 }} />
         </View>
 
-        {/* --- CORREÇÃO: Usar a variável segura 'listaAgendamentos' --- */}
+        {/* --- LISTA DE AGENDAMENTOS --- */}
         {listaAgendamentos.length === 0 && (
           <View style={{ alignItems: "center", marginTop: 50 }}>
             <Feather name="calendar" size={50} color="#ddd" />
@@ -146,7 +148,7 @@ export default function ConsultasScreen({ navigation }) {
         })}
       </ScrollView>
 
-      {/* --- MODAIS (MANTIDOS IGUAIS) --- */}
+      {/* --- MODAL DE GERENCIAMENTO --- */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -179,6 +181,7 @@ export default function ConsultasScreen({ navigation }) {
         </TouchableOpacity>
       </Modal>
 
+      {/* --- MODAL DE CONFIRMAÇÃO --- */}
       <Modal
         animationType="fade"
         transparent={true}

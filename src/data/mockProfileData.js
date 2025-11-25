@@ -16,10 +16,3 @@ export const moodData = [
   { day: "SEX", value: 6 },
   { day: "SAB", value: 7 },
 ];
-
-// Dados dos cards "Mais Recentes"
-export const recentData = [
-  { id: "1", source: require("./../../assets/terapia1.jpg") },
-  { id: "2", source: require("./../../assets/terapia2.jpg") },
-  { id: "3", source: require("./../../assets/terapia1.jpg") },
-];

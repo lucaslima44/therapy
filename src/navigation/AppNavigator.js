@@ -1,15 +1,18 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DrawerNavigator from "./DrawerNavigator";
-// auth
+
+// --- Auth Imports ---
 import OnboardingPrimeiro from "../screens/auth/OnboardingPrimeiro";
 import OnboardingSegundo from "../screens/auth/OnboardingSegundo";
 import OnboardingTerceiro from "../screens/auth/OnboardingTerceiro";
 import WelcomeScreen from "../screens/auth/WelcomeScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import ProRegister from "../screens/auth/ProRegisterScreen";
+import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
 
-// demais telas sem o drawer
+// --- App Imports (Telas internas) ---
+import TherapyGuideScreen from "../screens/app/TherapyGuideScreen"; // <--- 1. IMPORT ADICIONADO
 import ListedProfessionals from "../screens/app/ListedProfessionalsScreen";
 import PrimeiraAreaScreen from "../screens/app/PrimeiraAreaScreen";
 import SegundaAreaScreen from "../screens/app/SegundaAreaScreen";
@@ -22,32 +25,31 @@ import PaymentScreen from "../screens/app/PaymentScreen";
 import SobreNosScreen from "../screens/app/SobreNosScreen";
 import ParceirosScreen from "../screens/app/ParceirosScreen";
 import ConsultasScreen from "../screens/app/ConsultasScreen";
-import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="Welcome"
+      initialRouteName="MainApp"
       screenOptions={{ headerShown: false }}
     >
-      {/* Fluxo auth */}
+      {/* --- Fluxo Auth --- */}
       <Stack.Screen name="OnboardingPrimeiro" component={OnboardingPrimeiro} />
       <Stack.Screen name="OnboardingSegundo" component={OnboardingSegundo} />
       <Stack.Screen name="OnboardingTerceiro" component={OnboardingTerceiro} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPasswordScreen}
-        options={{ headerShown: false }}
-      />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="ProRegister" component={ProRegister} />
 
-      {/* Fluxo principal*/}
+      {/* --- 2. ROTA ADICIONADA AQUI (Intermediária entre Login e Home) --- */}
+      <Stack.Screen name="TherapyGuide" component={TherapyGuideScreen} />
+
+      {/* --- Fluxo Principal (Drawer + Tabs) --- */}
       <Stack.Screen name="MainApp" component={DrawerNavigator} />
-      {/* Fluxo externo */}
+
+      {/* --- Fluxo Externo / Detalhes --- */}
       <Stack.Screen
         name="ListedProfessionals"
         component={ListedProfessionals}

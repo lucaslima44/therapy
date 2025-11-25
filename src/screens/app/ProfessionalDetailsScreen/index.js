@@ -11,20 +11,49 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { Feather, Ionicons } from "@expo/vector-icons";
+// Certifique-se de que o caminho para o contexto está correto
 import { useAgendamento } from "../../../context/AgendamentoContext";
 
 export default function ProfessionalDetailsScreen({ navigation, route }) {
   const nome = route.params?.nome;
-  const { profissionais } = useAgendamento();
+  // Desestruturando `profissionais` e `agendamentos` do contexto
+  const {
+    profissionais,
+    agendamentos = [],
+    handleAgendarSessao,
+  } = useAgendamento();
   const profissional = profissionais.find((item) => item.nome === nome);
 
-  // Dados de agendamento
+  // Estados
   const [dataSelecionada, setDataSelecionada] = useState(null);
   const [horarioSelecionado, setHorarioSelecionado] = useState(null);
 
-  if (!profissional) return null;
+  if (!profissional) return null; // Retorna nulo se o profissional não for encontrado
 
-  // Função para agendar
+  // --- FUNÇÃO PARA FILTRAR HORÁRIOS DISPONÍVEIS ---
+  const getHorariosDisponiveis = () => {
+    if (!dataSelecionada) return [];
+
+    // 1. Encontra os agendamentos já feitos para ESTE profissional nesta data
+    const agendamentosFeitos = agendamentos.filter(
+      (ag) =>
+        ag.nomeProfissional === profissional.nome &&
+        ag.data === dataSelecionada.data
+    );
+
+    // 2. Extrai apenas os horários que já foram preenchidos
+    const horariosReservados = agendamentosFeitos.map((ag) => ag.horario);
+
+    // 3. Filtra a lista completa de horários do profissional
+    const horariosLivres = dataSelecionada.horarios.filter(
+      (hora) => !horariosReservados.includes(hora)
+    );
+
+    return horariosLivres;
+  };
+  // --------------------------------------------------------
+
+  // Função para lidar com a navegação de agendamento (Pagamento)
   const handleAgendar = () => {
     if (!dataSelecionada || !horarioSelecionado) {
       Alert.alert("Atenção", "Selecione um dia e um horário.");
@@ -42,22 +71,26 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {/* Header com Imagem de Fundo ou Cor */}
+      {/* 1. Header Fixo */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
+          {/* ✅ AJUSTE: Cor do ícone para branco */}
           <Feather name="arrow-left" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Detalhes</Text>
+        {/* View Fantasma para centralizar o título */}
+        <View style={{ width: 44 }} />
       </View>
 
+      {/* 2. ScrollView (Conteúdo que rola) */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
       >
-        {/* 1. Perfil Principal */}
+        {/* Perfil Principal */}
         <View style={styles.profileContainer}>
           <Image source={profissional.source} style={styles.avatar} />
           <Text style={styles.name}>{profissional.nome}</Text>
@@ -74,7 +107,7 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
           <Text style={styles.price}>R$ {profissional.preco.toFixed(2)}</Text>
         </View>
 
-        {/* 2. Informações Completas */}
+        {/* Informações Completas */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Sobre</Text>
           <Text style={styles.description}>
@@ -92,7 +125,7 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
           </View>
         </View>
 
-        {/* 3. Seletor de DATAS (Horizontal) */}
+        {/* Seletor de DATAS */}
         <Text style={styles.sectionTitle}>Escolha uma Data</Text>
         <FlatList
           data={profissional.agenda}
@@ -107,7 +140,7 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
                 style={[styles.dateCard, isSelected && styles.selectedDateCard]}
                 onPress={() => {
                   setDataSelecionada(item);
-                  setHorarioSelecionado(null); // Reseta horário ao mudar data
+                  setHorarioSelecionado(null); // Reseta horário
                 }}
               >
                 <Text
@@ -125,12 +158,12 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
           }}
         />
 
-        {/* 4. Seletor de HORÁRIOS (Só aparece se tiver data selecionada) */}
+        {/* Seletor de HORÁRIOS */}
         {dataSelecionada && (
           <>
             <Text style={styles.sectionTitle}>Horários Disponíveis</Text>
             <View style={styles.timeContainer}>
-              {dataSelecionada.horarios.map((hora) => {
+              {getHorariosDisponiveis().map((hora) => {
                 const isSelected = horarioSelecionado === hora;
                 return (
                   <TouchableOpacity
@@ -153,14 +186,21 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
                 );
               })}
             </View>
+
+            {/* Aviso de Nenhum Horário */}
+            {getHorariosDisponiveis().length === 0 && (
+              <Text style={styles.noTimeAvailableText}>
+                Nenhum horário disponível para esta data.
+              </Text>
+            )}
           </>
         )}
       </ScrollView>
 
-      {/* 5. Botão de Ação (Footer fixo) */}
+      {/* 3. Botão de Ação (Footer fixo) */}
       <View style={styles.footer}>
         <View>
-          <Text style={styles.footerLabel}>Total</Text>
+          <Text style={styles.footerLabel}>Preço da Sessão</Text>
           <Text style={styles.footerPrice}>
             R$ {profissional.preco.toFixed(2)}
           </Text>

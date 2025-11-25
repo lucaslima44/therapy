@@ -133,7 +133,7 @@ const FormBody = ({ navigation }) => {
           // AQUI É O LUGAR CERTO DE SALVAR:
           await AsyncStorage.setItem("@user_data", JSON.stringify(data.user));
 
-          navigation.replace("MainApp");
+          navigation.replace("TherapyGuide");
         }
       } else {
         // Erro da API (ex: senha errada)
