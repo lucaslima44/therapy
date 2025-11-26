@@ -21,11 +21,11 @@ const PROFILE_IMAGE_KEY = "@user_profile_image";
 
 // Mapa de humores
 const MOOD_MAP = {
-  feliz: { lib: AntDesign, icon: "smile", color: "#7ED957" },
-  chorando: { lib: FontAwesome5, icon: "sad-cry", color: "#6CCDFF" },
+  feliz: { lib: AntDesign, icon: "smile", color: "#4CAF50" },
+  chorando: { lib: FontAwesome5, icon: "sad-cry", color: "#2196F3" },
   raiva: { lib: FontAwesome5, icon: "angry", color: "#FF4444" },
   triste: { lib: Entypo, icon: "emoji-sad", color: "#C5A8E0" },
-  surpreso: { lib: FontAwesome5, icon: "surprise", color: "#FED93F" },
+  normal: { lib: FontAwesome5, icon: "meh", color: "#b48e05" },
   default: { lib: AntDesign, icon: "plus", color: "#E0E0E0" },
 };
 

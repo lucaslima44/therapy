@@ -280,7 +280,7 @@ export default function HomeScreen({ navigation }) {
               onPress={() => navigation.navigate("Perfil")}
             >
               <View style={[styles.moodIconBg, { backgroundColor: "#FFF3E0" }]}>
-                <Entypo name="emoji-sad" size={32} color="#FF9800" />
+                <Entypo name="emoji-sad" size={32} color="#C5A8E0" />
               </View>
               <Text style={styles.moodText}>Mal</Text>
             </TouchableOpacity>
