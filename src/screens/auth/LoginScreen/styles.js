@@ -2,7 +2,6 @@ import { StyleSheet, Platform } from "react-native";
 import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
-  // --- Containers Principais ---
   gradientContainer: {
     flex: 1,
   },
@@ -10,17 +9,16 @@ export default StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    flexGrow: 1, // Permite que o scroll funcione
+    flexGrow: 1,
   },
 
-  // --- 1. Header ---
   headerContainer: {
-    paddingTop: Platform.OS === "ios" ? 60 : 40, // Espaço para status bar
+    paddingTop: Platform.OS === "ios" ? 60 : 40,
     paddingHorizontal: 20,
-    gap: 30, // Espaçamento entre os elementos do header
+    gap: 30,
   },
   backButton: {
-    alignSelf: "flex-start", // Alinha o botão à esquerda
+    alignSelf: "flex-start",
   },
   logoContainer: {
     flexDirection: "row",
@@ -52,9 +50,8 @@ export default StyleSheet.create({
     color: "#E8E8E8",
   },
 
-  // --- 2. Formulário ---
   formContainer: {
-    flex: 1, // Faz o form crescer e ocupar o resto da tela
+    flex: 1,
     backgroundColor: colors.cardLogin,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
@@ -112,7 +109,6 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
   },
-  // No seu arquivo styles.js adicione:
 
   errorContainer: {
     flexDirection: "row",
@@ -129,7 +125,6 @@ export default StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
-  // Inputs
   inputContainer: {
     gap: 10,
   },
@@ -150,8 +145,6 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#686868ff",
   },
-
-  // Botões do Form
   forgotPasswordText: {
     color: colors.textLight,
     textAlign: "left",

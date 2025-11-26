@@ -48,7 +48,6 @@ export default function ListedProfessionalsScreen({ navigation }) {
         {item.descricao.substring(0, 30)}...
       </Text>
       <TouchableOpacity
-        // Troque a chamada de função antiga pelo navigation direto:
         onPress={() =>
           navigation.navigate("ProfessionalDetailsScreen", { nome: item.nome })
         }
@@ -69,7 +68,6 @@ export default function ListedProfessionalsScreen({ navigation }) {
 
         <Text style={styles.title}>{area}</Text>
 
-        {/* View "fantasma" para centralizar o título (da nossa conversa anterior) */}
         <View style={{ width: 24 }} />
       </View>
 

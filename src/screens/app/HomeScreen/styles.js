@@ -3,7 +3,6 @@ import { colors } from "../../../styles/colors";
 
 const { width: screenWidth } = Dimensions.get("window");
 
-// Dica: Centralizar cores repetidas ajuda na manutenção
 const localColors = {
   purple: "#4F49EA",
   darkText: "#333",
@@ -21,16 +20,13 @@ export default StyleSheet.create({
     backgroundColor: colors.backgroundBege,
   },
 
-  // --- CABEÇALHO (HEADER) ---
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20, // Dá um respiro para o conteúdo abaixo
+    marginBottom: 20,
   },
   menuButton: {
-    // position: "absolute" aqui pode ser perigoso se o título for grande.
-    // Se funcionar pra você, ok. Mas prefira Flexbox normal se puder.
     position: "absolute",
     left: 0,
     zIndex: 10,
@@ -38,7 +34,6 @@ export default StyleSheet.create({
   logoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    // margin: "auto" as vezes falha no RN antigo. justifyContent center no pai é mais seguro.
     flex: 1,
     justifyContent: "center",
     gap: 10,
@@ -53,8 +48,6 @@ export default StyleSheet.create({
     fontFamily: "Marcellus-Regular",
     color: localColors.darkText,
   },
-
-  // --- TÍTULOS GERAIS DA PÁGINA ---
   title: {
     fontSize: 28,
     fontFamily: "Karma-Regular",
@@ -65,15 +58,15 @@ export default StyleSheet.create({
     fontFamily: "Inter",
     fontSize: 18,
     fontWeight: "600",
-    marginTop: -5, // Ajustei levemente
+    marginTop: -5,
     color: "#000",
   },
 
   // --- CARROSSEL / BANNER ---
   parceirosImage: {
-    width: "100%", // CORREÇÃO: Usa 100% da largura disponível, não 390px fixo
+    width: "100%",
     height: 118,
-    resizeMode: "cover", // ou "contain" dependendo da arte
+    resizeMode: "contain", // contain ou cover
     borderRadius: 8,
   },
   carouselContainer: {
@@ -88,7 +81,7 @@ export default StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 12, // 50 era muito oval para um banner retangular, 12 é mais padrão
+    borderRadius: 12,
     overflow: "hidden",
   },
 
@@ -97,14 +90,13 @@ export default StyleSheet.create({
     position: "absolute",
     zIndex: 10,
     top: "50%",
-    marginTop: -15, // Metade da altura (30/2) para centralizar exato
+    marginTop: -15,
     width: 30,
     height: 30,
     borderRadius: 15,
     backgroundColor: "rgba(255, 255, 255, 0.8)",
     justifyContent: "center",
     alignItems: "center",
-    // Sombra para a seta aparecer em fundos claros
     elevation: 3,
     shadowColor: "#000",
     shadowOpacity: 0.2,
@@ -113,9 +105,8 @@ export default StyleSheet.create({
   arrowLeft: { left: 10 },
   arrowRight: { right: 10 },
 
-  // --- SEÇÃO: PROFISSIONAIS POPULARES (HEADER DA SEÇÃO) ---
+  // --- SEÇÃO DE PROFISSIONAIS ---
   sectionHeader: {
-    // Renomeei para evitar conflito
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -123,44 +114,36 @@ export default StyleSheet.create({
     marginBottom: 15,
   },
   sectionTitle: {
-    // Título da seção (Ex: "Populares")
     fontSize: 16,
     fontFamily: "Inter",
     fontWeight: "bold",
     color: "#000",
   },
   seeAllButton: {
-    // Texto "Ver todos"
     fontSize: 14,
     fontFamily: "Inter",
     color: localColors.purple,
     fontWeight: "600",
   },
-
-  // --- LISTA HORIZONTAL DE PROFISSIONAIS ---
   horizontalList: {
     flexDirection: "row",
-    // gap: 10, // Se seu RN for antigo, use marginRight no item
   },
-
-  // O Card Individual do Profissional
   cardProfissionalPop: {
     alignItems: "center",
     backgroundColor: localColors.cardBeige,
     padding: 10,
     borderRadius: 8,
-    marginRight: 10, // Espaçamento entre cards
-    width: 140, // Largura fixa para o card ficar uniforme
+    marginRight: 10,
+    width: 140,
   },
   cardProfissionalImage: {
-    width: "100%", // Ocupa a largura do card
-    height: 120, // Altura reduzida para caber melhor
+    width: "100%",
+    height: 120,
     borderRadius: 8,
     marginBottom: 8,
-    backgroundColor: "#ddd", // Cor de fundo enquanto carrega
+    backgroundColor: "#ddd",
   },
   cardProfissionalName: {
-    // Renomeei para não conflitar com sectionTitle
     fontSize: 15,
     fontFamily: "Inter",
     fontWeight: "bold",
@@ -187,7 +170,6 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
 
-  // --- FILTROS (BOTÕES) ---
   filterListContainer: {
     marginTop: 20,
     flexDirection: "row",
@@ -205,15 +187,12 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: "Inter",
   },
-
-  // --- CARD DE AGENDAMENTO (JÁ ESTAVA BOM, SÓ AJUSTEI NOMES) ---
   cardAgendamento: {
     backgroundColor: "#fff",
     borderRadius: 12,
     padding: 15,
     marginTop: 20,
-    marginBottom: 60, // Espaço para a tab bar não cobrir
-    // Sombra unificada
+    marginBottom: 60,
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -226,13 +205,11 @@ export default StyleSheet.create({
     }),
   },
   agendamentoHeader: {
-    // topRow
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 12,
   },
   agendamentoAvatar: {
-    // imagemProfissional
     width: 50,
     height: 50,
     borderRadius: 25,
@@ -240,17 +217,16 @@ export default StyleSheet.create({
     backgroundColor: "#eee",
   },
   agendamentoInfo: {
-    // nomeEStatus
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-start", // Melhor flex-start caso o nome quebre linha
+    alignItems: "flex-start",
   },
   agendamentoNome: {
     fontSize: 16,
     fontFamily: "Karma-Bold",
-    color: "#333",
-    flex: 1, // Permite que o nome quebre linha sem empurrar o status
+    color: colors.textDark,
+    flex: 1,
     marginRight: 10,
   },
   statusBadge: {
@@ -266,7 +242,6 @@ export default StyleSheet.create({
     textTransform: "uppercase",
   },
   agendamentoFooter: {
-    // bottomRow
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -285,29 +260,27 @@ export default StyleSheet.create({
   iconeAcao: {
     padding: 5,
   },
-  // --- ESTILOS DO CARD DE HUMOR (NOVO) ---
   moodRow: {
-    flexDirection: "row", // Coloca os itens lado a lado
-    justifyContent: "space-between", // Espaça eles igualmente
-    width: "100%", // Ocupa toda a largura do card
-    paddingHorizontal: 5, // Um pequeno respiro nas laterais
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 5,
     marginTop: 5,
   },
   moodButton: {
-    alignItems: "center", // Centraliza o ícone com o texto
-    gap: 8, // Espaço entre a bolinha e o texto "Bem"
+    alignItems: "center",
+    gap: 8,
   },
   moodIconBg: {
-    width: 52, // Tamanho da bolinha
+    width: 52,
     height: 52,
-    borderRadius: 26, // Metade da largura para ficar redondo
-    justifyContent: "center", // Centraliza o ícone verticalmente
-    alignItems: "center", // Centraliza o ícone horizontalmente
-    // A cor de fundo (backgroundColor) é definida dinamicamente no JSX
+    borderRadius: 26,
+    justifyContent: "center",
+    alignItems: "center",
   },
   moodText: {
     fontSize: 12,
     color: "#666",
-    fontWeight: "500", // Peso médio da fonte
+    fontWeight: "500",
   },
 });

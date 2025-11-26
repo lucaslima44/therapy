@@ -4,7 +4,7 @@ import {
   Text, 
   View, 
   TouchableOpacity, 
-  StatusBar // <--- 1. ADICIONE O IMPORT AQUI
+  StatusBar
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { gradientProps } from "../../../styles/colors";
@@ -26,8 +26,6 @@ export default function WelcomeScreen({ navigation }) {
 
   return (
     <LinearGradient style={styles.gradientContainer} {...gradientProps}>
-      
-      {/* 2. ADICIONE O COMPONENTE AQUI */}
       <StatusBar 
         barStyle="light-content" 
         backgroundColor="transparent" 

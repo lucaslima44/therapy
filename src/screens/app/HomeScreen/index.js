@@ -39,7 +39,6 @@ export default function HomeScreen({ navigation }) {
         if (storedUser) {
           const parsedUser = JSON.parse(storedUser);
           if (parsedUser.name) {
-            // Formata para Primeira Letra Maiúscula (Capitalize)
             const nomeFormatado = parsedUser.name
               .toLowerCase()
               .split(" ")
@@ -53,17 +52,14 @@ export default function HomeScreen({ navigation }) {
       } catch (error) {
         console.log("Erro ao carregar usuário:", error);
       } finally {
-        // Pequeno delay para evitar "piscada" de tela
         setTimeout(() => setIsLoading(false), 1000);
       }
     };
     loadUserData();
   }, []);
 
-  // Dados da lista horizontal
   const popularesData = profissionaisData.slice(0, 4);
 
-  // --- RENDERIZADORES ---
   const renderCarouselItem = ({ item }) => (
     <View style={styles.carouselItemContainer}>
       <Image
@@ -103,7 +99,6 @@ export default function HomeScreen({ navigation }) {
     </TouchableOpacity>
   );
 
-  // --- LOADING STATE ---
   if (isLoading) {
     return (
       <View

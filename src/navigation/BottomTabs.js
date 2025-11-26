@@ -6,7 +6,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as NavigationBar from "expo-navigation-bar";
 
-// --- SEUS IMPORTS MANTIDOS ---
 import HomeScreen from "../screens/app/HomeScreen";
 import MeditacaoScreen from "../screens/app/MeditacaoScreen";
 import ConsultasScreen from "../screens/app/ConsultasScreen";
@@ -37,7 +36,6 @@ export default function BottomTabs() {
 
   useEffect(() => {
     if (Platform.OS === "android") {
-      // Força a cor preta na API do Android
       NavigationBar.setBackgroundColorAsync("#000000");
       NavigationBar.setButtonStyleAsync("light");
     }
@@ -47,7 +45,6 @@ export default function BottomTabs() {
   const androidHeight = 60;
 
   return (
-    // 1. Envolvemos tudo em uma View com flex: 1
     <View style={{ flex: 1, backgroundColor: "#000000" }}>
       <Tab.Navigator
         screenOptions={{
@@ -69,12 +66,10 @@ export default function BottomTabs() {
             position: "absolute",
             left: 0,
             right: 0,
-            // No Android, a barra sobe (insets.bottom).
-            // Isso deixa um espaço vazio embaixo dela.
             bottom: Platform.OS === "android" ? insets.bottom : 0,
             height: Platform.OS === "android" ? androidHeight : iosHeight,
 
-            backgroundColor: "#FFFFFF", // Fundo BRANCO da TabBar
+            backgroundColor: "#FFFFFF",
             borderTopWidth: 1,
             borderTopColor: "#E0E0E0",
             elevation: 0,
@@ -137,10 +132,6 @@ export default function BottomTabs() {
         />
       </Tab.Navigator>
 
-      {/* 2. O TRUQUE VISUAL (FIX):
-         Adicionamos uma View PRETA no rodapé do Android.
-         Ela preenche exatamente o espaço que o 'bottom: insets.bottom' deixou vazio.
-      */}
       {Platform.OS === "android" && insets.bottom > 0 && (
         <View
           style={{
@@ -148,9 +139,9 @@ export default function BottomTabs() {
             bottom: 0,
             left: 0,
             right: 0,
-            height: insets.bottom, // Altura exata da barra de navegação do sistema
-            backgroundColor: "#000000", // AQUI FICA O PRETO
-            zIndex: 100, // Garante que fique visível sobre o conteúdo, mas abaixo da TabBar (visualmente)
+            height: insets.bottom,
+            backgroundColor: "#000000",
+            zIndex: 100,
           }}
         />
       )}

@@ -11,12 +11,10 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { Feather, Ionicons } from "@expo/vector-icons";
-// Certifique-se de que o caminho para o contexto está correto
 import { useAgendamento } from "../../../context/AgendamentoContext";
 
 export default function ProfessionalDetailsScreen({ navigation, route }) {
   const nome = route.params?.nome;
-  // Desestruturando `profissionais` e `agendamentos` do contexto
   const {
     profissionais,
     agendamentos = [],
@@ -30,30 +28,27 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
 
   if (!profissional) return null; // Retorna nulo se o profissional não for encontrado
 
-  // --- FUNÇÃO PARA FILTRAR HORÁRIOS DISPONÍVEIS ---
+  // FUNÇÃO PARA FILTRAR HORÁRIOS DISPONÍVEIS
   const getHorariosDisponiveis = () => {
     if (!dataSelecionada) return [];
 
-    // 1. Encontra os agendamentos já feitos para ESTE profissional nesta data
+    // Encontra os agendamentos já feitos para ESTE profissional nesta data
     const agendamentosFeitos = agendamentos.filter(
       (ag) =>
         ag.nomeProfissional === profissional.nome &&
         ag.data === dataSelecionada.data
     );
 
-    // 2. Extrai apenas os horários que já foram preenchidos
+    // Extrai apenas os horários que já foram preenchidos
     const horariosReservados = agendamentosFeitos.map((ag) => ag.horario);
 
-    // 3. Filtra a lista completa de horários do profissional
+    // Filtra a lista completa de horários do profissional
     const horariosLivres = dataSelecionada.horarios.filter(
       (hora) => !horariosReservados.includes(hora)
     );
 
     return horariosLivres;
   };
-  // --------------------------------------------------------
-
-  // Função para lidar com a navegação de agendamento (Pagamento)
   const handleAgendar = () => {
     if (!dataSelecionada || !horarioSelecionado) {
       Alert.alert("Atenção", "Selecione um dia e um horário.");
@@ -71,21 +66,18 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {/* 1. Header Fixo */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          {/* ✅ AJUSTE: Cor do ícone para branco */}
           <Feather name="arrow-left" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Detalhes</Text>
-        {/* View Fantasma para centralizar o título */}
+
         <View style={{ width: 44 }} />
       </View>
 
-      {/* 2. ScrollView (Conteúdo que rola) */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
@@ -197,7 +189,6 @@ export default function ProfessionalDetailsScreen({ navigation, route }) {
         )}
       </ScrollView>
 
-      {/* 3. Botão de Ação (Footer fixo) */}
       <View style={styles.footer}>
         <View>
           <Text style={styles.footerLabel}>Preço da Sessão</Text>

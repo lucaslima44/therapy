@@ -18,7 +18,6 @@ import { gradientProps } from "./../../../styles/colors";
 import styles from "./styles";
 import { Feather, MaterialIcons, Ionicons } from "@expo/vector-icons";
 
-// --- HEADER ---
 const Header = ({ navigation }) => {
   const canGoBack = navigation.canGoBack();
 
@@ -54,7 +53,6 @@ const Header = ({ navigation }) => {
   );
 };
 
-// --- FORM BODY (CORRIGIDO) ---
 const FormBody = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Login");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -66,7 +64,6 @@ const FormBody = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Bloqueio Web
   const handleWebContextMenu = (e) => {
     if (Platform.OS === "web") {
       e.preventDefault();
@@ -76,12 +73,8 @@ const FormBody = ({ navigation }) => {
   const noSelectStyle = Platform.OS === "web" ? { userSelect: "none" } : {};
 
   const handleAuthAction = async () => {
-    // 1. Limpa erros
     setErrorMessage(null);
 
-    // --- REMOVI O BLOCO IF(RESPONSE.OK) QUE ESTAVA AQUI ERRADO ---
-
-    // 2. Validações
     if (!email || !password) {
       setErrorMessage("Por favor, preencha todos os campos.");
       return;
@@ -100,7 +93,6 @@ const FormBody = ({ navigation }) => {
 
     setIsLoading(true);
 
-    // 3. Configuração da API
     const baseUrl = "https://therapy-api-y4uh.onrender.com";
     const endpoint = activeTab === "Login" ? "/auth/login" : "/auth/register";
     const payload =
@@ -109,7 +101,6 @@ const FormBody = ({ navigation }) => {
     try {
       console.log(`Enviando para: ${baseUrl}${endpoint}`);
 
-      // 4. Faz a requisição
       const response = await fetch(`${baseUrl}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -118,7 +109,6 @@ const FormBody = ({ navigation }) => {
 
       const data = await response.json();
 
-      // 5. Verifica sucesso
       if (response.ok) {
         if (activeTab === "Cadastrar") {
           Alert.alert("Sucesso", "Conta criada! Faça login para continuar.");
@@ -127,12 +117,8 @@ const FormBody = ({ navigation }) => {
           setConfirmPassword("");
           setErrorMessage(null);
         } else {
-          // --- LOGIN COM SUCESSO ---
           console.log("Usuário logado:", data.user);
-
-          // AQUI É O LUGAR CERTO DE SALVAR:
           await AsyncStorage.setItem("@user_data", JSON.stringify(data.user));
-
           navigation.replace("TherapyGuide");
         }
       } else {
@@ -149,7 +135,6 @@ const FormBody = ({ navigation }) => {
 
   return (
     <View style={styles.formContainer}>
-      {/* TOGGLE */}
       <View style={styles.toggleContainer}>
         <TouchableOpacity
           style={[
@@ -252,6 +237,7 @@ const FormBody = ({ navigation }) => {
             contextMenuHidden={true}
             selectTextOnFocus={false}
             onContextMenu={handleWebContextMenu}
+            autoCapitalize="none"
           />
           <TouchableOpacity
             onPress={() => setIsPasswordVisible(!isPasswordVisible)}
@@ -264,7 +250,6 @@ const FormBody = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* CONFIRMAR SENHA */}
         {activeTab === "Cadastrar" && (
           <View style={styles.inputWrapper}>
             <Feather
@@ -283,6 +268,7 @@ const FormBody = ({ navigation }) => {
               contextMenuHidden={true}
               selectTextOnFocus={false}
               onContextMenu={handleWebContextMenu}
+              autoCapitalize="none"
             />
           </View>
         )}
@@ -322,22 +308,22 @@ const FormBody = ({ navigation }) => {
   );
 };
 
-// --- TELA PRINCIPAL ---
 export default function LoginScreen({ navigation }) {
   return (
     <LinearGradient style={styles.gradientContainer} {...gradientProps}>
       <KeyboardAvoidingView
-        style={styles.kavContainer}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <ScrollView
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
           <StatusBar
-            barStyle="light-content" // Deixa os ícones (bateria, hora) brancos
-            backgroundColor="transparent" // Tira a cor de fundo da barra
-            translucent={true} // Permite que o seu Gradiente passe por baixo da barra
+            barStyle="light-content"
+            backgroundColor="transparent"
+            translucent={true}
           />
           <Header navigation={navigation} />
           <FormBody navigation={navigation} />

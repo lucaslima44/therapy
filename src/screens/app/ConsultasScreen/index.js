@@ -77,7 +77,6 @@ export default function ConsultasScreen({ navigation }) {
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
       >
-        {/* --- HEADER --- */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.menuButton}

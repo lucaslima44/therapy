@@ -18,14 +18,11 @@ import { SelectList } from "react-native-dropdown-select-list";
 import styles from "./styles";
 
 export default function ProRegisterScreen({ navigation }) {
-  // --- Estados das Imagens ---
   const [profileImage, setProfileImage] = useState(null);
   const [documento, setDocumento] = useState(null);
 
-  // --- Estado do Modal ---
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
 
-  // --- Estados do Formulário ---
   const [nomeCompleto, setNomeCompleto] = useState("");
   const [cpf, setCpf] = useState("");
   const [cpfSemMascara, setCpfSemMascara] = useState("");
@@ -36,7 +33,6 @@ export default function ProRegisterScreen({ navigation }) {
   const [areaAtuacao, setAreaAtuacao] = useState("");
   const [crp, setCrp] = useState("");
 
-  // --- Opções para o SelectList (Dropdowns) ---
   const generosOptions = [
     { key: "feminino", value: "Feminino" },
     { key: "masculino", value: "Masculino" },
@@ -53,10 +49,6 @@ export default function ProRegisterScreen({ navigation }) {
     { key: "hospitalar", value: "Psicologia Hospitalar" },
     { key: "outra", value: "Outra" },
   ];
-
-  // -----------------------------------------------------------------
-  // Função de validação de data (Mantida igual)
-  // -----------------------------------------------------------------
   const validateBirthDate = (dateString) => {
     if (!dateString) {
       setBirthDateError("");
@@ -93,10 +85,6 @@ export default function ProRegisterScreen({ navigation }) {
     }
     setBirthDateError("");
   };
-
-  // -----------------------------------------------------------------
-  // Funções de Imagem e Documento (Mantidas iguais)
-  // -----------------------------------------------------------------
   const requestMediaLibraryPermissions = async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!granted) {
@@ -136,10 +124,6 @@ export default function ProRegisterScreen({ navigation }) {
       Alert.alert("Erro", "Não foi possível abrir o seletor de arquivos.");
     }
   };
-
-  // -----------------------------------------------------------------
-  // Função de Envio (Mantida igual)
-  // -----------------------------------------------------------------
   const handleSubmit = async () => {
     validateBirthDate(birthDate);
     if (birthDateError) {
@@ -170,7 +154,7 @@ export default function ProRegisterScreen({ navigation }) {
     };
 
     const urlDaApi = "http://192.168.3.157:3000/profissionais";
-    
+
     try {
       const response = await fetch(urlDaApi, {
         method: "POST",
@@ -196,15 +180,8 @@ export default function ProRegisterScreen({ navigation }) {
       );
     }
   };
-
-  // -----------------------------------------------------------------
-  // --- JSX (Com Header e ScrollView Corrigida) ---
-  // -----------------------------------------------------------------
   return (
-    // ESTILO CONTAINER COM FLEX: 1 É CRUCIAL AQUI
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      
-      {/* 1. HEADER COM TÍTULO E BOTÃO DE VOLTAR */}
       <View style={styles.headerContainer}>
         <TouchableOpacity
           style={styles.backButton}
@@ -212,15 +189,11 @@ export default function ProRegisterScreen({ navigation }) {
         >
           <Feather name="arrow-left" size={24} color="#333" />
         </TouchableOpacity>
-        
-        <Text style={styles.headerTitle}>Tela de Cadastro do Profissional</Text>
-        
-        {/* Placeholder vazio para centralização visual do título */}
-        <View style={{ width: 24 }} /> 
-      </View>
 
-      {/* 2. FOTO DE PERFIL (styles.teste agora é o wrapper de position: relative) */}
-      <View style={styles.teste}>
+        <Text style={styles.headerTitle}>Tela de Cadastro do Profissional</Text>
+        <View style={{ width: 24 }} />
+      </View>
+      <View style={styles.fotoPerfil}>
         <Image
           source={
             profileImage
@@ -234,7 +207,6 @@ export default function ProRegisterScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* --- Início do Formulário --- */}
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Nome Completo</Text>
         <TextInput
@@ -361,14 +333,13 @@ export default function ProRegisterScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* --- CÓDIGO DO MODAL DE SUCESSO --- */}
       <Modal
         animationType="fade"
         transparent={true}
         visible={isSuccessModalVisible}
         onRequestClose={() => {
           setSuccessModalVisible(false);
-          navigation.navigate("Login"); 
+          navigation.navigate("Login");
         }}
       >
         <View style={styles.modalOverlay}>

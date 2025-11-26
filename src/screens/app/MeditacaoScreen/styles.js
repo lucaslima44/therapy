@@ -4,28 +4,23 @@ import { colors } from "../../../styles/colors";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20, // Padding lateral igual Home
-    paddingTop: 20,        // Padding superior igual Home
+    paddingHorizontal: 20,
+    paddingTop: 20,
     backgroundColor: colors.backgroundBege,
   },
 
-  // --- HEADER PADRÃO DA HOME ---
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20, // O "respiro" padrão da Home
-    // SEM marginTop aqui, quem cuida disso é o <Screen>
+    marginBottom: 20,
   },
 
   titulo: {
-    fontSize: 20, // Tamanho igual da Home
-    fontWeight: "bold", // Fonte igual da Home (ajuste se a Home usa outra)
+    fontSize: 20,
+    fontWeight: "bold",
     color: "#333",
-    // fontFamily: "Marcellus-Regular", // Descomente se a Home usa essa fonte
   },
-
-  // ... Resto dos estilos dos cards (card, row, etc) ...
   scrollContent: {
     paddingBottom: 50,
   },

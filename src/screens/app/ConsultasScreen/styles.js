@@ -4,36 +4,29 @@ import { colors } from "../../../styles/colors";
 export default StyleSheet.create({
   container: {
     flexGrow: 1,
-    // Padding Padrão da Home (Horizontal 20, Topo 20)
     paddingHorizontal: 20,
     paddingTop: 20,
     backgroundColor: colors.backgroundBege,
   },
 
-  // --- HEADER IDÊNTICO AO DA HOME ---
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between", // Espalha Menu - Titulo - Fantasma
-    marginBottom: 20, // Respiro padrão
-    // Removido paddingVertical e marginTop manual
+    justifyContent: "space-between",
+    marginBottom: 20,
   },
 
   menuButton: {
-    // Removido position absolute
-    padding: 5, // Área de toque
+    padding: 5,
   },
 
   titulo: {
-    fontSize: 20, // Tamanho padrão
+    fontSize: 20,
     fontWeight: "bold",
     color: "#333",
     textAlign: "center",
-    // Se a Home usa Marcellus, descomente abaixo:
-    // fontFamily: "Marcellus-Regular", 
   },
 
-  // --- ESTILOS DOS CARDS E MODAIS (MANTIDOS IGUAIS) ---
   cardAgendamento: {
     backgroundColor: "#fff",
     borderRadius: 10,
@@ -69,7 +62,7 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   nomeProfissional: {
-    fontSize: 16, // Leve ajuste
+    fontSize: 16,
     fontWeight: "bold",
     color: "#333",
     flex: 1,

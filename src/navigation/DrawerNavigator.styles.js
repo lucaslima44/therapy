@@ -2,7 +2,6 @@
 import { StyleSheet, Platform } from "react-native";
 
 export default StyleSheet.create({
-  // --- Estilos do Navigator (screenOptions) ---
   drawerStyle: {
     width: 280,
     borderTopRightRadius: 20,
@@ -12,7 +11,6 @@ export default StyleSheet.create({
     backgroundColor: "#fdfbea",
   },
 
-  // --- Estilos do Conteúdo Customizado ---
   drawerContainer: {
     flex: 1,
     backgroundColor: "#fff",
@@ -23,10 +21,10 @@ export default StyleSheet.create({
     position: "absolute",
     top: 50,
     right: 20,
-    zIndex: 1, // Garante que fique por cima
+    zIndex: 1,
   },
 
-  // --- Perfil ---
+  //  Perfil
   profileContainer: {
     alignItems: "center",
     marginBottom: 20,
@@ -41,7 +39,7 @@ export default StyleSheet.create({
     fontWeight: "600",
   },
 
-  // --- Seções do Menu ---
+  // Seções do Menu
   menuSection: {
     marginVertical: 10,
   },
@@ -51,7 +49,7 @@ export default StyleSheet.create({
     fontWeight: "600",
   },
 
-  // --- Itens do Menu ---
+  // Menu
   drawerItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -64,38 +62,36 @@ export default StyleSheet.create({
     fontSize: 16,
   },
 
-  // --- Botão de Logout ---
+  //  Botão de Logout
   logoutButton: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 20,
   },
   logoutIcon: {
-    width: 28, // Mantém alinhamento com outros ícones
+    width: 28,
     color: "red",
   },
   logoutText: {
     fontSize: 16,
     color: "red",
   },
-
-  // --- Estilos do Modal de Logout ---
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "flex-end",
     alignItems: "center",
+    paddingBottom: 50,
   },
   modalContent: {
     backgroundColor: "#fff",
     borderRadius: 20,
-    padding: 50, // Espaçamento interno geral
-    paddingTop: 100, // Mais espaço no topo
+    padding: 50,
+    paddingTop: 100,
     width: "85%",
     alignItems: "center",
 
     ...Platform.select({
-      // Estilos para iOS (iPhone)
       ios: {
         shadowColor: "#000",
         shadowOffset: {
@@ -104,12 +100,11 @@ export default StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-      }, // Estilo para Android
+      },
       android: {
         elevation: 5,
-      }, // Estilo para Web (corrigindo o erro)
+      },
       web: {
-        // "0px 2px" (offset) "4px" (radius) "rgba(0,0,0,0.25)" (color+opacity)
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
       },
     }),

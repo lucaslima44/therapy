@@ -4,13 +4,11 @@ import { colors } from "../../../styles/colors";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    // Padding padrão da tela
     paddingHorizontal: 20,
     paddingTop: 20,
     backgroundColor: colors.backgroundBege,
   },
 
-  // --- HEADER PADRÃO ---
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -28,12 +26,10 @@ export default StyleSheet.create({
     textAlign: "center",
   },
 
-  // --- SCROLL CONTENT ---
   scrollContent: {
     paddingBottom: 40,
   },
 
-  // --- PERFIL HERO (Avatar) ---
   profileHero: {
     alignItems: "center",
     marginBottom: 25,
@@ -41,9 +37,9 @@ export default StyleSheet.create({
   profileAvatar: {
     width: 100,
     height: 100,
-    borderRadius: 50, // Círculo perfeito
+    borderRadius: 50,
     borderWidth: 3,
-    borderColor: "#fff", // Borda branca para destaque
+    borderColor: "#fff",
     marginBottom: 10,
   },
   clientName: {
@@ -57,14 +53,12 @@ export default StyleSheet.create({
     marginTop: 2,
   },
 
-  // --- STATS CARD ---
   statsContainer: {
     flexDirection: "row",
     backgroundColor: "#fff",
     borderRadius: 16,
     paddingVertical: 20,
     marginBottom: 30,
-    // Sombra suave
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -83,7 +77,7 @@ export default StyleSheet.create({
   statNumber: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#1F5656", // Verde escuro da marca
+    color: "#1F5656",
   },
   statLabel: {
     fontSize: 12,
@@ -119,11 +113,10 @@ export default StyleSheet.create({
   moodValueBox: {
     width: 50,
     height: 50,
-    borderRadius: 25, // Redondo
+    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 8,
-    // Sombra no ícone
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -139,7 +132,6 @@ export default StyleSheet.create({
     fontWeight: "500",
   },
 
-  // --- RECENTES ---
   recentListContent: {
     paddingRight: 20,
   },
@@ -157,37 +149,36 @@ export default StyleSheet.create({
     resizeMode: "cover",
   },
   profileHero: {
-  alignItems: 'center',
-  paddingVertical: 20,
-},
+    alignItems: "center",
+    paddingVertical: 20,
+  },
 
-// 1. Novo Wrapper para posicionar a câmera
-avatarWrapper: {
-  width: 120, 
-  height: 120, 
-  marginBottom: 10,
-  position: 'relative', // Importante para que o botão da câmera fique absoluto
-},
+  avatarWrapper: {
+    width: 120,
+    height: 120,
+    marginBottom: 10,
+    position: "relative",
+  },
 
-// 2. Estilo da Imagem
-profileAvatar: {
-  width: 120,
-  height: 120,
-  borderRadius: 60,
-  borderWidth: 3,
-  borderColor: '#fff',
-},
+  // Estilo da Imagem
+  profileAvatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 3,
+    borderColor: "#fff",
+  },
 
-// 3. Estilo do Botão da Câmera
-cameraIconButton: {
-  position: 'absolute',
-  bottom: 0,
-  right: 0,
-  backgroundColor: '#007AFF', // Azul
-  borderRadius: 20,
-  padding: 8,
-  borderWidth: 2,
-  borderColor: '#fff',
-  zIndex: 10, // Garante que o botão fique sobre a imagem
-},
+  // Estilo do Botão da Câmera
+  cameraIconButton: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "#007AFF",
+    borderRadius: 20,
+    padding: 8,
+    borderWidth: 2,
+    borderColor: "#fff",
+    zIndex: 10,
+  },
 });

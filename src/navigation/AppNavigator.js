@@ -2,7 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DrawerNavigator from "./DrawerNavigator";
 
-// --- Auth Imports ---
+//  Auth Imports
 import OnboardingPrimeiro from "../screens/auth/OnboardingPrimeiro";
 import OnboardingSegundo from "../screens/auth/OnboardingSegundo";
 import OnboardingTerceiro from "../screens/auth/OnboardingTerceiro";
@@ -11,8 +11,8 @@ import LoginScreen from "../screens/auth/LoginScreen";
 import ProRegister from "../screens/auth/ProRegisterScreen";
 import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
 
-// --- App Imports (Telas internas) ---
-import TherapyGuideScreen from "../screens/app/TherapyGuideScreen"; // <--- 1. IMPORT ADICIONADO
+// Telas internas
+import TherapyGuideScreen from "../screens/app/TherapyGuideScreen";
 import ListedProfessionals from "../screens/app/ListedProfessionalsScreen";
 import PrimeiraAreaScreen from "../screens/app/PrimeiraAreaScreen";
 import SegundaAreaScreen from "../screens/app/SegundaAreaScreen";
@@ -30,11 +30,12 @@ const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
+    // Tela inicial
     <Stack.Navigator
       initialRouteName="OnboardingPrimeiro"
       screenOptions={{ headerShown: false }}
     >
-      {/* --- Fluxo Auth --- */}
+      {/*  Fluxo Auth  */}
       <Stack.Screen name="OnboardingPrimeiro" component={OnboardingPrimeiro} />
       <Stack.Screen name="OnboardingSegundo" component={OnboardingSegundo} />
       <Stack.Screen name="OnboardingTerceiro" component={OnboardingTerceiro} />
@@ -43,13 +44,12 @@ export default function AppNavigator() {
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="ProRegister" component={ProRegister} />
 
-      {/* --- 2. ROTA ADICIONADA AQUI (Intermediária entre Login e Home) --- */}
       <Stack.Screen name="TherapyGuide" component={TherapyGuideScreen} />
 
-      {/* --- Fluxo Principal (Drawer + Tabs) --- */}
+      {/* Fluxo Principal (Drawer + Tabs)  */}
       <Stack.Screen name="MainApp" component={DrawerNavigator} />
 
-      {/* --- Fluxo Externo / Detalhes --- */}
+      {/*  Fluxo Externo / Detalhes */}
       <Stack.Screen
         name="ListedProfessionals"
         component={ListedProfessionals}

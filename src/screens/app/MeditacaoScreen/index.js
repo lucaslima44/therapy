@@ -8,7 +8,6 @@ export default function ExploreScreen({ navigation }) {
   return (
     <Screen>
       <View style={styles.container}>
-        {/* --- HEADER ALINHADO --- */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.menuButton}
@@ -19,7 +18,6 @@ export default function ExploreScreen({ navigation }) {
 
           <Text style={styles.titulo}>Meditação</Text>
 
-          {/* View Fantasma para centralizar */}
           <View style={{ width: 28 }} />
         </View>
 
@@ -27,14 +25,12 @@ export default function ExploreScreen({ navigation }) {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          {/* 1ª linha */}
           <View style={styles.row}>
             <TouchableOpacity
               style={styles.cardWrapper}
               onPress={() => navigation.navigate("Automassagem")}
             >
               <View style={styles.card}>
-                {/* Ícone Branco para contraste */}
                 <MaterialIcons name="self-improvement" size={32} color="#fff" />
                 <Text style={styles.titleCard}>Automassagem</Text>
               </View>
@@ -55,7 +51,6 @@ export default function ExploreScreen({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          {/* 2ª linha */}
           <View style={styles.row}>
             <TouchableOpacity
               style={styles.cardWrapper}

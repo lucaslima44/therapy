@@ -1,50 +1,43 @@
-// DrawerNavigator.js (ou como se chamar seu arquivo)
+// DrawerNavigator.js
 import React, { useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, Text, TouchableOpacity, Image, Modal } from "react-native";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+// 1. IMPORTANTE: Importar o hook de insets
+import { useSafeAreaInsets } from "react-native-safe-area-context"; 
+
 import styles from "./DrawerNavigator.styles";
 import BottomTabs from "./BottomTabs";
 
 const Drawer = createDrawerNavigator();
 
-// --- Componente de Drawer Customizado ---
-function CustomDrawerContent({ navigation }) {
+function CustomDrawerContent({ navigation, insets }) { // Recebendo insets via prop se necessário, ou chamando aqui dentro
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleLogout = () => {
-    // Lógica de limpar token, etc...
-
-    // RESET NA NAVEGAÇÃO (Mata o histórico)
     navigation.reset({
       index: 0,
-      routes: [{ name: "Login" }], // Certifique-se que o nome da rota é 'Login' mesmo
+      routes: [{ name: "Login" }],
     });
   };
 
-  // Função auxiliar para navegar para dentro da Home Stack
   const navigateToHomeStack = (screenName) => {
     navigation.navigate("MainTabs", {
-      screen: "Home", // Nome da Aba
-      params: {
-        screen: screenName, // Nome da tela dentro do HomeStackNavigator
-      },
+      screen: "Home",
+      params: { screen: screenName },
     });
     navigation.closeDrawer();
   };
 
-  // Função auxiliar para navegar para outras Abas (Perfil, Meditação)
   const navigateToTab = (tabName) => {
-    navigation.navigate("MainTabs", {
-      // 1. Vai para o container das abas
-      screen: tabName, // 2. Procura a aba com o nome ESPECÍFICO (ex: "Perfil")
-    });
+    navigation.navigate("MainTabs", { screen: tabName });
     navigation.closeDrawer();
   };
 
   return (
-    // 2. Usar os estilos importados
-    <View style={styles.drawerContainer}>
+    <View style={[styles.drawerContainer, { paddingTop: 20 }]}> 
+      {/* Dica: Adicionei um paddingTop simples para segurança ou você pode usar insets.top aqui também */}
+      
       <TouchableOpacity
         onPress={() => navigation.closeDrawer()}
         style={styles.closeDrawerButton}
@@ -62,7 +55,7 @@ function CustomDrawerContent({ navigation }) {
         <Text style={styles.profileName}>Therapy Room</Text>
       </View>
 
-      {/* Seções... */}
+      {/* Seções - (Mantido igual ao seu código original) */}
       <View style={styles.menuSection}>
         <Text style={styles.sectionTitle}>Empresa</Text>
         <TouchableOpacity
@@ -72,38 +65,21 @@ function CustomDrawerContent({ navigation }) {
             navigation.closeDrawer();
           }}
         >
-          <Feather
-            name="home"
-            size={20}
-            color="#000"
-            style={styles.drawerIcon}
-          />
+          <Feather name="home" size={20} color="#000" style={styles.drawerIcon} />
           <Text style={styles.drawerText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.drawerItem}
-          onPress={() => {
-            navigateToHomeStack("SobreNos");
-          }}
+          onPress={() => navigateToHomeStack("SobreNos")}
         >
-          <Ionicons
-            name="information-circle-outline"
-            size={20}
-            color="#000"
-            style={styles.drawerIcon}
-          />
+          <Ionicons name="information-circle-outline" size={20} color="#000" style={styles.drawerIcon} />
           <Text style={styles.drawerText}>Sobre nós</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.drawerItem}
           onPress={() => navigation.navigate("Parceiros")}
         >
-          <Feather
-            name="users"
-            size={20}
-            color="#000"
-            style={styles.drawerIcon}
-          />
+          <Feather name="users" size={20} color="#000" style={styles.drawerIcon} />
           <Text style={styles.drawerText}>Parceiros</Text>
         </TouchableOpacity>
       </View>
@@ -114,28 +90,17 @@ function CustomDrawerContent({ navigation }) {
           style={styles.drawerItem}
           onPress={() => navigation.navigate("ListedProfessionals")}
         >
-          <Ionicons
-            name="people-outline"
-            size={20}
-            color="#000"
-            style={styles.drawerIcon}
-          />
+          <Ionicons name="people-outline" size={20} color="#000" style={styles.drawerIcon} />
           <Text style={styles.drawerText}>Profissionais</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.drawerItem}
           onPress={() => {
-            // 👇 E aqui o nome da TELA DE CONSULTAS
             navigation.navigate("MainTabs", { screen: "Consultas" });
             navigation.closeDrawer();
           }}
         >
-          <Feather
-            name="calendar"
-            size={20}
-            color="#000"
-            style={styles.drawerIcon}
-          />
+          <Feather name="calendar" size={20} color="#000" style={styles.drawerIcon} />
           <Text style={styles.drawerText}>Meus Agendamentos</Text>
         </TouchableOpacity>
       </View>
@@ -146,36 +111,21 @@ function CustomDrawerContent({ navigation }) {
           style={styles.drawerItem}
           onPress={() => navigateToTab("Perfil")}
         >
-          <Ionicons
-            name="happy-outline"
-            size={20}
-            color="#000"
-            style={styles.drawerIcon}
-          />
+          <Ionicons name="happy-outline" size={20} color="#000" style={styles.drawerIcon} />
           <Text style={styles.drawerText}>Humor diário</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.drawerItem}
           onPress={() => navigateToHomeStack("SonsRelaxantes")}
         >
-          <Ionicons
-            name="musical-notes-outline"
-            size={20}
-            color="#000"
-            style={styles.drawerIcon}
-          />
+          <Ionicons name="musical-notes-outline" size={20} color="#000" style={styles.drawerIcon} />
           <Text style={styles.drawerText}>Sons relaxantes</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.drawerItem}
           onPress={() => navigateToTab("Meditação")}
         >
-          <MaterialCommunityIcons
-            name="meditation"
-            size={20}
-            color="#000"
-            style={styles.drawerIcon}
-          />
+          <MaterialCommunityIcons name="meditation" size={20} color="#000" style={styles.drawerIcon} />
           <Text style={styles.drawerText}>Meditação</Text>
         </TouchableOpacity>
       </View>
@@ -189,14 +139,13 @@ function CustomDrawerContent({ navigation }) {
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
 
-      {/* Modal de Confirmação */}
+      {/* Modal - (Mantido igual) */}
       <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
+        statusBarTranslucent={true}
+        onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -229,18 +178,33 @@ function CustomDrawerContent({ navigation }) {
   );
 }
 
-// --- Drawer Principal ---
+// Drawer Principal
 export default function DrawerNavigator() {
+  // 2. Usar o hook aqui para pegar as dimensões seguras
+  const insets = useSafeAreaInsets(); 
+
   return (
     <Drawer.Navigator
-      // 3. Usar os estilos importados aqui também
       screenOptions={{
         initialRouteName: "MainTabs",
         headerShown: false,
         drawerType: "front",
         overlayColor: "rgba(0,0,0,0.3)",
-        sceneContainerStyle: styles.sceneContainer, // <-- AQUI
-        drawerStyle: styles.drawerStyle, // <-- E AQUI
+        sceneContainerStyle: styles.sceneContainer,
+        
+        // 3. APLICAR A CORREÇÃO AQUI
+        drawerStyle: {
+          ...styles.drawerStyle,
+          // Isso empurra a parte inferior do drawer para cima,
+          // deixando a área da barra de navegação livre.
+          marginBottom: insets.bottom, 
+          
+          // Opcional: Se quiser garantir que o topo também não pegue a status bar:
+          // marginTop: insets.top, 
+          
+          // Como você usa borderRadius em baixo, o marginBottom é essencial 
+          // para o arredondado não ser cortado pela tela.
+        },
       }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >

@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from "react";
 import {
-  View, // Adicionado
+  View,
   Text,
   ScrollView,
   TouchableOpacity,
   Linking,
-  Platform, // Adicionado
+  Platform,
 } from "react-native";
 import styles from "./styles";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -108,7 +108,6 @@ export default function MeditacaoGuiadaScreen({ navigation }) {
           <Feather name="chevron-right" size={24} color="#fff" />
         </TouchableOpacity>
 
-        {/* Espaço extra */}
         <View style={{ height: 30 }} />
       </ScrollView>
     </View>

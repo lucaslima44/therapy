@@ -1,14 +1,14 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 
 const { width, height } = Dimensions.get("window");
-const isSmallDevice = width < 380; // Detecta iPhone 6s, SE, etc.
+const isSmallDevice = width < 380;
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#222",
   },
-  
+
   blurredBackground: {
     position: "absolute",
     width: width,
@@ -17,16 +17,15 @@ export default StyleSheet.create({
     left: 0,
     zIndex: -1,
   },
-  
+
   blurOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.5)', // Escureci mais para destacar os ícones brancos
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
 
   header: {
     width: "100%",
-    // Ajuste dinâmico para telas com e sem notch
-    paddingTop: Platform.OS === 'ios' ? (isSmallDevice ? 30 : 60) : 40, 
+    paddingTop: Platform.OS === "ios" ? (isSmallDevice ? 30 : 60) : 40,
     paddingBottom: 10,
     paddingHorizontal: 20,
     flexDirection: "row",
@@ -36,34 +35,32 @@ export default StyleSheet.create({
   },
 
   title: {
-    fontSize: isSmallDevice ? 18 : 20, // Fonte menor em tela pequena
+    fontSize: isSmallDevice ? 18 : 20,
     fontWeight: "bold",
     color: "#fff",
     fontFamily: "Karma-Bold",
   },
-  
+
   backButton: {
-    padding: 10, // Área de toque maior
+    padding: 10,
   },
 
-  // --- ÁREA CENTRAL (CAPA) ---
+  // CAPA
   imageContainer: {
-    flex: 1, // Ocupa o espaço disponível, empurrando os controles para baixo
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
-    // Removi margens fixas grandes
   },
-  
+
   mainImage: {
-    // Responsividade: 70% da largura da tela, mas com limite máximo
-    width: width * 0.7, 
-    height: width * 0.7, // Mantém quadrado
+    width: width * 0.7,
+    height: width * 0.7,
     maxWidth: 300,
     maxHeight: 300,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)'
+    borderColor: "rgba(255,255,255,0.2)",
   },
 
   titleText: {
@@ -80,25 +77,17 @@ export default StyleSheet.create({
     width: "100%",
     paddingHorizontal: 20,
     alignItems: "center",
-    justifyContent: 'flex-end',
-    // MUITO IMPORTANTE: Espaço extra embaixo para não bater na Tab Bar
-    paddingBottom: 90, 
+    justifyContent: "flex-end",
+    paddingBottom: 90,
   },
 
   buttonsRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around", // space-around funciona melhor que evenly aqui
+    justifyContent: "space-around",
     width: "100%",
     marginBottom: isSmallDevice ? 15 : 25,
   },
-
-  playButtonWrapper: {
-    // Se precisar de sombra
-  },
-
-  // Ajuste dos tamanhos dos ícones no código JS (veja a dica abaixo)
-  
   slider: {
     width: "100%",
     height: 40,
@@ -111,11 +100,11 @@ export default StyleSheet.create({
     paddingHorizontal: 5,
     marginBottom: 10,
   },
-  
+
   timeText: {
     color: "#ddd",
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 
   // --- VOLUME ---
@@ -124,12 +113,12 @@ export default StyleSheet.create({
     alignItems: "center",
     width: "90%",
     marginTop: 5,
-    backgroundColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: "rgba(255,255,255,0.1)",
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 30,
   },
-  
+
   volumeSlider: {
     flex: 1,
     marginHorizontal: 10,

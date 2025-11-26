@@ -29,7 +29,6 @@ module.exports = {
     }
   },
 
-  // Função para Listar Todos (Index) - Útil para você ver se salvou
   async index(req, res) {
     try {
       const profissionais = await Profissional.find();

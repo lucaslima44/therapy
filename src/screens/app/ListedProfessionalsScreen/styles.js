@@ -4,14 +4,12 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f8f8f8",
-    // NÃO coloque padding aqui, senão o Header vai desgrudar das bordas
   },
 
-  // --- Cabeçalho (Full Width) ---
   header: {
-    paddingTop: 50, // Ajuste para status bar
+    paddingTop: 50,
     paddingBottom: 15,
-    paddingHorizontal: 20, // Padding interno SÓ do cabeçalho
+    paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -28,14 +26,12 @@ export default StyleSheet.create({
     color: "#333",
   },
   list: {
-    paddingHorizontal: 20, // Isso dá a margem lateral que você quer
-    paddingTop: 20, // Isso dá um respiro no topo
-    paddingBottom: 80, // Isso dá espaço no final
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 80,
   },
-
-  // --- Card de Profissional ---
   card: {
-    width: "100%", // Vai ocupar 100% do espaço DISPONÍVEL (respeitando o padding da lista)
+    width: "100%",
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 12,
@@ -98,8 +94,6 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#666",
   },
-
-  // --- Empty State ---
   emptyContainer: {
     flex: 1,
     alignItems: "center",

@@ -5,11 +5,9 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#f8f8f8",
   },
-
-  // --- HEADER (Estilo Roxo Solicitado) ---
   header: {
     width: "100%",
-    height: Platform.OS === "android" ? 80 : 100, // Ajuste leve para iOS
+    height: Platform.OS === "android" ? 80 : 100,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
@@ -17,11 +15,10 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
-    // Removemos justifyContent space-between pois estamos usando absolute no título
   },
 
   backButton: {
-    zIndex: 10, // Importante para ficar clicável acima do título
+    zIndex: 10,
     padding: 5,
   },
 
@@ -30,16 +27,14 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    position: "absolute", // Centraliza ignorando a seta
+    position: "absolute",
     left: 0,
     right: 0,
-    bottom: 20, // Alinha verticalmente com a seta
-    zIndex: 1, // Fica abaixo do botão de voltar
+    bottom: 20,
+    zIndex: 1,
   },
-
-  // --- ÁREA DE ROLAGEM ---
   scrollContent: {
-    padding: 20, // O padding de 20px nas laterais do conteúdo
+    padding: 20,
     paddingBottom: 50,
   },
 
@@ -48,22 +43,20 @@ export default StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     marginBottom: 20,
-    backgroundColor: "#000", // Fundo preto enquanto carrega
+    backgroundColor: "#000",
   },
-
-  // Seus estilos de texto antigos
   subtitle: {
-    fontSize: 16, // Reduzi levemente de 18 para 16 para leitura longa (padrão mobile)
+    fontSize: 16,
     color: "#555",
-    marginBottom: 15, // Espaço entre parágrafos
+    marginBottom: 15,
     lineHeight: 24,
-    textAlign: "justify", // Opcional: deixa o texto quadradinho
+    textAlign: "justify",
   },
 
-  // --- NOVO CARD DE PLAYLIST ---
+  // CARD DE PLAYLIST
   playlistCard: {
     marginTop: 30,
-    backgroundColor: "#1F5656", // Um verde escuro para combinar com o tema Yoga
+    backgroundColor: "#1F5656",
     borderRadius: 12,
     padding: 15,
     flexDirection: "row",
@@ -89,7 +82,7 @@ export default StyleSheet.create({
   iconContainer: {
     width: 50,
     height: 50,
-    backgroundColor: "rgba(255,255,255,0.2)", // Círculo translúcido
+    backgroundColor: "rgba(255,255,255,0.2)",
     borderRadius: 25,
     alignItems: "center",
     justifyContent: "center",
@@ -97,7 +90,7 @@ export default StyleSheet.create({
   },
 
   cardTextContainer: {
-    flex: 1, // Ocupa o espaço do meio
+    flex: 1,
   },
 
   cardTitle: {

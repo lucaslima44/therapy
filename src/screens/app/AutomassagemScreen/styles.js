@@ -6,10 +6,9 @@ export default StyleSheet.create({
     backgroundColor: "#f8f8f8",
   },
 
-  // --- HEADER (Estilo Roxo Solicitado) ---
   header: {
     width: "100%",
-    height: Platform.OS === "android" ? 80 : 100, // Ajuste leve para iOS
+    height: Platform.OS === "android" ? 80 : 100,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
@@ -17,11 +16,10 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
-    // Removemos justifyContent space-between pois estamos usando absolute no título
   },
 
   backButton: {
-    zIndex: 10, // Importante para ficar clicável acima do título
+    zIndex: 10,
     padding: 5,
   },
 
@@ -30,13 +28,12 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    position: "absolute", // Centraliza ignorando a seta
+    position: "absolute",
     left: 0,
     right: 0,
-    bottom: 20, // Alinha verticalmente com a seta
-    zIndex: 1, // Fica abaixo do botão de voltar
+    bottom: 20,
+    zIndex: 1,
   },
-  // --- CONTEÚDO ---
   scrollContent: {
     padding: 20,
     paddingBottom: 50,
@@ -58,10 +55,10 @@ export default StyleSheet.create({
     textAlign: "justify",
   },
 
-  // --- CARD PLAYLIST (IGUAL AO YOGA) ---
+  // CARD PLAYLIST
   playlistCard: {
     marginTop: 30,
-    backgroundColor: "#1F5656", // Verde Petróleo
+    backgroundColor: "#1F5656",
     borderRadius: 12,
     padding: 15,
     flexDirection: "row",

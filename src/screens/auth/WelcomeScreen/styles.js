@@ -10,10 +10,8 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-around",
-
-    // Substitua o paddingVertical: 40 por estes dois:
-    paddingTop: Platform.OS === "ios" ? 60 : 50, // Mais espaço no topo para a StatusBar
-    paddingBottom: 40, // Mantém o espaço original embaixo
+    paddingTop: Platform.OS === "ios" ? 60 : 50,
+    paddingBottom: 40,
   },
 
   boxTop: {
@@ -53,18 +51,15 @@ export const styles = StyleSheet.create({
     // Sombra botao
     ...Platform.select({
       ios: {
-        // Sombra para iOS
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.25,
         shadowRadius: 4,
       },
       android: {
-        // Sombra para Android
         elevation: 5,
       },
       web: {
-        // Sombra para Web
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       },
     }),

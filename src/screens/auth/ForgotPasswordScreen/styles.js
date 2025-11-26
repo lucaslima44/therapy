@@ -2,7 +2,6 @@ import { StyleSheet, Platform } from "react-native";
 import { colors } from "../../../styles/colors";
 
 export default StyleSheet.create({
-  // --- Containers Principais ---
   gradientContainer: {
     flex: 1,
   },
@@ -10,17 +9,15 @@ export default StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    flexGrow: 1, // Permite que o scroll funcione
+    flexGrow: 1,
   },
-
-  // --- 1. Header ---
   headerContainer: {
-    paddingTop: Platform.OS === "ios" ? 60 : 40, // Espaço para status bar
+    paddingTop: Platform.OS === "ios" ? 60 : 40,
     paddingHorizontal: 20,
-    gap: 30, // Espaçamento entre os elementos do header
+    gap: 30,
   },
   backButton: {
-    alignSelf: "flex-start", // Alinha o botão à esquerda
+    alignSelf: "flex-start",
   },
   logoContainer: {
     flexDirection: "row",
@@ -52,7 +49,6 @@ export default StyleSheet.create({
     color: "#E8E8E8",
   },
 
-  // --- 2. Formulário ---
   formContainer: {
     flex: 1, // Faz o form crescer e ocupar o resto da tela
     backgroundColor: colors.cardLogin,
@@ -112,8 +108,6 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
   },
-  // No seu arquivo styles.js adicione:
-
   errorContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -173,7 +167,7 @@ export default StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.6)", // Fundo escuro transparente
+    backgroundColor: "rgba(0,0,0,0.6)",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -183,8 +177,8 @@ export default StyleSheet.create({
     borderRadius: 20,
     padding: 25,
     alignItems: "center",
-    elevation: 5, // Sombra no Android
-    shadowColor: "#000", // Sombra no iOS
+    elevation: 5,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -204,7 +198,7 @@ export default StyleSheet.create({
     lineHeight: 22,
   },
   modalButton: {
-    backgroundColor: colors.buttonPrimary, // Verde sucesso (ou use a cor do seu app)
+    backgroundColor: colors.buttonPrimary,
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,

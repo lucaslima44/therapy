@@ -38,7 +38,6 @@ export default function AromaterapiaScreen({ navigation }) {
   return (
     <View style={styles.container}>
       
-      {/* --- HEADER ROXO FIXO --- */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}

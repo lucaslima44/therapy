@@ -1,13 +1,9 @@
-// Local: src/screens/OnboardingSegundo/index.js
-
 import { StatusBar } from "expo-status-bar";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-// Importa o MESMO estilo da pasta OnboardingPrimeiro
 import styles from "../OnboardingPrimeiro/styles";
-import { Feather } from "@expo/vector-icons"; // Importa o ícone de seta
+import { Feather } from "@expo/vector-icons";
 
 export default function OnboardingSegundo({ navigation }) {
-  // --- Funções de navegação ---
   const handleOnboardingPrimeiroPress = () => {
     navigation.navigate("OnboardingPrimeiro");
   };
@@ -15,20 +11,17 @@ export default function OnboardingSegundo({ navigation }) {
     navigation.navigate("OnboardingSegundo");
   };
   const handleOnboardingTerceiroPress = () => {
-    navigation.navigate("OnboardingTerceiro"); // Navega para a próxima
+    navigation.navigate("OnboardingTerceiro");
   };
 
   const handlePularPress = () => {
-    navigation.navigate("Welcome"); // Pula tudo
+    navigation.navigate("Welcome");
   };
 
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-
-      {/* --- 1. CABEÇALHO --- */}
       <View style={styles.header}>
-        {/* Botão de voltar */}
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
@@ -40,11 +33,9 @@ export default function OnboardingSegundo({ navigation }) {
           <Text style={styles.pularText}>Pular</Text>
         </TouchableOpacity>
       </View>
-
-      {/* --- 2. CORPO --- */}
       <View style={styles.body}>
         <Image
-          source={require("./../../../../assets/onboarding2.webp")} // Imagem correta
+          source={require("./../../../../assets/onboarding2.webp")}
           style={styles.image}
           resizeMode="contain"
         />
@@ -55,28 +46,18 @@ export default function OnboardingSegundo({ navigation }) {
           Respire fundo e se reconecte consigo mesmo e com o mundo.
         </Text>
       </View>
-
-      {/* --- 3. RODAPÉ (COM A CORREÇÃO) --- */}
       <View style={styles.footer}>
-        {/* Pontos de Paginação (Ponto 2 está ativo) */}
         <View style={styles.paginationDots}>
-          {/* Ponto 1 (Inativo) */}
           <TouchableOpacity onPress={handleOnboardingPrimeiroPress}>
             <View style={[styles.dot, styles.dotInactive]} />
           </TouchableOpacity>
-
-          {/* Ponto 2 (Ativo) */}
           <TouchableOpacity onPress={handleOnboardingSegundoPress}>
             <View style={[styles.dot, styles.dotActive]} />
           </TouchableOpacity>
-
-          {/* Ponto 3 (Inativo) */}
           <TouchableOpacity onPress={handleOnboardingTerceiroPress}>
             <View style={[styles.dot, styles.dotInactive]} />
           </TouchableOpacity>
         </View>
-
-        {/* Botão Continuar */}
         <TouchableOpacity
           style={styles.botao}
           onPress={handleOnboardingTerceiroPress}

@@ -1,44 +1,38 @@
 import { StyleSheet, Platform } from "react-native";
 
 export default StyleSheet.create({
-  // --- LAYOUT E ESTRUTURA ---
   container: {
-    flex: 1, // CORREÇÃO CRUCIAL: Garante que a ScrollView ocupe a tela toda
+    flex: 1,
     paddingHorizontal: 20,
   },
-  
-  // --- HEADER ---
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between', 
-    paddingTop: Platform.OS === 'ios' ? 50 : 20, 
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: Platform.OS === "ios" ? 50 : 20,
     paddingBottom: 20,
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    flex: 1, 
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#333",
+    flex: 1,
+    textAlign: "center",
   },
   backButton: {
-    width: 24, 
+    width: 24,
     height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fotoPerfil: {
+    width: 120,
+    height: 120,
+    alignSelf: "center",
+    marginBottom: 20,
+    position: "relative",
   },
 
-  // --- FOTO DE PERFIL E CÂMERA ---
-  // styles.teste é o wrapper (position: relative)
-  teste: { 
-    width: 120, 
-    height: 120, 
-    alignSelf: "center", 
-    marginBottom: 20,
-    position: "relative", 
-  },
-  
   profileImage: {
     width: 120,
     height: 120,
@@ -49,17 +43,17 @@ export default StyleSheet.create({
   },
 
   cameraIcon: {
-    position: "absolute", 
+    position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: "#007AFF", // Cor azul de destaque
+    backgroundColor: "#007AFF",
     borderRadius: 20,
     padding: 8,
     borderWidth: 2,
     borderColor: "#fff",
     zIndex: 10,
   },
-  
+
   // --- FORMULÁRIO ---
   fieldContainer: {
     marginBottom: 16,
@@ -78,8 +72,6 @@ export default StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
-  
-  // --- INPUTS & VALIDAÇÃO ---
   inputError: {
     borderColor: "red",
     borderWidth: 1,
@@ -90,23 +82,19 @@ export default StyleSheet.create({
     marginTop: 4,
     marginLeft: 2,
   },
-
-  // --- BOTÕES ---
   button: {
     backgroundColor: "#B8D8BA",
     padding: 12,
     borderRadius: 8,
     alignItems: "center",
     marginTop: 20,
-    marginBottom: 40, // Espaçamento extra no final da ScrollView
+    marginBottom: 40,
   },
   buttonText: {
     color: "#000000ff",
     fontSize: 16,
     fontWeight: "bold",
   },
-
-  // --- DROP DOWNS (SelectList) ---
   dropdownBox: {
     height: 50,
     borderWidth: 1,
@@ -132,8 +120,6 @@ export default StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
-
-  // --- ESTILOS DE DOCUMENTO ---
   documentoAnexado: {
     color: "#007AFF",
     fontSize: 16,
@@ -142,8 +128,6 @@ export default StyleSheet.create({
     color: "#999",
     fontSize: 16,
   },
-
-  // --- MODAL DE SUCESSO ---
   modalOverlay: {
     flex: 1,
     justifyContent: "center",

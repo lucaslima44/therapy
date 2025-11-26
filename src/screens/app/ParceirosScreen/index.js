@@ -13,7 +13,6 @@ export default function ParceirosScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* --- HEADER FIXO --- */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -25,7 +24,6 @@ export default function ParceirosScreen({ navigation }) {
         <View style={{ width: 24 }} />
       </View>
 
-      {/* --- CONTEÚDO --- */}
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}

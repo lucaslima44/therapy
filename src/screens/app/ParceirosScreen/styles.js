@@ -6,7 +6,6 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
   },
 
-  // --- HEADER ---
   header: {
     backgroundColor: "#fff",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 15 : 55,
@@ -21,7 +20,6 @@ export default StyleSheet.create({
   backButton: { padding: 5 },
   headerTitle: { fontSize: 17, fontWeight: "600", color: "#000" },
 
-  // --- SCROLL ---
   scrollContent: {
     paddingHorizontal: 20, // Padding Lateral de 20px
     paddingTop: 30,
@@ -36,16 +34,14 @@ export default StyleSheet.create({
     marginBottom: 30,
   },
 
-  // --- CARDS ---
   partnerCard: {
-    backgroundColor: "#FAFAFA", // Cinza bem claro
+    backgroundColor: "#FAFAFA",
     borderRadius: 16,
     padding: 20,
     marginBottom: 20,
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#F0F0F0",
-    // Sombra leve para destacar o card
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -58,7 +54,7 @@ export default StyleSheet.create({
   },
 
   image: {
-    width: 120, // Um pouco maior para ver bem a logo
+    width: 120,
     height: 80,
     marginBottom: 10,
   },
@@ -73,25 +69,23 @@ export default StyleSheet.create({
 
   categoriaParceiro: {
     fontSize: 13,
-    color: "#4B0082", // Roxo da marca para a categoria
+    color: "#4B0082",
     fontWeight: "600",
     marginBottom: 10,
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
 
-  // Linha separadora dentro do card
+  descricaoParceiro: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "center",
+    lineHeight: 22,
+  },
   divider: {
     width: "40%",
     height: 1,
     backgroundColor: "#E0E0E0",
     marginVertical: 12,
-  },
-
-  descricaoParceiro: {
-    fontSize: 14,
-    color: "#666",
-    textAlign: "center",
-    lineHeight: 22, // Bom espaçamento para leitura
   },
 });

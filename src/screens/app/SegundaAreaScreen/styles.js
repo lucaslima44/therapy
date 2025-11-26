@@ -1,4 +1,3 @@
-// D:\testeRN\therapy\src\screens\app\PrimeiraAreaScreen\styles.js
 import { StyleSheet, Platform } from "react-native";
 
 export default StyleSheet.create({
@@ -6,41 +5,32 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#f8f8f8",
   },
-  // --- Cabeçalho ---
   header: {
-    paddingTop: 50, // Ajuste para status bar
+    paddingTop: 50,
     paddingBottom: 15,
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between", // Para a view "fantasma" funcionar
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
-  },
-  backButton: {
-    // padding: 5, // Aumenta área de clique
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#333",
   },
-  // --- Lista ---
   list: {
-    padding: 20, // O "padding de 20px" da tela
+    padding: 20,
   },
-
-  // --- Card de Profissional ---
   card: {
-    width: "100%", // Ocupa 100% (dentro do padding da lista)
+    width: "100%",
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 12,
     marginBottom: 15,
-    flexDirection: "row", // Imagem ao lado do texto
-
-    // Sombra
+    flexDirection: "row",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -64,7 +54,7 @@ export default StyleSheet.create({
     backgroundColor: "#eee",
   },
   textContainer: {
-    flex: 1, // Ocupa o resto do espaço
+    flex: 1,
     justifyContent: "center",
   },
   cardHeader: {
@@ -74,7 +64,7 @@ export default StyleSheet.create({
     marginBottom: 4,
   },
   nome: {
-    flex: 1, // Impede que o nome "empurre" a avaliação
+    flex: 1,
     fontSize: 17,
     fontWeight: "bold",
     color: "#333",
@@ -96,8 +86,6 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#666",
   },
-
-  // --- Caso a lista esteja vazia ---
   emptyContainer: {
     flex: 1,
     alignItems: "center",

@@ -15,10 +15,8 @@ import { AntDesign, Feather, FontAwesome5, Entypo } from "@expo/vector-icons";
 import HumorModal from "./../HumorModal";
 import { useAgendamento } from "../../../context/AgendamentoContext";
 
-// Imagem padrão correta
 const DEFAULT_AVATAR = require("../../../../assets/profile.webp");
 
-// Chave para salvar a foto
 const PROFILE_IMAGE_KEY = "@user_profile_image";
 
 // Mapa de humores
@@ -51,10 +49,6 @@ const MoodDayItem = React.memo(({ item, onPress }) => {
   );
 });
 
-// ---------------------------------------------------------------------
-// TELA PRINCIPAL
-// ---------------------------------------------------------------------
-
 export default function ProfileScreen({ navigation }) {
   const [userName, setUserName] = useState("Cliente");
   const [profileImageUri, setProfileImageUri] = useState(null);
@@ -77,9 +71,6 @@ export default function ProfileScreen({ navigation }) {
   const totalAgendadas = agendamentos.length;
   const totalRealizadas = 0;
 
-  // ---------------------------------------------------------------------
-  // PERMISSÕES
-  // ---------------------------------------------------------------------
   const requestMediaLibraryPermissions = async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!granted) {
@@ -116,9 +107,6 @@ export default function ProfileScreen({ navigation }) {
     }
   };
 
-  // ---------------------------------------------------------------------
-  // LOAD INICIAL (NOME E FOTO)
-  // ---------------------------------------------------------------------
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -172,13 +160,8 @@ export default function ProfileScreen({ navigation }) {
     setSelectedDayId(null);
   };
 
-  // ---------------------------------------------------------------------
-  // RENDER
-  // ---------------------------------------------------------------------
-
   return (
     <View style={styles.container}>
-      {/* HEADER */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.menuButton}
@@ -196,7 +179,6 @@ export default function ProfileScreen({ navigation }) {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* PERFIL HERO */}
         <View style={styles.profileHero}>
           <View style={styles.avatarWrapper}>
             <Image
@@ -218,7 +200,6 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.clientEmail}>Cliente Premium</Text>
         </View>
 
-        {/* STATS */}
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
             <Text style={styles.statNumber}>
