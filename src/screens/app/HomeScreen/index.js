@@ -269,8 +269,8 @@ export default function HomeScreen({ navigation }) {
               style={styles.moodButton}
               onPress={() => navigation.navigate("Perfil")}
             >
-              <View style={[styles.moodIconBg, { backgroundColor: "#E3F2FD" }]}>
-                <FontAwesome5 name="meh" size={32} color="#2196F3" />
+              <View style={[styles.moodIconBg, { backgroundColor: "#e6e0c2" }]}>
+                <FontAwesome5 name="meh" size={32} color="#b48e05" />
               </View>
               <Text style={styles.moodText}>Normal</Text>
             </TouchableOpacity>
