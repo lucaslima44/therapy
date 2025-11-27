@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logoColorida.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logoAndroid.png",
+        "foregroundImage": "./assets/logoAndroidv2.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": false,
@@ -29,11 +29,11 @@
       "eas": {
         "projectId": "6862b7ce-c95a-4aa9-8693-29081c4481c1"
       }
+    },
+    "web": {
+      "favicon": "./assets/logoweb.png",
+      "lang": "pt-BR"
     }
-  },
-  "web": {
-    "favicon": "./assets/logoColorida.png",
-    "lang": "pt-BR"
   },
   "plugins": ["expo-font"],
   "extra": {
